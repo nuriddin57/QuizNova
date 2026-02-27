@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" fill="none">
+  <defs>
+    <linearGradient id="qnBody" x1="84" y1="46" x2="322" y2="332" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#37B6FF"/>
+    </linearGradient>
+    <linearGradient id="qnText" x1="88" y1="292" x2="331" y2="377" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6F58FF"/>
+      <stop offset="1" stop-color="#35B7FF"/>
+    </linearGradient>
+    <linearGradient id="qnAccent" x1="236" y1="66" x2="294" y2="118" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF47A"/>
+      <stop offset="1" stop-color="#4DE58F"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="210" cy="168" r="142" fill="#0F1222" opacity=".05"/>
+  <rect x="76" y="54" width="268" height="268" rx="80" fill="url(#qnBody)"/>
+  <path d="M118 133c18-38 60-55 111-45 24 5 45 16 59 33-14-40-53-67-104-67-50 0-91 28-109 71 14 7 29 10 43 8z" fill="#fff" opacity=".14"/>
+  <path d="M255 61l12 14 18-1-9 15 7 18-17-6-15 10-2-19-15-12 17-6 4-13z" fill="url(#qnAccent)"/>
+  <circle cx="170" cy="172" r="32" fill="#fff"/>
+  <circle cx="238" cy="172" r="32" fill="#fff"/>
+  <circle cx="176" cy="176" r="13" fill="#171A2E"/>
+  <circle cx="232" cy="176" r="13" fill="#171A2E"/>
+  <circle cx="181" cy="169" r="4" fill="#fff"/>
+  <circle cx="236" cy="169" r="4" fill="#fff"/>
+  <path d="M156 226c11 18 29 27 48 27 18 0 36-9 48-27" stroke="#171A2E" stroke-width="10" stroke-linecap="round"/>
+
+  <text id="brand-name" x="210" y="382" text-anchor="middle" fill="url(#qnText)"
+    font-size="64" font-weight="800" font-family="Baloo 2, Nunito, Arial Rounded MT Bold, Segoe UI, sans-serif">QuizNova</text>
+</svg>

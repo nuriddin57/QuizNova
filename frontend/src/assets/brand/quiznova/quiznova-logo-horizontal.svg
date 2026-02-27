@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 220" fill="none">
+  <defs>
+    <linearGradient id="qnBody" x1="34" y1="20" x2="184" y2="198" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7C5CFF"/>
+      <stop offset="1" stop-color="#37B6FF"/>
+    </linearGradient>
+    <linearGradient id="qnText" x1="240" y1="40" x2="560" y2="178" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6F58FF"/>
+      <stop offset="1" stop-color="#35B7FF"/>
+    </linearGradient>
+    <linearGradient id="qnAccent" x1="125" y1="36" x2="176" y2="84" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF47A"/>
+      <stop offset="1" stop-color="#4DE58F"/>
+    </linearGradient>
+  </defs>
+
+  <g id="icon">
+    <circle cx="110" cy="110" r="96" fill="#0F1222" opacity=".05"/>
+    <rect x="34" y="34" width="152" height="152" rx="44" fill="url(#qnBody)"/>
+    <path d="M58 85c13-22 38-32 70-27 16 3 29 10 38 20-10-25-35-41-67-41-33 0-58 17-71 46 9 4 20 5 30 2z" fill="#fff" opacity=".14"/>
+    <path d="M145 38l8 10 13-1-6 11 5 12-11-4-11 7-1-13-10-8 12-4 1-10z" fill="url(#qnAccent)"/>
+    <circle cx="88" cy="104" r="20" fill="#fff"/>
+    <circle cx="132" cy="104" r="20" fill="#fff"/>
+    <circle cx="92" cy="107" r="8" fill="#171A2E"/>
+    <circle cx="128" cy="107" r="8" fill="#171A2E"/>
+    <circle cx="95" cy="102" r="2.5" fill="#fff"/>
+    <circle cx="131" cy="102" r="2.5" fill="#fff"/>
+    <path d="M80 137c7 12 18 18 30 18s23-6 30-18" stroke="#171A2E" stroke-width="7" stroke-linecap="round"/>
+  </g>
+
+  <g id="wordmark">
+    <text id="brand-name" x="228" y="132" fill="url(#qnText)" font-size="74" font-weight="800" letter-spacing=".5"
+      font-family="Baloo 2, Nunito, Arial Rounded MT Bold, Segoe UI, sans-serif">QuizNova</text>
+    <path d="M230 153h324" stroke="#0F1222" stroke-opacity=".08" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="582" cy="88" r="14" fill="#52E58F"/>
+    <path d="M581 75l4 8 9 1-7 6 2 9-8-4-8 4 2-9-7-6 9-1 4-8z" fill="#0F1222" opacity=".18"/>
+  </g>
+</svg>

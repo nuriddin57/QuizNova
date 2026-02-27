@@ -1,0 +1,6 @@
+-----------------------------------------------------------------
+0.000 soniya ichida 0 ta test oʻtkazdi
+
+HECH TESTLAR O'TGAN YO'Q
+0 ta test(lar) topildi.
+Tizim tekshiruvida hech qanday muammo aniqlanmadi (0 ovozsiz).

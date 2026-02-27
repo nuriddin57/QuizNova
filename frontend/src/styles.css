@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    font-family: 'Outfit', 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: #f6f7fe;
+    color: #0f1222;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.78), transparent 45%),
+      radial-gradient(circle at 80% 0%, rgba(94, 201, 255, 0.35), transparent 45%),
+      #f2f4ff;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(126, 114, 255, 0.35);
+  }
+}
+
+.blooket-grid {
+  background-image:
+    linear-gradient(120deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 120px 120px;
+  opacity: 0.3;
+}
+
+.card-glow {
+  box-shadow: 0 20px 50px rgba(112, 65, 255, 0.18);
+}
+
+.pattern-dot {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.7) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.btn-press:active {
+  transform: scale(0.98);
+}
+
+.squircle-mask {
+  mask-image: radial-gradient(circle at top, black 60%, transparent 100%);
+}
+
+.choice-correct {
+  background: linear-gradient(120deg, rgba(80, 245, 213, 0.22), rgba(80, 245, 213, 0.05));
+  border-color: rgba(80, 245, 213, 0.5);
+}
+
+.choice-wrong {
+  background: linear-gradient(120deg, rgba(255, 115, 210, 0.22), rgba(255, 115, 210, 0.07));
+  border-color: rgba(255, 115, 210, 0.45);
+}
+@layer base {
+  html, body {
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  html.dark {
+    background-color: #0b1020;
+    color: #e6ecff;
+  }
+
+  html.dark body {
+    background: radial-gradient(circle at 18% 20%, rgba(112, 65, 255, 0.18), transparent 45%),
+      radial-gradient(circle at 80% 0%, rgba(78, 212, 255, 0.12), transparent 45%),
+      #0b1020;
+    color: #e6ecff;
+  }
+}
+
+@layer base {
+  /* Dark mode readability fallback for legacy components not yet fully migrated with dark: classes */
+  .dark .bg-white,
+  .dark .bg-white\/70,
+  .dark .bg-white\/80,
+  .dark .bg-white\/90,
+  .dark .bg-white\/95 {
+    background-color: rgba(15, 23, 42, 0.92) !important;
+  }
+
+  .dark .bg-surface-soft {
+    background-color: rgba(30, 41, 59, 0.9) !important;
+  }
+
+  .dark .border-surface-soft {
+    border-color: rgba(100, 116, 139, 0.35) !important;
+  }
+
+  .dark .ring-black\/5 {
+    --tw-ring-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .dark .text-slate-900 {
+    color: #f8fafc !important;
+  }
+
+  .dark .text-slate-700 {
+    color: #e2e8f0 !important;
+  }
+
+  .dark .text-slate-600 {
+    color: #cbd5e1 !important;
+  }
+
+  .dark .text-slate-500 {
+    color: #b6c2d4 !important;
+  }
+
+  .dark .text-slate-400 {
+    color: #94a3b8 !important;
+  }
+
+  .dark input,
+  .dark textarea,
+  .dark select {
+    color: #f8fafc;
+  }
+
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+  }
+}
