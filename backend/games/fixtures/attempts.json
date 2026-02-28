@@ -1,0 +1,92 @@
+[
+  {
+    "model": "games.gamesession",
+    "pk": 1,
+    "fields": {
+      "code": "DEMOG1",
+      "quiz": 1,
+      "host": 1,
+      "is_active": false,
+      "created_at": "2026-01-12T12:00:00Z",
+      "current_index": 2,
+      "mode": "classic"
+    }
+  },
+  {
+    "model": "games.player",
+    "pk": 1,
+    "fields": {"session": 1, "user": 2, "name": "bob_student", "score": 2700, "joined_at": "2026-01-12T12:00:10Z"}
+  },
+  {
+    "model": "games.player",
+    "pk": 2,
+    "fields": {"session": 1, "user": 3, "name": "carol_student", "score": 1500, "joined_at": "2026-01-12T12:00:12Z"}
+  },
+  {
+    "model": "games.player",
+    "pk": 3,
+    "fields": {"session": 1, "user": 4, "name": "dave_student", "score": 0, "joined_at": "2026-01-12T12:00:15Z"}
+  },
+  {
+    "model": "games.attempt",
+    "pk": 1,
+    "fields": {"user": 2, "player": 1, "session": 1, "quiz": 1, "score": 2700, "started_at": "2026-01-12T12:00:10Z", "finished_at": "2026-01-12T12:05:00Z", "total_questions": 3, "correct_answers": 3}
+  },
+  {
+    "model": "games.attemptanswer",
+    "pk": 1,
+    "fields": {"attempt": 1, "question": 1, "selected_choice": 2, "is_correct": true, "time_taken": 1.2, "created_at": "2026-01-12T12:00:20Z"}
+  },
+  {
+    "model": "games.attemptanswer",
+    "pk": 2,
+    "fields": {"attempt": 1, "question": 2, "selected_choice": 5, "is_correct": true, "time_taken": 2.5, "created_at": "2026-01-12T12:01:00Z"}
+  },
+  {
+    "model": "games.attemptanswer",
+    "pk": 3,
+    "fields": {"attempt": 1, "question": 3, "selected_choice": 9, "is_correct": true, "time_taken": 1.0, "created_at": "2026-01-12T12:01:40Z"}
+  },
+
+  {
+    "model": "games.attempt",
+    "pk": 2,
+    "fields": {"user": 3, "player": 2, "session": 1, "quiz": 1, "score": 1500, "started_at": "2026-01-12T12:00:12Z", "finished_at": "2026-01-12T12:04:30Z", "total_questions": 3, "correct_answers": 1}
+  },
+  {
+    "model": "games.attemptanswer",
+    "pk": 4,
+    "fields": {"attempt": 2, "question": 1, "selected_choice": 2, "is_correct": true, "time_taken": 3.0, "created_at": "2026-01-12T12:00:22Z"}
+  },
+  {
+    "model": "games.attemptanswer",
+    "pk": 5,
+    "fields": {"attempt": 2, "question": 2, "selected_choice": 6, "is_correct": false, "time_taken": 4.2, "created_at": "2026-01-12T12:01:05Z"}
+  },
+  {
+    "model": "games.attemptanswer",
+    "pk": 6,
+    "fields": {"attempt": 2, "question": 3, "selected_choice": 10, "is_correct": false, "time_taken": 2.1, "created_at": "2026-01-12T12:01:45Z"}
+  },
+
+  {
+    "model": "games.attempt",
+    "pk": 3,
+    "fields": {"user": 4, "player": 3, "session": 1, "quiz": 1, "score": 0, "started_at": "2026-01-12T12:00:15Z", "finished_at": "2026-01-12T12:06:00Z", "total_questions": 3, "correct_answers": 0}
+  },
+  {
+    "model": "games.attemptanswer",
+    "pk": 7,
+    "fields": {"attempt": 3, "question": 1, "selected_choice": 1, "is_correct": false, "time_taken": 2.2, "created_at": "2026-01-12T12:00:30Z"}
+  },
+  {
+    "model": "games.attemptanswer",
+    "pk": 8,
+    "fields": {"attempt": 3, "question": 2, "selected_choice": 7, "is_correct": false, "time_taken": 3.5, "created_at": "2026-01-12T12:01:30Z"}
+  },
+  {
+    "model": "games.attemptanswer",
+    "pk": 9,
+    "fields": {"attempt": 3, "question": 3, "selected_choice": 11, "is_correct": false, "time_taken": 2.8, "created_at": "2026-01-12T12:02:00Z"}
+  }
+]

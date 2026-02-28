@@ -1,0 +1,48 @@
+"standart" taxallus uchun test ma'lumotlar bazasi yaratilmoqda...
+
+......
+-----------------------------------------------------------------
+123,244 soniyada 6 ta test o‘tkazildi
+
+KELISHDIKMI
+"standart" taxallus uchun test ma'lumotlar bazasi yo'q qilinmoqda...
+
+6 ta test(lar) topildi.
+Tizim tekshiruvida hech qanday muammo aniqlanmadi (0 ovozsiz).
+1 ta armaturadan 4 ta ob'ekt (lar) o'rnatildi
+Yuklangan armatura: users.json
+1 ta armaturadan 32 ta ob'ekt (lar) o'rnatildi
+Yuklangan armatura: quizses.json
+1 ta armaturadan 16 ta ob'ekt (lar) o'rnatildi
+Yuklangan armatura: trys.json
+Foydalanuvchi uchun parol o'rnating: alice_teacher
+Foydalanuvchi uchun parol o'rnating: bob_student
+Foydalanuvchi uchun parol o'rnating: carol_student
+Foydalanuvchi uchun parol o'rnating: dave_student
+Namoyish qilish tugallandi.
+1 ta armaturadan 4 ta ob'ekt (lar) o'rnatildi
+Yuklangan armatura: users.json
+1 ta armaturadan 32 ta ob'ekt (lar) o'rnatildi
+Yuklangan armatura: quizses.json
+1 ta armaturadan 16 ta ob'ekt (lar) o'rnatildi
+Yuklangan armatura: trys.json
+Foydalanuvchi uchun parol o'rnating: alice_teacher
+Foydalanuvchi uchun parol o'rnating: bob_student
+Foydalanuvchi uchun parol o'rnating: carol_student
+Foydalanuvchi uchun parol o'rnating: dave_student
+Namoyish qilish tugallandi.
+1 ta armaturadan 4 ta ob'ekt (lar) o'rnatildi
+Yuklangan armatura: users.json
+1 ta armaturadan 32 ta ob'ekt (lar) o'rnatildi
+Yuklangan armatura: quizses.json
+1 ta armaturadan 16 ta ob'ekt (lar) o'rnatildi
+Yuklangan armatura: trys.json
+Foydalanuvchi uchun parol o'rnating: alice_teacher
+Foydalanuvchi uchun parol o'rnating: bob_student
+Foydalanuvchi uchun parol o'rnating: carol_student
+Foydalanuvchi uchun parol o'rnating: dave_student
+Namoyish qilish tugallandi.
+1 ta armaturadan 1 ta ob'ekt(lar) o'rnatildi
+Yuklangan armatura: users.json
+Foydalanuvchi uchun parol o'rnating: mockuser
+Namoyish qilish tugallandi.

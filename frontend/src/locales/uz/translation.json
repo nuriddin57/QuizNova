@@ -1,0 +1,620 @@
+{
+  "common": {
+    "language": "Til",
+    "theme": "Mavzu",
+    "light": "Yorug",
+    "dark": "Qorongi",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "loading": "Yuklanmoqda...",
+    "copy": "Nusxa olish",
+    "copied": "Buferga nusxa olindi!",
+    "online": "Onlayn",
+    "offline": "Oflayn",
+    "close": "Yopish",
+    "players": "oyinchi"
+  },
+  "nav": {
+    "brand": "Blooket Lab",
+    "discover": "Toplamlar",
+    "dashboard": "Panel",
+    "lobby": "Lobbi",
+    "play": "Oyin",
+    "login": "Kirish",
+    "logout": "Chiqish",
+    "startPlaying": "Boshlash",
+    "apiChecking": "API tekshirilmoqda...",
+    "apiOnline": "API onlayn",
+    "apiIssue": "API muammo",
+    "apiOffline": "API oflayn",
+    "apiOfflineHelp": "Backend API ga ulanib bolmadi (http://127.0.0.1:8001 ni tekshiring)",
+    "loggedOut": "Akkauntdan chiqildi",
+    "openMenu": "Menyuni ochish",
+    "closeMenu": "Menyuni yopish"
+  },
+  "auth": {
+    "loginTag": "Kirish",
+    "loginTitle": "Sinfdoshlar toxtagan joyidan davom eting.",
+    "loginDesc": "Oyin uslubidagi interfeys bilan tizimga kiring va darsni davom ettiring.",
+    "needAccount": "Akkaunt yoqmi?",
+    "createOne": "Bir necha soniyada yarating",
+    "username": "Foydalanuvchi nomi",
+    "password": "Parol",
+    "email": "Email",
+    "rememberMe": "Eslab qolish",
+    "forgotPassword": "Parolni unutdingizmi?",
+    "resetTitle": "Parolni tiklash",
+    "resetPassword": "Parolni tiklash",
+    "resetting": "Tiklanmoqda...",
+    "resetNeedUsernameOrEmail": "Username yoki email kiriting",
+    "resetSuccess": "Parol yangilandi. Endi tizimga kirishingiz mumkin.",
+    "resetNewPassword": "Yangi parol",
+    "resetUsernameOptional": "Username (email bo'lsa ixtiyoriy)",
+    "resetEmailOptional": "Email (username bo'lsa ixtiyoriy)",
+    "signingIn": "Kirilmoqda...",
+    "logIn": "Kirish",
+    "needRegister": "Royxatdan otish kerakmi?",
+    "welcomeBack": "Xush kelibsiz!",
+    "registerTag": "Royxatdan otish",
+    "registerTitle": "Sinfingizga Blooket energiyasini olib keling.",
+    "registerDesc": "Moslashuvchan dizayn va tez royxatdan otish jarayoni.",
+    "feature1": "Tower Defense va Gold Quest kabi jonli rejimlarni host qiling",
+    "feature2": "Mukofotlarni oching va sevimli toplamlarni saqlang",
+    "feature3": "Hamkasblarni taklif qiling",
+    "role": "Rol",
+    "teacher": "Oqituvchi",
+    "student": "Oquvchi",
+    "agreeTerms": "Xizmat shartlariga roziman.",
+    "creating": "Yaratilmoqda...",
+    "createAccount": "Akkaunt yaratish",
+    "alreadyHave": "Akkauntingiz bormi?",
+    "accountCreated": "Akkaunt yaratildi!",
+    "usernameRequired": "Foydalanuvchi nomi kerak",
+    "passwordRequired": "Parol kerak",
+    "emailRequired": "Email kerak",
+    "passwordMin": "Kamida 6 ta belgi",
+    "usernamePlaceholder": "Foydalanuvchi nomini kiriting",
+    "passwordPlaceholder": "Parolni kiriting",
+    "emailPlaceholder": "you@example.com"
+  },
+  "lobby": {
+    "hostTitle": "Jonli oyin host qilish",
+    "joinTitle": "Oyinga qoshilish",
+    "quizSet": "Savollar toplami",
+    "mode": "Rejim",
+    "classic": "Klassik",
+    "factoryLite": "Factory-lite",
+    "createLobby": "Lobbi yaratish",
+    "creatingLobby": "Yaratilmoqda...",
+    "hostAuthRequired": "Oyin host qilish uchun tizimga kiring.",
+    "teacherRequired": "Host qilish uchun oqituvchi akkaunti kerak.",
+    "gameCode": "Oyin kodi",
+    "nickname": "Taxallus (mehmon bolishi mumkin)",
+    "nicknamePlaceholder": "Oyinchi nomi",
+    "codePlaceholder": "1234567",
+    "joinByCode": "Kod bilan qoshilish",
+    "joining": "Qoshilmoqda...",
+    "roomCode": "Xona kodi",
+    "noLobby": "Lobbi tanlanmagan",
+    "openPlay": "Oyin ekranini ochish",
+    "leaveLobby": "Lobbidan chiqish",
+    "startGame": "Oyinni boshlash",
+    "copyJoinCode": "Qoshilish kodini nusxalash",
+    "copyJoinLink": "Qoshilish havolasini nusxalash",
+    "players": "Oyinchilar",
+    "joinedCount": "{{count}} ta qoshildi",
+    "noPlayers": "Hali oyinchi yoq.",
+    "recentCodes": "Songgi kodlar",
+    "clearRecentCodes": "Tozalash",
+    "pasteCodeOrLink": "Xona kodini yoki toliq havolani kiriting.",
+    "gameState": "Oyin holati",
+    "phase": "Bosqich",
+    "progress": "Jarayon",
+    "role": "Rol",
+    "none": "yoq",
+    "startClassicTitle": "Klassik oyinni boshlaysizmi?",
+    "startClassicDesc": "Birinchi savol barcha oyinchilarga yuboriladi.",
+    "selectQuizFirst": "Avval quiz tanlang",
+    "noQuizzesFound": "Quizlar topilmadi",
+    "quizLoadFailed": "Quizlar yuklanmadi",
+    "loginOrReloadToLoadQuizzes": "Oqituvchi sifatida kiring va quizlarni yuklash uchun sahifani yangilang.",
+    "enterGameCode": "Oyin kodini kiriting",
+    "invalidGameCode": "Game code notogri yoki muddati tugagan.",
+    "wsDisconnected": "WebSocket ulanmagan",
+    "codeCopied": "Kod nusxalandi!",
+    "joinLinkCopied": "Qoshilish havolasi nusxalandi!",
+    "lobbyCreated": "Lobbi yaratildi: {{code}}",
+    "joinedRoom": "{{code}} ga qoshildingiz",
+    "leaderboardGenerated": "Yakuniy reyting tayyorlandi"
+  },
+  "game": {
+    "noActiveRoomTitle": "Faol xona yoq",
+    "noActiveRoomDesc": "Avval Lobbi sahifasidan oyin yarating yoki qoshiling.",
+    "room": "Xona",
+    "myScore": "Mening ballim",
+    "waitingRoom": "Kutish xonasi",
+    "waitingForHost": "Host oyinni boshlashini kuting",
+    "question": "Savol",
+    "timer": "Taymer",
+    "correct": "Togri!",
+    "incorrect": "Notogri",
+    "nextQuestion": "Keyingi savol",
+    "endGame": "Oyinni tugatish",
+    "results": "Natijalar",
+    "gameComplete": "Oyin tugadi",
+    "resultsHint": "Yakuniy reyting ong tomonda korsatiladi.",
+    "leaderboard": "Reyting",
+    "noScores": "Hali ball yoq.",
+    "hostControls": "Host boshqaruvi",
+    "start": "Boshlash",
+    "next": "Keyingi",
+    "endFinalize": "Tugatish va saqlash",
+    "joinAsPlayerFirst": "Avval oyinchi sifatida qoshiling"
+  },
+  "messages": {
+    "somethingWentWrong": "Xatolik yuz berdi",
+    "saveFailed": "Saqlab bolmadi"
+  },
+  "landing": {
+    "heroBadge": "Gamified learning that sticks",
+    "heroTitlePrefix": "Blooket uslubidagi quizlar",
+    "heroTitleAccent": "collectible fun",
+    "heroTitleSuffix": "bilan.",
+    "heroDesc": "Jonli oyinlar host qiling, homework bering va oquvchilarni leaderboard orqali qiziqtiring.",
+    "startFree": "Bepul boshlash",
+    "browseSets": "Toplamlarni korish",
+    "liveDashboard": "Jonli Oyin Paneli",
+    "liveDashboardDesc": "Host qilish uchun tayyor panel ko rinishi.",
+    "heroPatternNote": "Fon va spacing Blooket uslubiga yaqin.",
+    "features": "Imkoniyatlar",
+    "featuresTitle": "Blooket bosh sahifasiga oxshash grid",
+    "viewAllModes": "Barcha rejimlar",
+    "howItWorks": "Qanday ishlaydi",
+    "howItWorksTitle": "Reja, host, natija",
+    "gameModes": "Oyin rejimlari",
+    "gameModesDesc": "Jonli battle, solo homework yoki seasonal rejimlar.",
+    "popularSets": "Mashhur toplamlar",
+    "trendingWeek": "Shu haftadagi trend",
+    "viewAll": "Barchasini korish",
+    "categories": "Kategoriyalar",
+    "curatedSets": "Toplamlarni kategoriya boyicha tanlang",
+    "spotlightReady": "{{category}} spotlight tayyor",
+    "weeklyChallenge": "Haftalik challenge",
+    "reward": "Mukofot",
+    "challengeCode": "Challenge kodi",
+    "copyCode": "Koddan nusxa olish",
+    "viewChallengeDetails": "Challenge tafsilotlari",
+    "lovedBySchools": "Maktablar yoqtirgan",
+    "testimonials": "Fikrlar",
+    "personalizedBenefits": "Shaxsiy foydalar",
+    "faq": "FAQ",
+    "faqTitle": "Oqituvchi va ota-onalar uchun javoblar",
+    "stayUpdated": "Yangiliklardan xabardor boling",
+    "newsletterTitle": "Haftalik yangiliklar va dars tavsiyalari",
+    "subscribe": "Obuna bolish",
+    "email": "Email",
+    "newsletterPlaceholder": "you@school.org",
+    "footerTagline": "Har bir sinf uchun Blooket uslubidagi energiya.",
+    "product": "Mahsulot",
+    "community": "Hamjamiyat",
+    "social": "Ijtimoiy tarmoqlar",
+    "privacyTermsSupport": "Privacy ? Terms ? Support",
+    "challengeCopied": "Challenge kodi nusxalandi!",
+    "newsletterSigned": "Haftalik yangiliklarga obuna boldingiz!",
+    "brandName": "Antigravity",
+    "brandLabs": "Antigravity Labs",
+    "footerLiveModes": "Jonli rejimlar",
+    "footerHomework": "Uyga vazifa",
+    "footerReports": "Hisobotlar",
+    "footerTeachers": "Oqituvchilar",
+    "footerParents": "Ota-onalar",
+    "footerStudents": "Oquvchilar",
+    "discord": "Discord",
+    "youtube": "YouTube",
+    "privacy": "Maxfiylik",
+    "terms": "Shartlar",
+    "support": "Qo'llab-quvvatlash"
+  },
+  "discoverPage": {
+    "title": "Toplamlarni topish",
+    "subtitle": "Filtr va kategoriyali Blooket uslubidagi grid.",
+    "searchPlaceholder": "Toplam qidirish",
+    "sort": "Saralash",
+    "hideCategories": "Kategoriyalarni yashirish",
+    "showCategories": "Kategoriyalarni korsatish",
+    "categories": "Kategoriyalar",
+    "featuredCollections": "Tanlangan kolleksiyalar",
+    "curatedRows": "Tanlangan qatorlar",
+    "swipeToExplore": "Korish uchun suring",
+    "collection": "Kolleksiya",
+    "setsSuffix": "ta toplam",
+    "noSetsTitle": "Filtrlarga mos toplam topilmadi",
+    "noSetsDesc": "Boshqa fan tanlang yoki qidiruvni tozalang.",
+    "resetFilters": "Filtrlarni tiklash",
+    "showing": "{{from}} - {{to}} / {{total}} toplam",
+    "prev": "Oldingi",
+    "next": "Keyingi",
+    "pageOf": "{{page}}-sahifa / {{total}}",
+    "sortPopular": "Mashhur",
+    "sortNewest": "Yangi",
+    "sortRated": "Baholangan"
+  },
+  "dashboardPage": {
+    "home": "Bosh sahifa",
+    "assignments": "Vazifalar",
+    "students": "Oquvchilar",
+    "rewards": "Mukofotlar",
+    "teacher": "Oqituvchi",
+    "welcomeBack": "Xush kelibsiz",
+    "roomCode": "Xona kodi",
+    "hostGame": "Oyin host qilish",
+    "assignHw": "Uyga vazifa",
+    "streak": "Ketma-ketlik",
+    "days": "kun",
+    "stayHot": "Har kuni oynab faollikni saqlang",
+    "go": "Otish",
+    "open": "Ochish",
+    "recentActivity": "Songgi faollik",
+    "viewAll": "Barchasi",
+    "showLess": "Kamroq korsatish",
+    "announcements": "Elonlar",
+    "unread": "oqilmagan",
+    "markRead": "Oqilgan qilish",
+    "markUnread": "Oqilmagan qilish",
+    "recommendedSets": "Tavsiya etilgan toplamlar",
+    "continuePlaying": "Davom ettirish",
+    "mode": "Rejim",
+    "achievements": "Yutuqlar",
+    "leaderboard": "Reyting",
+    "rankLeague": "Rank va liga",
+    "league": "Liga",
+    "global": "global",
+    "hostMore": "Cosmic tierga chiqish uchun yana 2 ta oyin host qiling.",
+    "pushToCosmic": "Cosmic ga otish",
+    "actionTriggered": "Amal bajarildi",
+    "points": "ball",
+    "hub": "markaz",
+    "defaultLeague": "Galaxy Gold",
+    "defaultRank": "Top 3%",
+    "msgCreateSet": "Quiz yaratish oynasi ochilmoqda...",
+    "msgHostGame": "Lobbi kodi ulashish uchun tayyor!",
+    "msgAssignHw": "Uyga vazifa shabloni nusxalandi.",
+    "msgJoinGame": "Qoshilish uchun kodni kiriting."
+  },
+  "setCard": {
+    "by": "Muallif",
+    "questionsShort": "Savol",
+    "plays": "oyin",
+    "hostMode": "Host rejim",
+    "saveSet": "Toplamni saqlash",
+    "savedToLibrary": "{{title}} kutubxonaga saqlandi",
+    "hostingShareCode": "{{title}} host qilinmoqda... kodni ulashing!",
+    "openSet": "Toplamni ochish",
+    "defaultSubject": "Umumiy",
+    "defaultCreator": "Hamjamiyat"
+  },
+  "quizEditor": {
+    "title": "Sarlavha",
+    "titlePlaceholder": "Quiz sarlavhasi",
+    "description": "Tavsif",
+    "descriptionPlaceholder": "Quiz tavsifi",
+    "saveQuiz": "Quizni saqlash",
+    "questions": "Savollar",
+    "timerSeconds": "Taymer: {{seconds}}s",
+    "addQuestion": "Savol qoshish"
+  },
+  "questionForm": {
+    "question": "Savol",
+    "questionPlaceholder": "Savol matnini kiriting",
+    "timerSec": "Taymer (sek)",
+    "choiceN": "Variant {{n}}",
+    "correct": "Togri",
+    "saveQuestion": "Savolni saqlash",
+    "questionRequired": "Savol matni kerak",
+    "twoChoicesRequired": "Kamida 2 ta variant kerak",
+    "selectCorrectChoice": "Bitta togri variantni tanlang"
+  },
+  "data": {
+    "creators": {
+      "codeClub": "Code Club",
+      "community": "Community",
+      "counselTeam": "Counsel Team",
+      "labCrew": "Lab Crew",
+      "languageLab": "Language Lab",
+      "mrKhan": "Mr Khan",
+      "msAri": "Ms Ari",
+      "quizNova": "Quiz Nova"
+    },
+    "dashboard": {
+      "announcements": {
+        "a1": {
+          "detail": "A1 detail",
+          "time": "A1 time",
+          "title": "A1 title"
+        },
+        "a2": {
+          "detail": "A2 detail",
+          "time": "A2 time",
+          "title": "A2 title"
+        },
+        "a3": {
+          "detail": "A3 detail",
+          "time": "A3 time",
+          "title": "A3 title"
+        }
+      },
+      "badges": {
+        "accuracy": {
+          "desc": "Accuracy desc",
+          "title": "Accuracy title"
+        },
+        "builder": {
+          "desc": "Builder desc",
+          "title": "Builder title"
+        },
+        "host": {
+          "desc": "Host desc",
+          "title": "Host title"
+        },
+        "streak": {
+          "desc": "Streak desc",
+          "title": "Streak title"
+        }
+      },
+      "highlights": {
+        "activeStudents": {
+          "badge": "Active Students badge",
+          "label": "Active Students label"
+        },
+        "avgMastery": {
+          "badge": "Avg Mastery badge",
+          "label": "Avg Mastery label"
+        },
+        "homework": {
+          "badge": "Homework badge",
+          "label": "Homework label"
+        },
+        "liveSessions": {
+          "badge": "Live Sessions badge",
+          "label": "Live Sessions label"
+        }
+      },
+      "modes": {
+        "classic": "Classic",
+        "factoryLite": "Factory Lite",
+        "rocketRush": "Rocket Rush"
+      },
+      "quick": {
+        "assign": {
+          "desc": "Assign desc",
+          "label": "Assign label"
+        },
+        "create": {
+          "desc": "Create desc",
+          "label": "Create label"
+        },
+        "host": {
+          "desc": "Host desc",
+          "label": "Host label"
+        },
+        "join": {
+          "desc": "Join desc",
+          "label": "Join label"
+        }
+      },
+      "timeline": {
+        "t1": {
+          "detail": "T1 detail",
+          "time": "T1 time",
+          "title": "T1 title"
+        },
+        "t2": {
+          "detail": "T2 detail",
+          "time": "T2 time",
+          "title": "T2 title"
+        },
+        "t3": {
+          "detail": "T3 detail",
+          "time": "T3 time",
+          "title": "T3 title"
+        },
+        "t4": {
+          "detail": "T4 detail",
+          "time": "T4 time",
+          "title": "T4 title"
+        }
+      }
+    },
+    "discover": {
+      "categories": {
+        "extras": "Extras",
+        "humanities": "Humanities",
+        "stem": "Stem"
+      },
+      "collections": {
+        "earthWeek": "Earth Week",
+        "selMoments": "Sel Moments",
+        "stemShowdown": "Stem Showdown"
+      },
+      "items": {
+        "artMusic": "Art Music",
+        "civics": "Civics",
+        "ela": "Ela",
+        "engineering": "Engineering",
+        "geography": "Geography",
+        "languages": "Languages",
+        "robotics": "Robotics"
+      }
+    },
+    "filters": {
+      "all": "All"
+    },
+    "landing": {
+      "faq": {
+        "a1": "Faq A1",
+        "a2": "Faq A2",
+        "a3": "Faq A3",
+        "q1": "Faq Q1",
+        "q2": "Faq Q2",
+        "q3": "Faq Q3"
+      },
+      "featureTiles": {
+        "accuracy": {
+          "body": "Mavzular bo'yicha o'zlashtirishni kuzating va tez yaxshilang.",
+          "title": "Aniqlik mashqi"
+        },
+        "live": {
+          "body": "Sinf bilan real vaqtda o'yin o'tkazing va natijani darhol ko'ring.",
+          "title": "Jonli o'yin sessiyalari"
+        },
+        "rewards": {
+          "body": "Badge va mukofotlar bilan o'quvchilarni motivatsiya qiling.",
+          "title": "Mukofot va ketma-ketlik"
+        }
+      },
+      "gameModes": {
+        "duration": {
+          "10min": "10 min",
+          "12min": "12 min",
+          "15min": "15 min",
+          "selfPaced": "Self Paced"
+        },
+        "goldQuest": {
+          "desc": "Gold Quest desc",
+          "title": "Gold Quest title"
+        },
+        "homework": {
+          "desc": "Homework desc",
+          "title": "Homework title"
+        },
+        "rocketRush": {
+          "desc": "Rocket Rush desc",
+          "title": "Rocket Rush title"
+        },
+        "tags": {
+          "async": "Async",
+          "classic": "Classic",
+          "fast": "Fast",
+          "strategy": "Strategy"
+        },
+        "towerDefense": {
+          "desc": "Tower Defense desc",
+          "title": "Tower Defense title"
+        }
+      },
+      "heroStats": {
+        "answers": "Answers",
+        "players": "Players",
+        "rating": "Rating"
+      },
+      "highlights": {
+        "parent": {
+          "b1": "Parent B1",
+          "b2": "Parent B2",
+          "b3": "Parent B3",
+          "cta": "Parent cta",
+          "title": "Parent title"
+        },
+        "teacher": {
+          "b1": "Teacher B1",
+          "b2": "Teacher B2",
+          "b3": "Teacher B3",
+          "cta": "Teacher cta",
+          "title": "Teacher title"
+        }
+      },
+      "howItWorks": {
+        "step1": {
+          "badge": "1-qadam",
+          "body": "Tayyor quizni tanlang yoki ozingizning savollar toplamingizni yarating.",
+          "title": "Quizni tayyorlang",
+          "cta": "Quiz tayyorlash"
+        },
+        "step2": {
+          "badge": "2-qadam",
+          "body": "Kod bilan sinfni qoshing, taymerni sozlang va oyinni jonli host qiling.",
+          "title": "Sessiyani boshlang",
+          "cta": "Sessiyani boshlash"
+        },
+        "step3": {
+          "badge": "3-qadam",
+          "body": "Leaderboard va aniqlik korsatkichlari orqali natijani tez tahlil qiling.",
+          "title": "Natijani oling",
+          "cta": "Natijani korish"
+        }
+      },
+      "newsletter": {
+        "perk1": "Perk1",
+        "perk2": "Perk2",
+        "perk3": "Perk3"
+      },
+      "recentActivity": {
+        "assigned": "Assigned",
+        "assignedTime": "Assigned Time",
+        "hosted": "Hosted",
+        "hostedTime": "Hosted Time",
+        "summary": "Summary",
+        "summaryTime": "Summary Time"
+      },
+      "socialProof": {
+        "accuracyDetail": "O'rtacha natija oshishi",
+        "accuracyLabel": "O'zlashtirish o'sishi",
+        "classesDetail": "Haftalik sessiya o'tkazayotgan o'qituvchilar",
+        "classesLabel": "Faol sinflar",
+        "savedDetail": "Darhol host qilishga tayyor quizlar",
+        "savedLabel": "Saqlangan toplamlar",
+        "weeklyDetail": "Jonli va uyga vazifa rejimlarida yuborilgan",
+        "weeklyLabel": "Haftalik javoblar"
+      },
+      "testimonials": {
+        "t1": {
+          "name": "T1 name",
+          "quote": "T1 quote",
+          "role": "T1 role",
+          "school": "T1 school"
+        },
+        "t2": {
+          "name": "T2 name",
+          "quote": "T2 quote",
+          "role": "T2 role",
+          "school": "T2 school"
+        },
+        "t3": {
+          "name": "T3 name",
+          "quote": "T3 quote",
+          "role": "T3 role",
+          "school": "T3 school"
+        }
+      },
+      "weeklyChallenge": {
+        "deadline": "Deadline",
+        "desc": "Weekly Challenge desc",
+        "reward": "Reward",
+        "title": "Weekly Challenge title"
+      }
+    },
+    "sets": {
+      "artRhythm": "Art Rhythm",
+      "codingLoops": "Coding Loops",
+      "earthSystems": "Earth Systems",
+      "fractions": "Fractions",
+      "languageBoost": "Language Boost",
+      "mathBasics": "Math Basics",
+      "rocketRushPack": "Rocket Rush Pack",
+      "scienceBasics": "Science Basics",
+      "selMindful": "Sel Mindful",
+      "spaceExplorers": "Space Explorers",
+      "triviaMix": "Trivia Mix",
+      "worldHistory": "World History"
+    },
+    "subjects": {
+      "art": "Art",
+      "coding": "Coding",
+      "history": "History",
+      "math": "Math",
+      "science": "Science",
+      "sel": "Sel",
+      "trivia": "Trivia"
+    }
+  }
+}

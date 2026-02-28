@@ -1,0 +1,1790 @@
+[
+    {
+        "model":  "quizzes.quiz",
+        "pk":  1,
+        "fields":  {
+                       "title":  "Demo: Math Basics",
+                       "description":  "Simple arithmetic quiz",
+                       "category":  "Math",
+                       "owner":  1,
+                       "created_at":  "2026-01-10T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  1,
+        "fields":  {
+                       "quiz":  1,
+                       "text":  "What is 2 + 2?",
+                       "timer_seconds":  15,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  1,
+        "fields":  {
+                       "question":  1,
+                       "text":  "3",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  2,
+        "fields":  {
+                       "question":  1,
+                       "text":  "4",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  3,
+        "fields":  {
+                       "question":  1,
+                       "text":  "22",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  4,
+        "fields":  {
+                       "question":  1,
+                       "text":  "5",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  2,
+        "fields":  {
+                       "quiz":  1,
+                       "text":  "What is 5 * 6?",
+                       "timer_seconds":  20,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  5,
+        "fields":  {
+                       "question":  2,
+                       "text":  "30",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  6,
+        "fields":  {
+                       "question":  2,
+                       "text":  "11",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  7,
+        "fields":  {
+                       "question":  2,
+                       "text":  "56",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  8,
+        "fields":  {
+                       "question":  2,
+                       "text":  "60",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  3,
+        "fields":  {
+                       "quiz":  1,
+                       "text":  "What is 10 - 4?",
+                       "timer_seconds":  12,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  9,
+        "fields":  {
+                       "question":  3,
+                       "text":  "6",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  10,
+        "fields":  {
+                       "question":  3,
+                       "text":  "4",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  11,
+        "fields":  {
+                       "question":  3,
+                       "text":  "5",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  12,
+        "fields":  {
+                       "question":  3,
+                       "text":  "7",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.quiz",
+        "pk":  2,
+        "fields":  {
+                       "title":  "Demo: Science Basics",
+                       "description":  "Basic science trivia",
+                       "category":  "Science",
+                       "owner":  1,
+                       "created_at":  "2026-01-11T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  4,
+        "fields":  {
+                       "quiz":  2,
+                       "text":  "Water freezes at what temperature (В°C)?",
+                       "timer_seconds":  15,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  13,
+        "fields":  {
+                       "question":  4,
+                       "text":  "0",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  14,
+        "fields":  {
+                       "question":  4,
+                       "text":  "100",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  15,
+        "fields":  {
+                       "question":  4,
+                       "text":  "-10",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  16,
+        "fields":  {
+                       "question":  4,
+                       "text":  "10",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  5,
+        "fields":  {
+                       "quiz":  2,
+                       "text":  "The chemical symbol for water is?",
+                       "timer_seconds":  12,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  17,
+        "fields":  {
+                       "question":  5,
+                       "text":  "H2O",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  18,
+        "fields":  {
+                       "question":  5,
+                       "text":  "O2",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  19,
+        "fields":  {
+                       "question":  5,
+                       "text":  "CO2",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  20,
+        "fields":  {
+                       "question":  5,
+                       "text":  "NaCl",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  6,
+        "fields":  {
+                       "quiz":  2,
+                       "text":  "Which planet is known as the Red Planet?",
+                       "timer_seconds":  18,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  21,
+        "fields":  {
+                       "question":  6,
+                       "text":  "Mars",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  22,
+        "fields":  {
+                       "question":  6,
+                       "text":  "Venus",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  23,
+        "fields":  {
+                       "question":  6,
+                       "text":  "Jupiter",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  24,
+        "fields":  {
+                       "question":  6,
+                       "text":  "Saturn",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.quiz",
+        "pk":  3,
+        "fields":  {
+                       "title":  "Demo: World Geography Blitz",
+                       "description":  "Capitals and geography warmup",
+                       "category":  "History",
+                       "owner":  1,
+                       "created_at":  "2026-02-01T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  7,
+        "fields":  {
+                       "quiz":  3,
+                       "text":  "Capital of Japan?",
+                       "timer_seconds":  15,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  25,
+        "fields":  {
+                       "question":  7,
+                       "text":  "Tokyo",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  26,
+        "fields":  {
+                       "question":  7,
+                       "text":  "Osaka",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  27,
+        "fields":  {
+                       "question":  7,
+                       "text":  "Kyoto",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  28,
+        "fields":  {
+                       "question":  7,
+                       "text":  "Nagoya",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  8,
+        "fields":  {
+                       "quiz":  3,
+                       "text":  "Largest ocean on Earth?",
+                       "timer_seconds":  18,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  29,
+        "fields":  {
+                       "question":  8,
+                       "text":  "Atlantic",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  30,
+        "fields":  {
+                       "question":  8,
+                       "text":  "Pacific",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  31,
+        "fields":  {
+                       "question":  8,
+                       "text":  "Indian",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  32,
+        "fields":  {
+                       "question":  8,
+                       "text":  "Arctic",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  9,
+        "fields":  {
+                       "quiz":  3,
+                       "text":  "Which continent is Brazil in?",
+                       "timer_seconds":  14,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  33,
+        "fields":  {
+                       "question":  9,
+                       "text":  "Europe",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  34,
+        "fields":  {
+                       "question":  9,
+                       "text":  "Africa",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  35,
+        "fields":  {
+                       "question":  9,
+                       "text":  "South America",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  36,
+        "fields":  {
+                       "question":  9,
+                       "text":  "Asia",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.quiz",
+        "pk":  4,
+        "fields":  {
+                       "title":  "Demo: English Grammar Essentials",
+                       "description":  "Grammar basics for class review",
+                       "category":  "ELA",
+                       "owner":  1,
+                       "created_at":  "2026-02-01T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  10,
+        "fields":  {
+                       "quiz":  4,
+                       "text":  "Choose the verb: \"She runs fast.\"",
+                       "timer_seconds":  16,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  37,
+        "fields":  {
+                       "question":  10,
+                       "text":  "She",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  38,
+        "fields":  {
+                       "question":  10,
+                       "text":  "runs",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  39,
+        "fields":  {
+                       "question":  10,
+                       "text":  "fast",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  40,
+        "fields":  {
+                       "question":  10,
+                       "text":  ".",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  11,
+        "fields":  {
+                       "quiz":  4,
+                       "text":  "Past tense of go?",
+                       "timer_seconds":  12,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  41,
+        "fields":  {
+                       "question":  11,
+                       "text":  "goed",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  42,
+        "fields":  {
+                       "question":  11,
+                       "text":  "gone",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  43,
+        "fields":  {
+                       "question":  11,
+                       "text":  "went",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  44,
+        "fields":  {
+                       "question":  11,
+                       "text":  "goes",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  12,
+        "fields":  {
+                       "quiz":  4,
+                       "text":  "Correct article: __ apple",
+                       "timer_seconds":  12,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  45,
+        "fields":  {
+                       "question":  12,
+                       "text":  "a",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  46,
+        "fields":  {
+                       "question":  12,
+                       "text":  "an",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  47,
+        "fields":  {
+                       "question":  12,
+                       "text":  "the",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  48,
+        "fields":  {
+                       "question":  12,
+                       "text":  "no article",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.quiz",
+        "pk":  5,
+        "fields":  {
+                       "title":  "Demo: Intro to Coding Logic",
+                       "description":  "Logic and programming basics",
+                       "category":  "Coding",
+                       "owner":  1,
+                       "created_at":  "2026-02-01T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  13,
+        "fields":  {
+                       "quiz":  5,
+                       "text":  "Which symbol is used for equality check in many languages?",
+                       "timer_seconds":  18,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  49,
+        "fields":  {
+                       "question":  13,
+                       "text":  "=",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  50,
+        "fields":  {
+                       "question":  13,
+                       "text":  "==",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  51,
+        "fields":  {
+                       "question":  13,
+                       "text":  "!=",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  52,
+        "fields":  {
+                       "question":  13,
+                       "text":  "=\u003e",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  14,
+        "fields":  {
+                       "quiz":  5,
+                       "text":  "A loop repeats...",
+                       "timer_seconds":  16,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  53,
+        "fields":  {
+                       "question":  14,
+                       "text":  "once only",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  54,
+        "fields":  {
+                       "question":  14,
+                       "text":  "instructions",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  55,
+        "fields":  {
+                       "question":  14,
+                       "text":  "files",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  56,
+        "fields":  {
+                       "question":  14,
+                       "text":  "errors",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  15,
+        "fields":  {
+                       "quiz":  5,
+                       "text":  "Binary uses which digits?",
+                       "timer_seconds":  14,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  57,
+        "fields":  {
+                       "question":  15,
+                       "text":  "0 and 1",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  58,
+        "fields":  {
+                       "question":  15,
+                       "text":  "1 and 2",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  59,
+        "fields":  {
+                       "question":  15,
+                       "text":  "2 and 3",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  60,
+        "fields":  {
+                       "question":  15,
+                       "text":  "0 to 9",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.quiz",
+        "pk":  6,
+        "fields":  {
+                       "title":  "Demo: Spanish Basics",
+                       "description":  "Basic Spanish classroom phrases",
+                       "category":  "Languages",
+                       "owner":  1,
+                       "created_at":  "2026-02-01T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  16,
+        "fields":  {
+                       "quiz":  6,
+                       "text":  "Hola means...",
+                       "timer_seconds":  12,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  61,
+        "fields":  {
+                       "question":  16,
+                       "text":  "Goodbye",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  62,
+        "fields":  {
+                       "question":  16,
+                       "text":  "Hello",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  63,
+        "fields":  {
+                       "question":  16,
+                       "text":  "Please",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  64,
+        "fields":  {
+                       "question":  16,
+                       "text":  "Thanks",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  17,
+        "fields":  {
+                       "quiz":  6,
+                       "text":  "Gracias means...",
+                       "timer_seconds":  12,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  65,
+        "fields":  {
+                       "question":  17,
+                       "text":  "Sorry",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  66,
+        "fields":  {
+                       "question":  17,
+                       "text":  "Please",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  67,
+        "fields":  {
+                       "question":  17,
+                       "text":  "Thanks",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  68,
+        "fields":  {
+                       "question":  17,
+                       "text":  "Morning",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  18,
+        "fields":  {
+                       "quiz":  6,
+                       "text":  "Uno, dos, tres are...",
+                       "timer_seconds":  14,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  69,
+        "fields":  {
+                       "question":  18,
+                       "text":  "colors",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  70,
+        "fields":  {
+                       "question":  18,
+                       "text":  "numbers",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  71,
+        "fields":  {
+                       "question":  18,
+                       "text":  "foods",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  72,
+        "fields":  {
+                       "question":  18,
+                       "text":  "animals",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.quiz",
+        "pk":  7,
+        "fields":  {
+                       "title":  "Demo: Art History Highlights",
+                       "description":  "Famous art and artists",
+                       "category":  "Art",
+                       "owner":  1,
+                       "created_at":  "2026-02-01T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  19,
+        "fields":  {
+                       "quiz":  7,
+                       "text":  "Mona Lisa was painted by...",
+                       "timer_seconds":  16,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  73,
+        "fields":  {
+                       "question":  19,
+                       "text":  "Van Gogh",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  74,
+        "fields":  {
+                       "question":  19,
+                       "text":  "Da Vinci",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  75,
+        "fields":  {
+                       "question":  19,
+                       "text":  "Picasso",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  76,
+        "fields":  {
+                       "question":  19,
+                       "text":  "Monet",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  20,
+        "fields":  {
+                       "quiz":  7,
+                       "text":  "Starry Night artist?",
+                       "timer_seconds":  16,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  77,
+        "fields":  {
+                       "question":  20,
+                       "text":  "Van Gogh",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  78,
+        "fields":  {
+                       "question":  20,
+                       "text":  "Matisse",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  79,
+        "fields":  {
+                       "question":  20,
+                       "text":  "Dali",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  80,
+        "fields":  {
+                       "question":  20,
+                       "text":  "Rembrandt",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  21,
+        "fields":  {
+                       "quiz":  7,
+                       "text":  "Sculpture is mostly...",
+                       "timer_seconds":  14,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  81,
+        "fields":  {
+                       "question":  21,
+                       "text":  "3D art",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  82,
+        "fields":  {
+                       "question":  21,
+                       "text":  "2D art",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  83,
+        "fields":  {
+                       "question":  21,
+                       "text":  "music",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  84,
+        "fields":  {
+                       "question":  21,
+                       "text":  "poetry",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.quiz",
+        "pk":  8,
+        "fields":  {
+                       "title":  "Demo: Music Theory Starter",
+                       "description":  "Rhythm and note basics",
+                       "category":  "Music",
+                       "owner":  1,
+                       "created_at":  "2026-02-01T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  22,
+        "fields":  {
+                       "quiz":  8,
+                       "text":  "How many beats in common time?",
+                       "timer_seconds":  14,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  85,
+        "fields":  {
+                       "question":  22,
+                       "text":  "2",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  86,
+        "fields":  {
+                       "question":  22,
+                       "text":  "3",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  87,
+        "fields":  {
+                       "question":  22,
+                       "text":  "4",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  88,
+        "fields":  {
+                       "question":  22,
+                       "text":  "6",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  23,
+        "fields":  {
+                       "quiz":  8,
+                       "text":  "A scale is a...",
+                       "timer_seconds":  14,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  89,
+        "fields":  {
+                       "question":  23,
+                       "text":  "set of pitches",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  90,
+        "fields":  {
+                       "question":  23,
+                       "text":  "drum type",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  91,
+        "fields":  {
+                       "question":  23,
+                       "text":  "microphone",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  92,
+        "fields":  {
+                       "question":  23,
+                       "text":  "dance move",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  24,
+        "fields":  {
+                       "quiz":  8,
+                       "text":  "Tempo means...",
+                       "timer_seconds":  14,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  93,
+        "fields":  {
+                       "question":  24,
+                       "text":  "volume",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  94,
+        "fields":  {
+                       "question":  24,
+                       "text":  "speed",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  95,
+        "fields":  {
+                       "question":  24,
+                       "text":  "pitch",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  96,
+        "fields":  {
+                       "question":  24,
+                       "text":  "lyrics",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.quiz",
+        "pk":  9,
+        "fields":  {
+                       "title":  "Demo: Civics Fundamentals",
+                       "description":  "Government and citizenship basics",
+                       "category":  "History",
+                       "owner":  1,
+                       "created_at":  "2026-02-01T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  25,
+        "fields":  {
+                       "quiz":  9,
+                       "text":  "Who makes laws in many democracies?",
+                       "timer_seconds":  16,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  97,
+        "fields":  {
+                       "question":  25,
+                       "text":  "Courts",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  98,
+        "fields":  {
+                       "question":  25,
+                       "text":  "Legislature",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  99,
+        "fields":  {
+                       "question":  25,
+                       "text":  "Police",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  100,
+        "fields":  {
+                       "question":  25,
+                       "text":  "Schools",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  26,
+        "fields":  {
+                       "quiz":  9,
+                       "text":  "A constitution is...",
+                       "timer_seconds":  16,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  101,
+        "fields":  {
+                       "question":  26,
+                       "text":  "song",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  102,
+        "fields":  {
+                       "question":  26,
+                       "text":  "set of basic laws",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  103,
+        "fields":  {
+                       "question":  26,
+                       "text":  "tax form",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  104,
+        "fields":  {
+                       "question":  26,
+                       "text":  "map",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  27,
+        "fields":  {
+                       "quiz":  9,
+                       "text":  "Voting is a...",
+                       "timer_seconds":  14,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  105,
+        "fields":  {
+                       "question":  27,
+                       "text":  "right and responsibility",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  106,
+        "fields":  {
+                       "question":  27,
+                       "text":  "weather pattern",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  107,
+        "fields":  {
+                       "question":  27,
+                       "text":  "science test",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  108,
+        "fields":  {
+                       "question":  27,
+                       "text":  "none",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.quiz",
+        "pk":  10,
+        "fields":  {
+                       "title":  "Demo: Environmental Science",
+                       "description":  "Climate and ecosystem basics",
+                       "category":  "Science",
+                       "owner":  1,
+                       "created_at":  "2026-02-01T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  28,
+        "fields":  {
+                       "quiz":  10,
+                       "text":  "Plants absorb...",
+                       "timer_seconds":  14,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  109,
+        "fields":  {
+                       "question":  28,
+                       "text":  "oxygen",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  110,
+        "fields":  {
+                       "question":  28,
+                       "text":  "carbon dioxide",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  111,
+        "fields":  {
+                       "question":  28,
+                       "text":  "helium",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  112,
+        "fields":  {
+                       "question":  28,
+                       "text":  "nitrogen only",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  29,
+        "fields":  {
+                       "quiz":  10,
+                       "text":  "Recycling helps to...",
+                       "timer_seconds":  14,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  113,
+        "fields":  {
+                       "question":  29,
+                       "text":  "increase waste",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  114,
+        "fields":  {
+                       "question":  29,
+                       "text":  "reduce waste",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  115,
+        "fields":  {
+                       "question":  29,
+                       "text":  "melt ice",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  116,
+        "fields":  {
+                       "question":  29,
+                       "text":  "raise taxes",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  30,
+        "fields":  {
+                       "quiz":  10,
+                       "text":  "Water cycle includes...",
+                       "timer_seconds":  16,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  117,
+        "fields":  {
+                       "question":  30,
+                       "text":  "evaporation",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  118,
+        "fields":  {
+                       "question":  30,
+                       "text":  "multiplication",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  119,
+        "fields":  {
+                       "question":  30,
+                       "text":  "digestion",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  120,
+        "fields":  {
+                       "question":  30,
+                       "text":  "photos",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.quiz",
+        "pk":  11,
+        "fields":  {
+                       "title":  "Demo: Algebra Warmup",
+                       "description":  "Algebra starter set",
+                       "category":  "Math",
+                       "owner":  1,
+                       "created_at":  "2026-02-01T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  31,
+        "fields":  {
+                       "quiz":  11,
+                       "text":  "Solve: x + 5 = 12",
+                       "timer_seconds":  14,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  121,
+        "fields":  {
+                       "question":  31,
+                       "text":  "5",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  122,
+        "fields":  {
+                       "question":  31,
+                       "text":  "6",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  123,
+        "fields":  {
+                       "question":  31,
+                       "text":  "7",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  124,
+        "fields":  {
+                       "question":  31,
+                       "text":  "8",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  32,
+        "fields":  {
+                       "quiz":  11,
+                       "text":  "Solve: 3x = 21",
+                       "timer_seconds":  14,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  125,
+        "fields":  {
+                       "question":  32,
+                       "text":  "5",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  126,
+        "fields":  {
+                       "question":  32,
+                       "text":  "6",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  127,
+        "fields":  {
+                       "question":  32,
+                       "text":  "7",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  128,
+        "fields":  {
+                       "question":  32,
+                       "text":  "8",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  33,
+        "fields":  {
+                       "quiz":  11,
+                       "text":  "y = 2x, if x=4 then y=?",
+                       "timer_seconds":  14,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  129,
+        "fields":  {
+                       "question":  33,
+                       "text":  "6",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  130,
+        "fields":  {
+                       "question":  33,
+                       "text":  "8",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  131,
+        "fields":  {
+                       "question":  33,
+                       "text":  "10",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  132,
+        "fields":  {
+                       "question":  33,
+                       "text":  "12",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.quiz",
+        "pk":  12,
+        "fields":  {
+                       "title":  "Demo: SEL Check-In",
+                       "description":  "Social emotional learning quick check",
+                       "category":  "SEL",
+                       "owner":  1,
+                       "created_at":  "2026-02-01T00:00:00Z"
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  34,
+        "fields":  {
+                       "quiz":  12,
+                       "text":  "Deep breathing can help with...",
+                       "timer_seconds":  12,
+                       "order":  0
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  133,
+        "fields":  {
+                       "question":  34,
+                       "text":  "focus",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  134,
+        "fields":  {
+                       "question":  34,
+                       "text":  "noise",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  135,
+        "fields":  {
+                       "question":  34,
+                       "text":  "traffic",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  136,
+        "fields":  {
+                       "question":  34,
+                       "text":  "rain",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  35,
+        "fields":  {
+                       "quiz":  12,
+                       "text":  "Good teamwork includes...",
+                       "timer_seconds":  12,
+                       "order":  1
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  137,
+        "fields":  {
+                       "question":  35,
+                       "text":  "interrupting",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  138,
+        "fields":  {
+                       "question":  35,
+                       "text":  "listening",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  139,
+        "fields":  {
+                       "question":  35,
+                       "text":  "ignoring",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  140,
+        "fields":  {
+                       "question":  35,
+                       "text":  "shouting",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.question",
+        "pk":  36,
+        "fields":  {
+                       "quiz":  12,
+                       "text":  "Empathy means...",
+                       "timer_seconds":  14,
+                       "order":  2
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  141,
+        "fields":  {
+                       "question":  36,
+                       "text":  "understanding others feelings",
+                       "is_correct":  true
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  142,
+        "fields":  {
+                       "question":  36,
+                       "text":  "winning always",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  143,
+        "fields":  {
+                       "question":  36,
+                       "text":  "talking fast",
+                       "is_correct":  false
+                   }
+    },
+    {
+        "model":  "quizzes.choice",
+        "pk":  144,
+        "fields":  {
+                       "question":  36,
+                       "text":  "none",
+                       "is_correct":  false
+                   }
+    }
+]

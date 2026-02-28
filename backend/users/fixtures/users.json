@@ -1,0 +1,78 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "!",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "alice_teacher",
+      "first_name": "Alice",
+      "last_name": "Anderson",
+      "email": "alice@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-01-01T00:00:00Z",
+      "role": "teacher",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "password": "!",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "bob_student",
+      "first_name": "Bob",
+      "last_name": "Baker",
+      "email": "bob@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-01-02T00:00:00Z",
+      "role": "student",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "password": "!",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "carol_student",
+      "first_name": "Carol",
+      "last_name": "Clark",
+      "email": "carol@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-01-03T00:00:00Z",
+      "role": "student",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 4,
+    "fields": {
+      "password": "!",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "dave_student",
+      "first_name": "Dave",
+      "last_name": "Dawson",
+      "email": "dave@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-01-04T00:00:00Z",
+      "role": "student",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

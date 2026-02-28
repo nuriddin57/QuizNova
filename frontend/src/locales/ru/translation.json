@@ -1,0 +1,620 @@
+{
+  "common": {
+    "language": "Язык",
+    "theme": "Тема",
+    "light": "Светлая",
+    "dark": "Темная",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "loading": "Загрузка...",
+    "copy": "Копировать",
+    "copied": "Скопировано в буфер!",
+    "online": "Онлайн",
+    "offline": "Офлайн",
+    "close": "Закрыть",
+    "players": "игроков"
+  },
+  "nav": {
+    "brand": "Blooket Lab",
+    "discover": "Обзор",
+    "dashboard": "Панель",
+    "lobby": "Лобби",
+    "play": "Игра",
+    "login": "Войти",
+    "logout": "Выйти",
+    "startPlaying": "Начать",
+    "apiChecking": "Проверка API...",
+    "apiOnline": "API онлайн",
+    "apiIssue": "Проблема API",
+    "apiOffline": "API офлайн",
+    "apiOfflineHelp": "Нет доступа к backend API (проверьте http://127.0.0.1:8001)",
+    "loggedOut": "Вы вышли из аккаунта",
+    "openMenu": "Открыть меню",
+    "closeMenu": "Закрыть меню"
+  },
+  "auth": {
+    "loginTag": "Вход",
+    "loginTitle": "Продолжите с того места, где остановился ваш класс.",
+    "loginDesc": "Те же отступы и визуальный стиль Blooket. Войдите как учитель и продолжайте проводить игры.",
+    "needAccount": "Нет аккаунта?",
+    "createOne": "Создайте за несколько секунд",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "email": "Email",
+    "rememberMe": "Запомнить меня",
+    "forgotPassword": "Забыли пароль?",
+    "resetTitle": "Сброс пароля",
+    "resetPassword": "Сбросить пароль",
+    "resetting": "Обновление...",
+    "resetNeedUsernameOrEmail": "Введите username или email",
+    "resetSuccess": "Пароль обновлен. Теперь можно войти.",
+    "resetNewPassword": "Новый пароль",
+    "resetUsernameOptional": "Username (необязательно, если указан email)",
+    "resetEmailOptional": "Email (необязательно, если указан username)",
+    "signingIn": "Вход...",
+    "logIn": "Войти",
+    "needRegister": "Нужна регистрация?",
+    "welcomeBack": "С возвращением!",
+    "registerTag": "Регистрация",
+    "registerTitle": "Добавьте энергию Blooket в свой класс.",
+    "registerDesc": "Адаптивный интерфейс, яркие градиенты и удобный старт для учителя и ученика.",
+    "feature1": "Проводите live-режимы вроде Tower Defense и Gold Quest",
+    "feature2": "Открывайте серии наград и сохраняйте любимые наборы",
+    "feature3": "Приглашайте коллег-учителей для совместной работы",
+    "role": "Роль",
+    "teacher": "Учитель",
+    "student": "Ученик",
+    "agreeTerms": "Я принимаю условия использования.",
+    "creating": "Создание...",
+    "createAccount": "Создать аккаунт",
+    "alreadyHave": "Уже есть аккаунт?",
+    "accountCreated": "Аккаунт создан!",
+    "usernameRequired": "Требуется имя пользователя",
+    "passwordRequired": "Требуется пароль",
+    "emailRequired": "Требуется email",
+    "passwordMin": "Минимум 6 символов",
+    "usernamePlaceholder": "Введите имя пользователя",
+    "passwordPlaceholder": "Введите пароль",
+    "emailPlaceholder": "you@example.com"
+  },
+  "lobby": {
+    "hostTitle": "Создать live-игру",
+    "joinTitle": "Присоединиться к игре",
+    "quizSet": "Набор вопросов",
+    "mode": "Режим",
+    "classic": "Классика",
+    "factoryLite": "Factory-lite",
+    "createLobby": "Создать лобби",
+    "creatingLobby": "Создание...",
+    "hostAuthRequired": "Войдите в аккаунт, чтобы создать игру.",
+    "teacherRequired": "Для хостинга нужен аккаунт учителя.",
+    "gameCode": "Код игры",
+    "nickname": "Ник (гость допускается)",
+    "nicknamePlaceholder": "Имя игрока",
+    "codePlaceholder": "1234567",
+    "joinByCode": "Войти по коду",
+    "joining": "Вход...",
+    "roomCode": "Код комнаты",
+    "noLobby": "Лобби не выбрано",
+    "openPlay": "Открыть экран игры",
+    "leaveLobby": "Покинуть лобби",
+    "startGame": "Начать игру",
+    "copyJoinCode": "Копировать код",
+    "copyJoinLink": "Копировать ссылку",
+    "players": "Игроки",
+    "joinedCount": "{{count}} в лобби",
+    "noPlayers": "Игроков пока нет.",
+    "recentCodes": "Недавние коды",
+    "clearRecentCodes": "Очистить",
+    "pasteCodeOrLink": "Вставьте код комнаты или полную ссылку.",
+    "gameState": "Состояние игры",
+    "phase": "Фаза",
+    "progress": "Прогресс",
+    "role": "Роль",
+    "none": "нет",
+    "startClassicTitle": "Начать классическую игру?",
+    "startClassicDesc": "Первый вопрос будет отправлен всем участникам.",
+    "selectQuizFirst": "Сначала выберите квиз",
+    "noQuizzesFound": "Квизы не найдены",
+    "quizLoadFailed": "Не удалось загрузить квизы",
+    "loginOrReloadToLoadQuizzes": "Войдите как учитель и обновите страницу, чтобы загрузить реальные квизы.",
+    "enterGameCode": "Введите код игры",
+    "invalidGameCode": "Неверный или просроченный код игры.",
+    "wsDisconnected": "WebSocket не подключен",
+    "codeCopied": "Код скопирован!",
+    "joinLinkCopied": "Ссылка для входа скопирована!",
+    "lobbyCreated": "Лобби создано: {{code}}",
+    "joinedRoom": "Вы в лобби: {{code}}",
+    "leaderboardGenerated": "Финальный рейтинг готов"
+  },
+  "game": {
+    "noActiveRoomTitle": "Нет активной комнаты",
+    "noActiveRoomDesc": "Сначала создайте игру или присоединитесь к ней в Лобби.",
+    "room": "Комната",
+    "myScore": "Мои очки",
+    "waitingRoom": "Ожидание",
+    "waitingForHost": "Ожидание запуска игры от ведущего",
+    "question": "Вопрос",
+    "timer": "Таймер",
+    "correct": "Верно!",
+    "incorrect": "Неверно",
+    "nextQuestion": "Следующий вопрос",
+    "endGame": "Завершить игру",
+    "results": "Результаты",
+    "gameComplete": "Игра завершена",
+    "resultsHint": "Финальный рейтинг показан справа.",
+    "leaderboard": "Рейтинг",
+    "noScores": "Пока нет очков.",
+    "hostControls": "Панель ведущего",
+    "start": "Старт",
+    "next": "Далее",
+    "endFinalize": "Завершить и сохранить",
+    "joinAsPlayerFirst": "Сначала войдите как игрок"
+  },
+  "messages": {
+    "somethingWentWrong": "Что-то пошло не так",
+    "saveFailed": "Не удалось сохранить"
+  },
+  "landing": {
+    "heroBadge": "Геймифицированное обучение, которое увлекает",
+    "heroTitlePrefix": "Квизы в стиле Blooket с",
+    "heroTitleAccent": "коллекционным весельем",
+    "heroTitleSuffix": "встроенным в процесс.",
+    "heroDesc": "Проводите live-игры, задавайте домашние наборы и удерживайте внимание класса с помощью усилений, аватаров и рейтинга.",
+    "startFree": "Начать бесплатно",
+    "browseSets": "Смотреть наборы",
+    "liveDashboard": "Панель live-игры",
+    "liveDashboardDesc": "Похоже на игровой интерфейс Blooket, готово к запуску.",
+    "heroPatternNote": "Фон и отступы выполнены в игровом стиле.",
+    "features": "Возможности",
+    "featuresTitle": "Интерактивная сетка режимов как в Blooket",
+    "viewAllModes": "Все режимы",
+    "howItWorks": "Как это работает",
+    "howItWorksTitle": "План, запуск, результат",
+    "gameModes": "Режимы игры",
+    "gameModesDesc": "Проводите live-битвы, домашние задания или сезонные режимы.",
+    "popularSets": "Популярные наборы",
+    "trendingWeek": "Тренды недели",
+    "viewAll": "Смотреть все",
+    "categories": "Категории",
+    "curatedSets": "Выберите предмет и изучите подборки",
+    "spotlightReady": "Подборка {{category}} готова",
+    "weeklyChallenge": "Челлендж недели",
+    "reward": "Награда",
+    "challengeCode": "Код челленджа",
+    "copyCode": "Копировать код",
+    "viewChallengeDetails": "Подробнее о челлендже",
+    "lovedBySchools": "Выбирают школы",
+    "testimonials": "Отзывы",
+    "personalizedBenefits": "Персональные преимущества",
+    "faq": "FAQ",
+    "faqTitle": "Ответы для учителей и родителей",
+    "stayUpdated": "Будьте в курсе",
+    "newsletterTitle": "Еженедельные новинки и советы",
+    "subscribe": "Подписаться",
+    "email": "Email",
+    "newsletterPlaceholder": "you@school.org",
+    "footerTagline": "Энергия в стиле Blooket для каждого класса.",
+    "product": "Продукт",
+    "community": "Сообщество",
+    "social": "Соцсети",
+    "privacyTermsSupport": "Конфиденциальность • Условия • Поддержка",
+    "challengeCopied": "Код челленджа скопирован!",
+    "newsletterSigned": "Вы подписались на еженедельные обновления!",
+    "brandName": "Antigravity",
+    "brandLabs": "Antigravity Labs",
+    "footerLiveModes": "Live-режимы",
+    "footerHomework": "Домашка",
+    "footerReports": "Отчеты",
+    "footerTeachers": "Учителям",
+    "footerParents": "Родителям",
+    "footerStudents": "Ученикам",
+    "discord": "Discord",
+    "youtube": "YouTube",
+    "privacy": "Конфиденциальность",
+    "terms": "Условия",
+    "support": "Поддержка"
+  },
+  "discoverPage": {
+    "title": "Поиск наборов",
+    "subtitle": "Сетка в стиле Blooket с фильтрами и категориями.",
+    "searchPlaceholder": "Поиск наборов",
+    "sort": "Сортировка",
+    "hideCategories": "Скрыть категории",
+    "showCategories": "Показать категории",
+    "categories": "Категории",
+    "featuredCollections": "Избранные коллекции",
+    "curatedRows": "Подборки",
+    "swipeToExplore": "Листайте для просмотра",
+    "collection": "Коллекция",
+    "setsSuffix": "наборов",
+    "noSetsTitle": "Нет наборов по этим фильтрам",
+    "noSetsDesc": "Выберите другой предмет или очистите поиск.",
+    "resetFilters": "Сбросить фильтры",
+    "showing": "{{from}} - {{to}} из {{total}} наборов",
+    "prev": "Назад",
+    "next": "Вперед",
+    "pageOf": "Страница {{page}} из {{total}}",
+    "sortPopular": "Популярные",
+    "sortNewest": "Новые",
+    "sortRated": "По рейтингу"
+  },
+  "dashboardPage": {
+    "home": "Главная",
+    "assignments": "Задания",
+    "students": "Ученики",
+    "rewards": "Награды",
+    "teacher": "Учитель",
+    "welcomeBack": "С возвращением",
+    "roomCode": "Код комнаты",
+    "hostGame": "Запустить игру",
+    "assignHw": "Домашнее задание",
+    "streak": "Серия",
+    "days": "дней",
+    "stayHot": "Играйте каждый день, чтобы держать темп",
+    "go": "Перейти",
+    "open": "Открыть",
+    "recentActivity": "Недавняя активность",
+    "viewAll": "Смотреть все",
+    "showLess": "Свернуть",
+    "announcements": "Объявления",
+    "unread": "непрочитано",
+    "markRead": "Отметить прочитанным",
+    "markUnread": "Отметить непрочитанным",
+    "recommendedSets": "Рекомендуемые наборы",
+    "continuePlaying": "Продолжить игру",
+    "mode": "Режим",
+    "achievements": "Достижения",
+    "leaderboard": "Рейтинг",
+    "rankLeague": "Ранг и лига",
+    "league": "Лига",
+    "global": "глобально",
+    "hostMore": "Проведите еще 2 игры, чтобы перейти в уровень Cosmic.",
+    "pushToCosmic": "К уровню Cosmic",
+    "actionTriggered": "Действие выполнено",
+    "points": "очк.",
+    "hub": "центр",
+    "defaultLeague": "Galaxy Gold",
+    "defaultRank": "Топ 3%",
+    "msgCreateSet": "Открываю редактор наборов...",
+    "msgHostGame": "Код лобби готов для отправки!",
+    "msgAssignHw": "Шаблон домашнего задания создан.",
+    "msgJoinGame": "Вставьте код, чтобы присоединиться."
+  },
+  "setCard": {
+    "by": "Автор",
+    "questionsShort": "вопр.",
+    "plays": "игр",
+    "hostMode": "Запустить",
+    "saveSet": "Сохранить набор",
+    "savedToLibrary": "{{title}} добавлен в библиотеку",
+    "hostingShareCode": "Запуск {{title}}... поделитесь кодом лобби!",
+    "openSet": "Открыть набор",
+    "defaultSubject": "Общее",
+    "defaultCreator": "Сообщество"
+  },
+  "quizEditor": {
+    "title": "Название",
+    "titlePlaceholder": "Название квиза",
+    "description": "Описание",
+    "descriptionPlaceholder": "Описание квиза",
+    "saveQuiz": "Сохранить квиз",
+    "questions": "Вопросы",
+    "timerSeconds": "Таймер: {{seconds}}с",
+    "addQuestion": "Добавить вопрос"
+  },
+  "questionForm": {
+    "question": "Вопрос",
+    "questionPlaceholder": "Введите текст вопроса",
+    "timerSec": "Таймер (сек)",
+    "choiceN": "Вариант {{n}}",
+    "correct": "Верный",
+    "saveQuestion": "Сохранить вопрос",
+    "questionRequired": "Текст вопроса обязателен",
+    "twoChoicesRequired": "Нужно минимум 2 варианта",
+    "selectCorrectChoice": "Выберите один правильный вариант"
+  },
+  "data": {
+    "creators": {
+      "codeClub": "Code Club",
+      "community": "Community",
+      "counselTeam": "Counsel Team",
+      "labCrew": "Lab Crew",
+      "languageLab": "Language Lab",
+      "mrKhan": "Mr Khan",
+      "msAri": "Ms Ari",
+      "quizNova": "Quiz Nova"
+    },
+    "dashboard": {
+      "announcements": {
+        "a1": {
+          "detail": "A1 detail",
+          "time": "A1 time",
+          "title": "A1 title"
+        },
+        "a2": {
+          "detail": "A2 detail",
+          "time": "A2 time",
+          "title": "A2 title"
+        },
+        "a3": {
+          "detail": "A3 detail",
+          "time": "A3 time",
+          "title": "A3 title"
+        }
+      },
+      "badges": {
+        "accuracy": {
+          "desc": "Accuracy desc",
+          "title": "Accuracy title"
+        },
+        "builder": {
+          "desc": "Builder desc",
+          "title": "Builder title"
+        },
+        "host": {
+          "desc": "Host desc",
+          "title": "Host title"
+        },
+        "streak": {
+          "desc": "Streak desc",
+          "title": "Streak title"
+        }
+      },
+      "highlights": {
+        "activeStudents": {
+          "badge": "Active Students badge",
+          "label": "Active Students label"
+        },
+        "avgMastery": {
+          "badge": "Avg Mastery badge",
+          "label": "Avg Mastery label"
+        },
+        "homework": {
+          "badge": "Homework badge",
+          "label": "Homework label"
+        },
+        "liveSessions": {
+          "badge": "Live Sessions badge",
+          "label": "Live Sessions label"
+        }
+      },
+      "modes": {
+        "classic": "Classic",
+        "factoryLite": "Factory Lite",
+        "rocketRush": "Rocket Rush"
+      },
+      "quick": {
+        "assign": {
+          "desc": "Assign desc",
+          "label": "Assign label"
+        },
+        "create": {
+          "desc": "Create desc",
+          "label": "Create label"
+        },
+        "host": {
+          "desc": "Host desc",
+          "label": "Host label"
+        },
+        "join": {
+          "desc": "Join desc",
+          "label": "Join label"
+        }
+      },
+      "timeline": {
+        "t1": {
+          "detail": "T1 detail",
+          "time": "T1 time",
+          "title": "T1 title"
+        },
+        "t2": {
+          "detail": "T2 detail",
+          "time": "T2 time",
+          "title": "T2 title"
+        },
+        "t3": {
+          "detail": "T3 detail",
+          "time": "T3 time",
+          "title": "T3 title"
+        },
+        "t4": {
+          "detail": "T4 detail",
+          "time": "T4 time",
+          "title": "T4 title"
+        }
+      }
+    },
+    "discover": {
+      "categories": {
+        "extras": "Extras",
+        "humanities": "Humanities",
+        "stem": "Stem"
+      },
+      "collections": {
+        "earthWeek": "Earth Week",
+        "selMoments": "Sel Moments",
+        "stemShowdown": "Stem Showdown"
+      },
+      "items": {
+        "artMusic": "Art Music",
+        "civics": "Civics",
+        "ela": "Ela",
+        "engineering": "Engineering",
+        "geography": "Geography",
+        "languages": "Languages",
+        "robotics": "Robotics"
+      }
+    },
+    "filters": {
+      "all": "All"
+    },
+    "landing": {
+      "faq": {
+        "a1": "Faq A1",
+        "a2": "Faq A2",
+        "a3": "Faq A3",
+        "q1": "Faq Q1",
+        "q2": "Faq Q2",
+        "q3": "Faq Q3"
+      },
+      "featureTiles": {
+        "accuracy": {
+          "body": "Отслеживайте освоение тем и быстро закрывайте пробелы.",
+          "title": "Тренировка точности"
+        },
+        "live": {
+          "body": "Запускайте live-игры в классе с мгновенной обратной связью.",
+          "title": "Живые игровые сессии"
+        },
+        "rewards": {
+          "body": "Удерживайте интерес с бейджами и наградами.",
+          "title": "Награды и серии"
+        }
+      },
+      "gameModes": {
+        "duration": {
+          "10min": "10 min",
+          "12min": "12 min",
+          "15min": "15 min",
+          "selfPaced": "Self Paced"
+        },
+        "goldQuest": {
+          "desc": "Gold Quest desc",
+          "title": "Gold Quest title"
+        },
+        "homework": {
+          "desc": "Homework desc",
+          "title": "Homework title"
+        },
+        "rocketRush": {
+          "desc": "Rocket Rush desc",
+          "title": "Rocket Rush title"
+        },
+        "tags": {
+          "async": "Async",
+          "classic": "Classic",
+          "fast": "Fast",
+          "strategy": "Strategy"
+        },
+        "towerDefense": {
+          "desc": "Tower Defense desc",
+          "title": "Tower Defense title"
+        }
+      },
+      "heroStats": {
+        "answers": "Answers",
+        "players": "Players",
+        "rating": "Rating"
+      },
+      "highlights": {
+        "parent": {
+          "b1": "Parent B1",
+          "b2": "Parent B2",
+          "b3": "Parent B3",
+          "cta": "Parent cta",
+          "title": "Parent title"
+        },
+        "teacher": {
+          "b1": "Teacher B1",
+          "b2": "Teacher B2",
+          "b3": "Teacher B3",
+          "cta": "Teacher cta",
+          "title": "Teacher title"
+        }
+      },
+      "howItWorks": {
+        "step1": {
+          "badge": "Step 1",
+          "body": "Choose a ready quiz or build your own set of questions.",
+          "title": "Prepare your quiz",
+          "cta": "Prepare quiz"
+        },
+        "step2": {
+          "badge": "Step 2",
+          "body": "Create a room, share the code, and start a live session.",
+          "title": "Start the session",
+          "cta": "Start session"
+        },
+        "step3": {
+          "badge": "Step 3",
+          "body": "Review leaderboard and performance data right after the game.",
+          "title": "Get results",
+          "cta": "View results"
+        }
+      },
+      "newsletter": {
+        "perk1": "Perk1",
+        "perk2": "Perk2",
+        "perk3": "Perk3"
+      },
+      "recentActivity": {
+        "assigned": "Assigned",
+        "assignedTime": "Assigned Time",
+        "hosted": "Hosted",
+        "hostedTime": "Hosted Time",
+        "summary": "Summary",
+        "summaryTime": "Summary Time"
+      },
+      "socialProof": {
+        "accuracyDetail": "Среднее улучшение результатов",
+        "accuracyLabel": "Рост освоения",
+        "classesDetail": "Учителя, проводящие еженедельные сессии",
+        "classesLabel": "Активные классы",
+        "savedDetail": "Коллекции квизов, готовые к запуску",
+        "savedLabel": "Сохранённые наборы",
+        "weeklyDetail": "Отправлено в live и домашнем режимах",
+        "weeklyLabel": "Ответов за неделю"
+      },
+      "testimonials": {
+        "t1": {
+          "name": "T1 name",
+          "quote": "T1 quote",
+          "role": "T1 role",
+          "school": "T1 school"
+        },
+        "t2": {
+          "name": "T2 name",
+          "quote": "T2 quote",
+          "role": "T2 role",
+          "school": "T2 school"
+        },
+        "t3": {
+          "name": "T3 name",
+          "quote": "T3 quote",
+          "role": "T3 role",
+          "school": "T3 school"
+        }
+      },
+      "weeklyChallenge": {
+        "deadline": "Deadline",
+        "desc": "Weekly Challenge desc",
+        "reward": "Reward",
+        "title": "Weekly Challenge title"
+      }
+    },
+    "sets": {
+      "artRhythm": "Art Rhythm",
+      "codingLoops": "Coding Loops",
+      "earthSystems": "Earth Systems",
+      "fractions": "Fractions",
+      "languageBoost": "Language Boost",
+      "mathBasics": "Math Basics",
+      "rocketRushPack": "Rocket Rush Pack",
+      "scienceBasics": "Science Basics",
+      "selMindful": "Sel Mindful",
+      "spaceExplorers": "Space Explorers",
+      "triviaMix": "Trivia Mix",
+      "worldHistory": "World History"
+    },
+    "subjects": {
+      "art": "Art",
+      "coding": "Coding",
+      "history": "History",
+      "math": "Math",
+      "science": "Science",
+      "sel": "Sel",
+      "trivia": "Trivia"
+    }
+  }
+}
