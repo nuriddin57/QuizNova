@@ -25,6 +25,12 @@ import { useRoomStore } from '../store/roomStore'
 
 const ANNOUNCEMENTS_READ_KEY = 'quiznova:dashboard:announcements:read'
 const resolveText = (t, key, fallback = '') => (key ? t(key) : fallback)
+const badgeAccentGradients = [
+  'from-amber-400 to-orange-500',
+  'from-cyan-400 to-blue-500',
+  'from-indigo-400 to-violet-500',
+  'from-rose-400 to-fuchsia-500',
+]
 
 const loadReadAnnouncements = () => {
   if (typeof window === 'undefined') return {}
@@ -57,6 +63,8 @@ const Dashboard = () => {
     students: null,
     rewards: null,
   })
+  const schoolName = profile?.school || profile?.school_name || t('dashboardPage.defaultSchool')
+  const streakDays = Number.isFinite(Number(profile?.streak)) ? Number(profile.streak) : 0
 
   const recentActivityItems = showAllActivity ? dashboardTimeline : dashboardTimeline.slice(0, 3)
   const announcementItems = showAllAnnouncements ? announcementsFeed : announcementsFeed.slice(0, 2)
@@ -185,7 +193,7 @@ const Dashboard = () => {
     <SectionWrapper className="pt-4" disableMotion>
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid gap-6 lg:grid-cols-[280px,1fr]">
         <aside className="rounded-3xl bg-white p-6 shadow-soft">
-          <div className="flex items-center gap-3 rounded-3xl bg-surface-soft p-4">
+          <div className="light-tile flex items-center gap-3 rounded-3xl p-4">
             <div className="text-3xl">{profile?.avatar || 'A'}</div>
             <div>
               <p className="text-lg font-semibold text-slate-900">{profile?.username || <LoadingSkeleton className="h-4 w-24" />}</p>
@@ -218,7 +226,7 @@ const Dashboard = () => {
               <div>
                 <p className="text-sm uppercase tracking-[0.4em] text-white/70">{t('dashboardPage.welcomeBack')}</p>
                 <h2 className="mt-2 text-3xl font-display font-semibold">
-                  {profile ? `${profile.school} ${t('dashboardPage.hub')}` : <LoadingSkeleton className="mt-2 h-8 w-48 bg-white/40" />}
+                  {profile ? `${schoolName} ${t('dashboardPage.hub')}` : <LoadingSkeleton className="mt-2 h-8 w-48 bg-white/40" />}
                 </h2>
                 <p className="mt-4 text-sm text-white/80">{t('dashboardPage.roomCode')}</p>
                 <p className="text-4xl font-black tracking-[0.3em]">{room?.code || '-------'}</p>
@@ -234,15 +242,15 @@ const Dashboard = () => {
               <div className="space-y-4 rounded-3xl bg-white/10 p-5">
                 <div className="rounded-2xl bg-white/15 p-4">
                   <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/70">{t('dashboardPage.streak')}</p>
-                  <p className="text-3xl font-display font-semibold">{profile?.streak ?? '--'} {t('dashboardPage.days')}</p>
+                  <p className="text-3xl font-display font-semibold">{streakDays} {t('dashboardPage.days')}</p>
                   <p className="text-sm text-white/80">{t('dashboardPage.stayHot')}</p>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   {dashboardHighlights.map((highlight) => (
-                    <div key={highlight.id} className="rounded-2xl bg-white/85 p-4 text-slate-900">
-                      <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">{resolveText(t, highlight.labelKey, highlight.label)}</p>
-                      <p className="mt-2 text-2xl font-bold text-slate-900">{highlight.value}</p>
-                      <p className="text-xs font-semibold text-primary-500">{resolveText(t, highlight.badgeKey, highlight.badge)}</p>
+                    <div key={highlight.id} className="rounded-2xl bg-white p-4 text-slate-900 shadow-sm ring-1 ring-slate-200/80">
+                      <p className="text-xs font-semibold uppercase tracking-widest text-slate-600">{resolveText(t, highlight.labelKey, highlight.label)}</p>
+                      <p className="mt-2 text-2xl font-black text-slate-950">{highlight.value}</p>
+                      <p className="text-xs font-semibold text-primary-700">{resolveText(t, highlight.badgeKey, highlight.badge)}</p>
                     </div>
                   ))}
                 </div>
@@ -282,7 +290,7 @@ const Dashboard = () => {
                 </div>
                 <div className="mt-6 space-y-4">
                   {recentActivityItems.map((item) => (
-                    <div key={item.id} className="flex items-start gap-4 rounded-2xl bg-surface-soft px-4 py-3">
+                    <div key={item.id} className="light-tile flex items-start gap-4 rounded-2xl px-4 py-3">
                       <span className="text-2xl">{item.icon}</span>
                       <div className="flex-1">
                         <p className="text-base font-semibold text-slate-900">{resolveText(t, item.titleKey, item.title)}</p>
@@ -320,9 +328,7 @@ const Dashboard = () => {
                   {announcementItems.map((announcement) => (
                     <div
                       key={announcement.id}
-                      className={`rounded-2xl border p-4 ${
-                        readAnnouncements[announcement.id] ? 'border-slate-100 bg-slate-50/60' : 'border-surface-soft bg-white'
-                      }`}
+                      className={`light-tile rounded-2xl p-4 ${readAnnouncements[announcement.id] ? 'opacity-90' : ''}`}
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div>
@@ -400,11 +406,17 @@ const Dashboard = () => {
               <Card className="rounded-[32px]">
                 <h3 className="text-xl font-semibold text-slate-900">{t('dashboardPage.achievements')}</h3>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  {achievementBadges.map((badge) => (
-                    <div key={badge.id} className="rounded-2xl bg-surface-soft p-4">
-                      <p className="text-3xl">{badge.icon}</p>
-                      <p className="mt-2 text-base font-semibold text-slate-900">{resolveText(t, badge.titleKey, badge.title)}</p>
-                      <p className="text-sm text-slate-500">{resolveText(t, badge.detailKey, badge.detail)}</p>
+                  {achievementBadges.map((badge, index) => (
+                    <div
+                      key={badge.id}
+                      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_10px_24px_rgba(15,23,42,0.06)] transition duration-150 hover:-translate-y-1 hover:shadow-[0_16px_30px_rgba(15,23,42,0.1)] dark:border-white/12 dark:bg-white/10 dark:shadow-none"
+                    >
+                      <div className={`pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${badgeAccentGradients[index % badgeAccentGradients.length]}`} />
+                      <div className="mt-2 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-2xl dark:bg-white/10">
+                        {badge.icon}
+                      </div>
+                      <p className="mt-3 text-base font-semibold text-slate-900 dark:text-slate-100">{resolveText(t, badge.titleKey, badge.title)}</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-300">{resolveText(t, badge.detailKey, badge.detail)}</p>
                     </div>
                   ))}
                 </div>
@@ -413,7 +425,7 @@ const Dashboard = () => {
                 <h3 className="text-xl font-semibold text-slate-900">{t('dashboardPage.leaderboard')}</h3>
                 <div className="mt-4 space-y-3">
                   {leaderboardEntries.map((entry, index) => (
-                    <div key={entry.id} className="flex items-center justify-between rounded-2xl border border-surface-soft px-4 py-3">
+                    <div key={entry.id} className="light-tile flex items-center justify-between rounded-2xl px-4 py-3">
                       <div className="flex items-center gap-3">
                         <span className="text-sm font-bold text-slate-400">#{index + 1}</span>
                         <p className="text-sm font-semibold text-slate-900">{entry.teacher}</p>
@@ -425,7 +437,7 @@ const Dashboard = () => {
               </Card>
               <Card className="rounded-[32px]">
                 <h3 className="text-xl font-semibold text-slate-900">{t('dashboardPage.rankLeague')}</h3>
-                <div className="mt-4 rounded-3xl bg-surface-soft p-5 text-center">
+                <div className="light-tile mt-4 rounded-3xl p-5 text-center">
                   <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-400">{t('dashboardPage.league')}</p>
                   <p className="mt-2 text-3xl font-display font-semibold text-slate-900">{profile?.league ?? t('dashboardPage.defaultLeague')}</p>
                   <p className="mt-1 text-sm text-slate-500">{profile?.rank ?? t('dashboardPage.defaultRank')} {t('dashboardPage.global')}</p>

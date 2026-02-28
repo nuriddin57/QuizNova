@@ -1,17 +1,18 @@
 const blobs = [
-  { className: 'absolute -top-24 -left-10 h-64 w-64 rounded-full bg-primary-300/35 blur-3xl dark:bg-primary-500/20' },
-  { className: 'absolute top-40 -right-24 h-72 w-72 rounded-full bg-accent-blue/35 blur-[90px] dark:bg-accent-blue/15' },
-  { className: 'absolute bottom-0 left-1/2 h-80 w-80 -translate-x-1/2 translate-y-1/2 rounded-full bg-primary-200/35 blur-[120px] dark:bg-primary-400/10' },
+  { className: 'absolute -top-32 -left-20 hidden h-72 w-72 rounded-full bg-primary-400/28 blur-[115px] animate-floatySlow dark:block' },
+  { className: 'absolute top-16 -right-20 hidden h-80 w-80 rounded-full bg-accent-cyan/24 blur-[120px] animate-floaty dark:block' },
+  { className: 'absolute bottom-0 left-1/2 hidden h-[32rem] w-[32rem] -translate-x-1/2 translate-y-1/2 rounded-full bg-accent-blue/20 blur-[160px] dark:block' },
 ]
 
 const PatternBackground = () => (
   <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-primary-50/40 to-accent-blue/10 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950/20" />
-    <div className="blooket-grid absolute inset-0 dark:opacity-25" />
+    <div className="absolute inset-0 hidden dark:block starfield-layer opacity-60" />
+    <div className="absolute inset-0 hidden dark:block starfield-layer-fast opacity-45" />
+    <div className="absolute inset-0 hidden dark:block neon-grid opacity-40" />
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_12%,rgba(124,58,237,0.08),transparent_34%),radial-gradient(circle_at_82%_2%,rgba(37,99,235,0.07),transparent_28%),linear-gradient(180deg,rgba(248,249,252,0.9),rgba(238,242,247,0.95))] dark:bg-[radial-gradient(circle_at_50%_-20%,rgba(34,211,238,0.16),transparent_48%),linear-gradient(180deg,rgba(2,6,14,0.2),rgba(2,6,14,0.85))]" />
     {blobs.map((blob, idx) => (
       <div key={idx} className={blob.className} />
     ))}
-    <div className="pattern-dot absolute inset-y-0 right-10 hidden h-40 w-40 rounded-3xl bg-white/10 blur-[1px] lg:block dark:bg-white/5" />
   </div>
 )
 

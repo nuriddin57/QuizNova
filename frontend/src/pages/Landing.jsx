@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import PrimaryButton from '../components/PrimaryButton'
 import SecondaryButton from '../components/SecondaryButton'
 import Card from '../components/Card'
@@ -29,6 +29,8 @@ import {
   newsletterPerks,
 } from '../utils/dummyData'
 import { toastHelpers } from '../utils/toastHelpers'
+import { isAuthenticated } from '../utils/auth'
+import { useRoomStore } from '../store/roomStore'
 
 const statAccents = [
   'from-[#6F5BFF] via-[#8C7CFF] to-[#C9B6FF]',
@@ -41,7 +43,10 @@ const resolveText = (t, key, fallback = '') => (key ? t(key) : fallback)
 
 const Landing = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const room = useRoomStore((state) => state.room)
   const [activeCategory, setActiveCategory] = useState(categoryChips[0]?.value || 'Math')
+  const authed = isAuthenticated()
 
   const handleCopyChallenge = async () => {
     try {
@@ -60,6 +65,27 @@ const Landing = () => {
 
   const handleSaveSet = (title) => () => toastHelpers.success(t('setCard.savedToLibrary', { title }))
   const handleHostSetLocalized = (title) => () => toastHelpers.info(t('setCard.hostingShareCode', { title }))
+  const goToLogin = (target) => navigate('/login', { state: { from: target } })
+  const handleHowItWorksAction = (actionId) => {
+    if (actionId === 'prepare_quiz') {
+      if (!authed) return goToLogin('/my-sets')
+      navigate('/my-sets')
+      return
+    }
+    if (actionId === 'start_session') {
+      if (!authed) return goToLogin('/host')
+      navigate('/host')
+      return
+    }
+    if (actionId === 'view_results') {
+      if (room?.code) {
+        navigate(`/game/${room?.sessionId || 'live'}`)
+        return
+      }
+      if (!authed) return goToLogin('/dashboard')
+      navigate('/dashboard')
+    }
+  }
   const activeCategoryLabel = resolveText(
     t,
     categoryChips.find((chip) => chip.value === activeCategory)?.labelKey,
@@ -67,69 +93,74 @@ const Landing = () => {
   )
 
   return (
-    <div className="space-y-16 pb-20">
-      <SectionWrapper id="hero" className="pt-6">
+    <div className="space-y-20 pb-24">
+      <SectionWrapper id="hero" className="flex min-h-[calc(100vh-5rem)] items-center pt-0">
         <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="relative overflow-hidden rounded-[40px] bg-white/95 p-8 shadow-card">
+          <div className="frost-card relative overflow-hidden rounded-[34px] p-8 md:p-10">
             <motion.span
-              className="absolute -right-8 top-10 hidden h-28 w-28 rounded-3xl bg-primary-400/20 blur-3xl lg:block"
+              className="absolute -right-8 top-10 hidden h-32 w-32 rounded-3xl bg-primary-400/30 blur-3xl lg:block"
               animate={{ opacity: [0.4, 0.8, 0.4], y: [0, -12, 0] }}
               transition={{ repeat: Infinity, duration: 8 }}
             />
             <motion.span
-              className="absolute -bottom-10 left-6 hidden h-16 w-16 rounded-full bg-accent-blue/20 blur-2xl lg:block"
+              className="absolute -bottom-8 left-4 hidden h-24 w-24 rounded-full bg-accent-cyan/25 blur-2xl lg:block"
               animate={{ opacity: [0.3, 0.6, 0.3], y: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 6 }}
             />
             <div className="relative z-10">
-              <p className="inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-600">
-                <span className="h-2 w-2 rounded-full bg-gradient-to-r from-primary-400 to-accent-blue" />
+              <p className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-50 dark:border-cyan-300/40 dark:bg-cyan-300/12 px-4 py-2 text-sm font-semibold text-indigo-600 dark:text-cyan-100">
+                <span className="h-2 w-2 rounded-full bg-gradient-to-r from-primary-400 via-accent-blue to-accent-cyan" />
                 {t('landing.heroBadge')}
               </p>
-              <h1 className="mt-6 text-4xl font-display font-bold leading-tight text-slate-900 sm:text-5xl">
-                {t('landing.heroTitlePrefix')} <span className="text-primary-500">{t('landing.heroTitleAccent')}</span> {t('landing.heroTitleSuffix')}
+              <h1 className="mt-6 text-5xl font-display font-bold leading-tight text-slate-900 dark:text-slate-100 sm:text-6xl lg:text-7xl">
+                {t('landing.heroTitlePrefix')} <span className="bg-gradient-to-r from-primary-300 via-accent-blue to-accent-cyan bg-clip-text text-transparent">{t('landing.heroTitleAccent')}</span> {t('landing.heroTitleSuffix')}
               </h1>
-              <p className="mt-4 text-lg text-slate-600">{t('landing.heroDesc')}</p>
+              <p className="mt-4 max-w-2xl text-xl text-slate-600 dark:text-slate-300">{t('landing.heroDesc')}</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <PrimaryButton as={Link} to="/register">
                   {t('landing.startFree')}
                 </PrimaryButton>
-                <SecondaryButton as={Link} to="/discover">
+                <SecondaryButton as={Link} to="/discover" className="min-w-[180px] justify-center">
                   {t('landing.browseSets')}
                 </SecondaryButton>
               </div>
               <div className="mt-8 grid grid-cols-3 gap-4">
                 {heroStats.map((stat) => (
-                  <Card key={stat.id} hover={false} className="p-4 text-center">
-                    <p className="text-2xl font-bold text-primary-500">{stat.value}</p>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{resolveText(t, stat.labelKey)}</p>
+                  <Card key={stat.id} hover={false} className="rounded-2xl p-4 text-center">
+                    <p className="text-2xl font-bold text-indigo-600 dark:text-cyan-100">{stat.value}</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-600 dark:text-slate-300">{resolveText(t, stat.labelKey)}</p>
                   </Card>
                 ))}
               </div>
             </div>
           </div>
-          <div className="relative rounded-[40px] bg-gradient-to-br from-primary-500 to-accent-blue p-8 text-white shadow-glow">
-            <div className="absolute inset-6 rounded-[34px] border border-white/10" />
+          <div className="frost-card relative overflow-hidden rounded-[34px] p-8 text-slate-900 dark:text-white">
+            <motion.div
+              className="absolute -top-10 right-8 h-24 w-24 rounded-full bg-gradient-to-br from-primary-400/80 via-accent-blue/70 to-accent-cyan/65 blur-[2px]"
+              animate={{ y: [0, -10, 0], x: [0, 8, 0], rotate: [0, 8, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+            />
+            <div className="absolute inset-4 rounded-[30px] border border-slate-200 dark:border-white/15" />
             <div className="relative z-10 space-y-6">
               <div>
-                <p className="text-lg font-semibold">{t('landing.liveDashboard')}</p>
-                <p className="text-sm text-white/70">{t('landing.liveDashboardDesc')}</p>
+                <p className="text-lg font-semibold text-indigo-600 dark:text-cyan-100">{t('landing.liveDashboard')}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-300">{t('landing.liveDashboardDesc')}</p>
               </div>
-              <div className="grid gap-4 rounded-3xl bg-white/10 p-5">
+              <div className="grid gap-4 rounded-3xl border border-slate-200 bg-white p-5 dark:border-white/15 dark:bg-white/10 dark:backdrop-blur-md">
                 {recentActivity.map((activity) => (
-                  <motion.div key={activity.id} whileHover={{ x: 4 }} className="flex items-center justify-between rounded-2xl bg-white/10 px-4 py-3">
+                  <motion.div key={activity.id} whileHover={{ x: 4 }} className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white dark:border-white/12 dark:bg-white/10 px-4 py-3">
                     <div className="flex items-center gap-3">
-                      <span className={`flex h-11 w-11 items-center justify-center rounded-2xl text-xl ${activity.color}`}>{activity.icon}</span>
+                      <span className={`flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 dark:border-white/15 text-xl ${activity.color}`}>{activity.icon}</span>
                       <div>
-                        <p className="text-base font-semibold">{resolveText(t, activity.titleKey)}</p>
-                        <p className="text-xs text-white/70">{resolveText(t, activity.timeKey)}</p>
+                        <p className="text-base font-semibold text-slate-900 dark:text-slate-100">{resolveText(t, activity.titleKey)}</p>
+                        <p className="text-xs text-slate-600 dark:text-slate-300">{resolveText(t, activity.timeKey)}</p>
                       </div>
                     </div>
-                    <span className="text-lg">{'>'}</span>
+                    <span className="text-lg text-indigo-600 dark:text-cyan-100">{'>'}</span>
                   </motion.div>
                 ))}
               </div>
-              <p className="text-sm text-white/70">{t('landing.heroPatternNote')}</p>
+              <p className="text-sm text-slate-600 dark:text-slate-300">{t('landing.heroPatternNote')}</p>
             </div>
           </div>
         </div>
@@ -153,11 +184,14 @@ const Landing = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.45 }}
-              className={`rounded-3xl bg-gradient-to-br ${card.accent} p-6 text-white shadow-card`}
+              className="frost-card relative overflow-hidden rounded-3xl p-6"
             >
-              <div className="text-3xl">{card.icon}</div>
-              <h3 className="mt-4 text-2xl font-display font-semibold">{resolveText(t, card.titleKey)}</h3>
-              <p className="mt-3 text-sm text-white/80">{resolveText(t, card.bodyKey)}</p>
+              <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${card.accent} opacity-20 dark:opacity-60`} />
+              <div className="relative z-10">
+                <div className="text-3xl">{card.icon}</div>
+                <h3 className="mt-4 text-2xl font-display font-semibold text-slate-900 dark:text-slate-100">{resolveText(t, card.titleKey)}</h3>
+                <p className="mt-3 text-sm text-slate-700 dark:text-white/80">{resolveText(t, card.bodyKey)}</p>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -187,11 +221,18 @@ const Landing = () => {
         </div>
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {howItWorksSteps.map((step) => (
-            <Card key={step.id} className="h-full rounded-[32px] bg-white">
+            <Card key={step.id} className="flex h-full flex-col rounded-[32px] bg-white">
               <Badge tone="primary">{resolveText(t, step.badgeKey)}</Badge>
               <div className="mt-4 text-4xl">{step.icon}</div>
               <h3 className="mt-4 text-2xl font-display font-semibold text-slate-900">{resolveText(t, step.titleKey)}</h3>
-              <p className="mt-2 text-sm text-slate-600">{resolveText(t, step.bodyKey)}</p>
+              <p className="mt-2 flex-1 text-sm text-slate-600">{resolveText(t, step.bodyKey)}</p>
+              <SecondaryButton
+                type="button"
+                className="mt-5 w-full justify-center"
+                onClick={() => handleHowItWorksAction(step.actionId)}
+              >
+                {resolveText(t, step.ctaKey, t('landing.startFree'))}
+              </SecondaryButton>
             </Card>
           ))}
         </div>
@@ -263,25 +304,26 @@ const Landing = () => {
       </SectionWrapper>
 
       <SectionWrapper id="weekly-challenge" className="pt-0">
-        <div className={`rounded-[40px] bg-gradient-to-br ${weeklyChallenge.gradient} p-8 text-white shadow-glow`}>
+        <div className="frost-card relative overflow-hidden rounded-[40px] p-8 text-slate-900 dark:text-white">
+          <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${weeklyChallenge.gradient} opacity-20 dark:opacity-65`} />
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.4em] text-white/70">{t('landing.weeklyChallenge')}</p>
+            <div className="relative z-10">
+              <p className="text-sm font-semibold uppercase tracking-[0.4em] text-slate-700 dark:text-white/70">{t('landing.weeklyChallenge')}</p>
               <h2 className="mt-3 text-3xl font-display font-bold">{resolveText(t, weeklyChallenge.titleKey)}</h2>
-              <p className="mt-2 text-white/85">{resolveText(t, weeklyChallenge.descriptionKey)}</p>
-              <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold text-white/90">
-                <span className="rounded-2xl bg-white/15 px-4 py-2">{t('landing.reward')}: {resolveText(t, weeklyChallenge.rewardKey)}</span>
-                <span className="rounded-2xl bg-white/15 px-4 py-2">{resolveText(t, weeklyChallenge.deadlineKey)}</span>
+              <p className="mt-2 text-slate-700 dark:text-white/85">{resolveText(t, weeklyChallenge.descriptionKey)}</p>
+              <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold text-slate-800 dark:text-white/90">
+                <span className="rounded-2xl border border-slate-200 bg-white px-4 py-2 dark:border-white/20 dark:bg-white/15">{t('landing.reward')}: {resolveText(t, weeklyChallenge.rewardKey)}</span>
+                <span className="rounded-2xl border border-slate-200 bg-white px-4 py-2 dark:border-white/20 dark:bg-white/15">{resolveText(t, weeklyChallenge.deadlineKey)}</span>
               </div>
             </div>
-            <div className="rounded-3xl bg-white/15 p-5 text-center">
-              <p className="text-sm uppercase tracking-[0.4em] text-white/70">{t('landing.challengeCode')}</p>
+            <div className="relative z-10 rounded-3xl border border-slate-200 bg-white p-5 text-center dark:border-white/20 dark:bg-white/15 dark:backdrop-blur-md">
+              <p className="text-sm uppercase tracking-[0.4em] text-slate-700 dark:text-white/70">{t('landing.challengeCode')}</p>
               <p className="mt-2 text-4xl font-black tracking-[0.3em]">{weeklyChallenge.code}</p>
               <div className="mt-4 flex flex-col gap-3">
-                <PrimaryButton type="button" className="bg-white/90 text-primary-600" onClick={handleCopyChallenge}>
+                <PrimaryButton type="button" onClick={handleCopyChallenge}>
                   {t('landing.copyCode')}
                 </PrimaryButton>
-                <SecondaryButton as={Link} to="/dashboard" className="!border-white/40 !bg-transparent !text-white">
+                <SecondaryButton as={Link} to="/dashboard" className="!border-slate-300 !bg-white !text-slate-700 dark:!border-white/40 dark:!bg-transparent dark:!text-white">
                   {t('landing.viewChallengeDetails')}
                 </SecondaryButton>
               </div>
@@ -379,41 +421,41 @@ const Landing = () => {
       </SectionWrapper>
 
       <SectionWrapper id="footer" className="pt-0" disableMotion>
-        <footer className="rounded-t-[40px] bg-slate-900 px-6 py-10 text-white">
+        <footer className="rounded-[20px] border border-slate-200 bg-white px-6 py-10 text-slate-700 shadow-[0_10px_25px_rgba(15,23,42,0.06)] dark:rounded-t-[40px] dark:border-white/10 dark:bg-slate-900 dark:text-white">
           <div className="grid gap-8 lg:grid-cols-4">
             <div>
-              <p className="text-lg font-display font-semibold">{t('landing.brandName')}</p>
-              <p className="mt-3 text-sm text-white/70">{t('landing.footerTagline')}</p>
+              <p className="text-lg font-display font-semibold text-slate-900 dark:text-white">{t('landing.brandName')}</p>
+              <p className="mt-3 text-sm text-slate-500 dark:text-white/70">{t('landing.footerTagline')}</p>
             </div>
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">{t('landing.product')}</p>
-              <ul className="mt-3 space-y-2 text-sm text-white/80">
-                <li><Link className="hover:text-primary-200" to="/discover">{t('landing.footerLiveModes')}</Link></li>
-                <li><Link className="hover:text-primary-200" to="/dashboard">{t('landing.footerHomework')}</Link></li>
-                <li><Link className="hover:text-primary-200" to="/dashboard">{t('landing.footerReports')}</Link></li>
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-400 dark:text-white/60">{t('landing.product')}</p>
+              <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-white/80">
+                <li><Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/discover">{t('landing.footerLiveModes')}</Link></li>
+                <li><Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/dashboard">{t('landing.footerHomework')}</Link></li>
+                <li><Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/dashboard">{t('landing.footerReports')}</Link></li>
               </ul>
             </div>
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">{t('landing.community')}</p>
-              <ul className="mt-3 space-y-2 text-sm text-white/80">
-                <li><Link className="hover:text-primary-200" to="/register">{t('landing.footerTeachers')}</Link></li>
-                <li><Link className="hover:text-primary-200" to="/register">{t('landing.footerParents')}</Link></li>
-                <li><Link className="hover:text-primary-200" to="/join">{t('landing.footerStudents')}</Link></li>
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-400 dark:text-white/60">{t('landing.community')}</p>
+              <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-white/80">
+                <li><Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/register">{t('landing.footerTeachers')}</Link></li>
+                <li><Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/register">{t('landing.footerParents')}</Link></li>
+                <li><Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/join">{t('landing.footerStudents')}</Link></li>
               </ul>
             </div>
-            <div className="space-y-4 text-sm text-white/80">
+            <div className="space-y-4 text-sm text-slate-600 dark:text-white/80">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">{t('landing.social')}</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-400 dark:text-white/60">{t('landing.social')}</p>
                 <div className="mt-3 flex gap-4">
-                  <a className="hover:text-primary-200" href="https://discord.com" target="_blank" rel="noreferrer">{t('landing.discord')}</a>
-                  <a className="hover:text-primary-200" href="https://youtube.com" target="_blank" rel="noreferrer">{t('landing.youtube')}</a>
-                  <a className="hover:text-primary-200" href="https://x.com" target="_blank" rel="noreferrer">X</a>
+                  <a className="hover:text-slate-900 dark:hover:text-primary-200" href="https://discord.com" target="_blank" rel="noreferrer">{t('landing.discord')}</a>
+                  <a className="hover:text-slate-900 dark:hover:text-primary-200" href="https://youtube.com" target="_blank" rel="noreferrer">{t('landing.youtube')}</a>
+                  <a className="hover:text-slate-900 dark:hover:text-primary-200" href="https://x.com" target="_blank" rel="noreferrer">X</a>
                 </div>
               </div>
-              <p className="text-xs text-white/60">
-                <Link className="hover:text-primary-200" to="/privacy">{t('landing.privacy')}</Link> &middot; <Link className="hover:text-primary-200" to="/terms">{t('landing.terms')}</Link> &middot; <Link className="hover:text-primary-200" to="/support">{t('landing.support')}</Link>
+              <p className="text-xs text-slate-500 dark:text-white/60">
+                <Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/privacy">{t('landing.privacy')}</Link> &middot; <Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/terms">{t('landing.terms')}</Link> &middot; <Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/support">{t('landing.support')}</Link>
               </p>
-              <p className="text-xs text-white/60">&copy; {new Date().getFullYear()} Quiz Nova</p>
+              <p className="text-xs text-slate-500 dark:text-white/60">&copy; {new Date().getFullYear()} Quiz Nova</p>
             </div>
           </div>
         </footer>
@@ -423,4 +465,5 @@ const Landing = () => {
 }
 
 export default Landing
+
 

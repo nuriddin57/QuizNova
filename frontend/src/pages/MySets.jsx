@@ -98,7 +98,7 @@ const MySets = () => {
             <h3 className="text-xl font-semibold text-slate-900">My Quiz Sets</h3>
             <div className="mt-4 space-y-3">
               {!quizzes.length && (
-                <p className="rounded-2xl bg-surface-soft px-4 py-3 text-sm text-slate-600">
+                <p className="light-tile rounded-2xl px-4 py-3 text-sm text-slate-600 dark:text-slate-300">
                   {loading ? 'Loading sets...' : 'No quiz sets yet. Create your first one.'}
                 </p>
               )}

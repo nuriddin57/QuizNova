@@ -397,7 +397,7 @@ const GameLobby = () => {
       <Card className="flex flex-col gap-6 lg:flex-row">
         <div className="flex-1">
           <p className="text-sm font-semibold text-primary-400">{t('lobby.roomCode')}</p>
-          <div className="mt-2 flex flex-wrap items-center gap-3 rounded-3xl bg-surface-soft px-5 py-4 text-3xl font-black tracking-[0.3em] text-primary-500 dark:bg-slate-800">
+          <div className="light-tile mt-2 flex flex-wrap items-center gap-3 rounded-3xl px-5 py-4 text-3xl font-black tracking-[0.3em] text-primary-500">
             {roomCode || '-------'}
             <button onClick={copyCode} disabled={!roomCode} className="rounded-2xl bg-white px-3 py-2 text-sm font-semibold text-primary-500 disabled:opacity-50 dark:bg-slate-900 dark:text-primary-300">
               <HiLink />
@@ -426,23 +426,23 @@ const GameLobby = () => {
           </div>
           <ul className="mt-6 space-y-3">
             {players.length ? players.map((player) => (
-              <li key={player.id} className="flex items-center justify-between rounded-2xl bg-surface-soft px-4 py-3 dark:bg-slate-800">
+              <li key={player.id} className="light-tile flex items-center justify-between rounded-2xl px-4 py-3">
                 <div>
                   <p className="text-base font-semibold text-slate-800 dark:text-slate-100">{player.name}</p>
                   <p className="text-xs text-slate-400">ID: {player.id}</p>
                 </div>
                 <div className="text-sm font-semibold text-primary-500">{player.score ?? 0} pts</div>
               </li>
-            )) : <li className="rounded-2xl bg-surface-soft px-4 py-3 text-sm text-slate-500 dark:bg-slate-800 dark:text-slate-300">{t('lobby.noPlayers')}</li>}
+            )) : <li className="light-tile rounded-2xl px-4 py-3 text-sm text-slate-500 dark:text-slate-300">{t('lobby.noPlayers')}</li>}
           </ul>
         </Card>
         <Card>
           <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">{t('lobby.gameState')}</h3>
           <div className="mt-4 space-y-4 text-sm text-slate-600 dark:text-slate-300">
-            <div className="rounded-2xl bg-surface-soft px-4 py-3 dark:bg-slate-800"><p className="font-semibold text-slate-800 dark:text-slate-100">{t('lobby.mode')}</p><p>{room?.mode || hostForm.mode || t('lobby.classic')}</p></div>
-            <div className="rounded-2xl bg-surface-soft px-4 py-3 dark:bg-slate-800"><p className="font-semibold text-slate-800 dark:text-slate-100">{t('lobby.phase')}</p><p>{questionState.phase}</p></div>
-            <div className="rounded-2xl bg-surface-soft px-4 py-3 dark:bg-slate-800"><p className="font-semibold text-slate-800 dark:text-slate-100">{t('lobby.progress')}</p><p>{questionState.current_index >= 0 ? questionState.current_index + 1 : 0} / {questionState.total_questions || 0}</p></div>
-            <div className="rounded-2xl bg-surface-soft px-4 py-3 dark:bg-slate-800"><p className="font-semibold text-slate-800 dark:text-slate-100">{t('lobby.role')}</p><p>{room?.role || t('lobby.none')}</p></div>
+            <div className="light-tile rounded-2xl px-4 py-3"><p className="font-semibold text-slate-800 dark:text-slate-100">{t('lobby.mode')}</p><p>{room?.mode || hostForm.mode || t('lobby.classic')}</p></div>
+            <div className="light-tile rounded-2xl px-4 py-3"><p className="font-semibold text-slate-800 dark:text-slate-100">{t('lobby.phase')}</p><p>{questionState.phase}</p></div>
+            <div className="light-tile rounded-2xl px-4 py-3"><p className="font-semibold text-slate-800 dark:text-slate-100">{t('lobby.progress')}</p><p>{questionState.current_index >= 0 ? questionState.current_index + 1 : 0} / {questionState.total_questions || 0}</p></div>
+            <div className="light-tile rounded-2xl px-4 py-3"><p className="font-semibold text-slate-800 dark:text-slate-100">{t('lobby.role')}</p><p>{room?.role || t('lobby.none')}</p></div>
           </div>
         </Card>
       </div>

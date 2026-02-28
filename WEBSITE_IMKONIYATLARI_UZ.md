@@ -216,3 +216,8 @@ Hozirgi holatda loyiha MVP darajasida quyidagilarni amalda bajara oladi:
 - API online/offline health status ko'rsatish
 
 Keyingi bosqichda platformani to'liq Blooket-like v1 darajaga olib chiqish uchun economy, market, inventory, reports va qo'shimcha game mode larni qo'shish mumkin.
+
+<!-- ================================================ -->
+
+
+Eslatma: student host qila olmaydi, lekin join + answer + leaderboard to‘liq ishlaydi.

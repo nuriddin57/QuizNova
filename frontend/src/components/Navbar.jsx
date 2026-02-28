@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiBars3BottomRight, HiXMark } from 'react-icons/hi2'
 import { useTranslation } from 'react-i18next'
@@ -8,22 +8,28 @@ import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
 import LocaleThemeControl from './LocaleThemeControl'
 import { getApiBaseUrl, getHealth } from '../api/axios'
-import { isAuthenticated } from '../utils/auth'
+import { clearTokens, isAuthenticated } from '../utils/auth'
 import { toastHelpers } from '../utils/toastHelpers'
+import { useRoomStore } from '../store/roomStore'
 
 const Navbar = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const clearRoom = useRoomStore((state) => state.clearRoom)
   const [open, setOpen] = useState(false)
   const [apiStatus, setApiStatus] = useState({ label: t('nav.apiChecking'), tone: 'pending' })
   const lastToneRef = useRef('pending')
   const authed = isAuthenticated()
 
-  const links = useMemo(() => ([
-    { label: t('nav.discover'), path: '/discover' },
-    { label: t('nav.dashboard'), path: '/dashboard' },
-    { label: t('nav.lobby'), path: '/lobby' },
-    { label: t('nav.play'), path: '/play' },
-  ]), [t])
+  const links = useMemo(
+    () => [
+      { label: t('nav.discover'), path: '/discover' },
+      { label: t('nav.dashboard'), path: '/dashboard' },
+      { label: t('nav.lobby'), path: '/lobby' },
+      { label: t('nav.play'), path: '/play' },
+    ],
+    [t]
+  )
 
   useEffect(() => {
     setApiStatus((prev) => ({ ...prev, label: prev.tone === 'pending' ? t('nav.apiChecking') : prev.label }))
@@ -41,7 +47,7 @@ const Navbar = () => {
           tone: nextTone,
         })
         lastToneRef.current = nextTone
-      } catch (error) {
+      } catch {
         if (!mounted) return
         setApiStatus({ label: t('nav.apiOffline'), tone: 'offline' })
         if (lastToneRef.current !== 'offline') {
@@ -61,31 +67,37 @@ const Navbar = () => {
 
   const statusStyles =
     apiStatus.tone === 'online'
-      ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+      ? 'border border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-400/45 dark:bg-emerald-400/18 dark:text-emerald-100'
       : apiStatus.tone === 'offline'
-      ? 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300'
-      : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
+      ? 'border border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-400/50 dark:bg-rose-500/16 dark:text-rose-100'
+      : 'border border-slate-200 bg-slate-50 text-slate-600 dark:border-white/25 dark:bg-white/10 dark:text-slate-300'
+
+  const handleLogout = () => {
+    clearTokens()
+    clearRoom()
+    setOpen(false)
+    toastHelpers.success(t('nav.loggedOut'))
+    navigate('/login', { replace: true })
+  }
 
   return (
     <header className="fixed inset-x-0 top-0 z-40">
-      <div className="mx-auto mt-4 flex w-[95%] max-w-6xl items-center rounded-3xl border border-white/70 bg-white/80 px-4 py-3 shadow-soft backdrop-blur-xl dark:border-slate-700/70 dark:bg-slate-900/80">
-        <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold text-primary-600">
-          <span className="rounded-2xl bg-gradient-to-br from-primary-500 to-accent-blue p-2 text-white shadow-glow">
-            *
-          </span>
+      <div className="mx-auto mt-4 flex w-[95%] max-w-[1200px] items-center rounded-2xl border border-black/5 bg-white px-4 py-3 shadow-[0_10px_30px_rgba(15,23,42,0.08)] dark:frost-panel dark:shadow-soft">
+        <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold text-slate-900 dark:text-slate-100">
+          <span className="rounded-xl bg-gradient-to-br from-indigo-500 to-blue-500 p-2 text-white">*</span>
           {t('nav.brand')}
         </Link>
 
-        <nav className="ml-8 hidden flex-1 items-center gap-2 lg:flex">
+        <nav className="ml-8 hidden flex-1 items-center gap-3 lg:flex">
           {links.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `rounded-2xl px-4 py-2 text-sm font-semibold transition ${
+                `relative rounded-xl px-3 py-2 text-sm font-semibold transition ${
                   isActive
-                    ? 'bg-primary-50 text-primary-600 shadow-soft dark:bg-slate-800 dark:text-primary-300'
-                    : 'text-slate-500 hover:text-primary-500 dark:text-slate-300 dark:hover:text-primary-300'
+                    ? 'text-slate-900 after:absolute after:left-2 after:right-2 after:-bottom-0.5 after:h-[2px] after:rounded-full after:bg-gradient-to-r after:from-indigo-500 after:to-blue-500 dark:text-cyan-100'
+                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-cyan-100'
                 }`
               }
             >
@@ -96,8 +108,12 @@ const Navbar = () => {
 
         <div className="ml-auto hidden items-center gap-3 lg:flex">
           <LocaleThemeControl />
-          <span className={`rounded-2xl px-3 py-1 text-xs font-semibold ${statusStyles}`}>{apiStatus.label}</span>
-          {!authed && (
+          <span className={`rounded-xl px-3 py-1 text-xs font-semibold ${statusStyles}`}>{apiStatus.label}</span>
+          {authed ? (
+            <SecondaryButton type="button" onClick={handleLogout}>
+              {t('nav.logout')}
+            </SecondaryButton>
+          ) : (
             <>
               <SecondaryButton as={Link} to="/login">{t('nav.login')}</SecondaryButton>
               <PrimaryButton as={Link} to="/register">{t('nav.startPlaying')}</PrimaryButton>
@@ -106,7 +122,7 @@ const Navbar = () => {
         </div>
 
         <button
-          className="ml-auto rounded-2xl border border-primary-100 bg-white/70 p-2.5 text-primary-500 dark:border-slate-700 dark:bg-slate-800/70 lg:hidden"
+          className="btn-glass ml-auto rounded-xl p-2.5 text-slate-700 dark:text-cyan-100 lg:hidden"
           onClick={() => setOpen((prev) => !prev)}
           aria-label={open ? t('nav.closeMenu') : t('nav.openMenu')}
         >
@@ -120,7 +136,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="mx-auto mt-3 w-[92%] max-w-4xl rounded-3xl border border-white/70 bg-white/90 p-5 shadow-card backdrop-blur-xl lg:hidden dark:border-slate-700/70 dark:bg-slate-900/90"
+            className="frost-card mx-auto mt-3 w-[92%] max-w-[1200px] rounded-2xl p-5 lg:hidden"
           >
             <div className="mb-4">
               <LocaleThemeControl compact />
@@ -130,15 +146,21 @@ const Navbar = () => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className="rounded-2xl px-4 py-3 text-base font-semibold text-slate-600 transition hover:bg-primary-50 dark:text-slate-200 dark:hover:bg-slate-800"
+                  className="rounded-xl border border-slate-200 px-4 py-3 text-base font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 dark:border-white/10 dark:text-slate-200 dark:hover:border-cyan-300/45 dark:hover:bg-cyan-300/10"
                   onClick={() => setOpen(false)}
                 >
                   {item.label}
                 </Link>
               ))}
-              <span className={`rounded-2xl px-4 py-2 text-sm font-semibold ${statusStyles}`}>{apiStatus.label}</span>
+              <span className={`rounded-xl px-4 py-2 text-sm font-semibold ${statusStyles}`}>{apiStatus.label}</span>
             </div>
-            {!authed && (
+            {authed ? (
+              <div className="mt-4 flex flex-col gap-3">
+                <SecondaryButton type="button" className="w-full" onClick={handleLogout}>
+                  {t('nav.logout')}
+                </SecondaryButton>
+              </div>
+            ) : (
               <div className="mt-4 flex flex-col gap-3">
                 <SecondaryButton as={Link} to="/login" className="w-full" onClick={() => setOpen(false)}>
                   {t('nav.login')}

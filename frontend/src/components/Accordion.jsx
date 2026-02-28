@@ -4,19 +4,14 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '../utils/cn'
 
 const AccordionItem = ({ item, isOpen, onToggle }) => (
-  <div className="rounded-3xl bg-white/80 p-5 shadow-soft">
-    <button
-      type="button"
-      onClick={onToggle}
-      className="flex w-full items-center justify-between gap-4 text-left"
-    >
-      <div>
-        <p className="text-base font-semibold text-slate-900">{item.question}</p>
-      </div>
+  <div className="frost-card rounded-[20px] p-5">
+    <button type="button" onClick={onToggle} className="flex w-full items-center justify-between gap-4 text-left">
+      <p className="text-base font-semibold text-slate-900 dark:text-slate-100">{item.question}</p>
       <motion.span animate={{ rotate: isOpen ? 180 : 0 }}>
-        <HiChevronDown className="text-lg text-primary-400" />
+        <HiChevronDown className="text-lg text-slate-500 dark:text-cyan-200" />
       </motion.span>
     </button>
+
     <AnimatePresence initial={false}>
       {isOpen && (
         <motion.p
@@ -24,7 +19,7 @@ const AccordionItem = ({ item, isOpen, onToggle }) => (
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
           transition={{ duration: 0.2 }}
-          className="mt-3 text-sm text-slate-600"
+          className="mt-3 text-sm text-slate-600 dark:text-slate-300"
         >
           {item.answer}
         </motion.p>

@@ -264,13 +264,14 @@ const Discover = () => {
                       type="button"
                       onClick={() => handleCollectionClick(collection)}
                       className={cn(
-                        `w-full rounded-[28px] bg-gradient-to-br ${collection.gradient} p-5 text-left text-white shadow-card transition`,
+                        'relative w-full overflow-hidden rounded-[20px] border border-black/5 bg-white p-5 text-left shadow-[0_10px_30px_rgba(0,0,0,0.06)] transition dark:border-white/15 dark:bg-[#0c142a] dark:shadow-card',
                         activeCollectionId === collection.id ? 'ring-4 ring-primary-300/70' : 'hover:-translate-y-0.5'
                       )}
                       >
-                        <p className="text-sm uppercase tracking-[0.3em] text-white/70">{t('discoverPage.collection')}</p>
-                      <p className="mt-2 text-xl font-display font-semibold">{resolveText(t, collection.titleKey, collection.title)}</p>
-                      <p className="text-sm text-white/80">{collection.sets} {t('discoverPage.setsSuffix')}</p>
+                      <div className={cn('pointer-events-none absolute inset-0 bg-gradient-to-br opacity-18 dark:opacity-60', collection.gradient)} />
+                      <p className="relative z-10 text-sm uppercase tracking-[0.3em] text-slate-600 dark:text-white/70">{t('discoverPage.collection')}</p>
+                      <p className="relative z-10 mt-2 text-xl font-display font-semibold text-slate-900 dark:text-slate-100">{resolveText(t, collection.titleKey, collection.title)}</p>
+                      <p className="relative z-10 text-sm text-slate-600 dark:text-white/80">{collection.sets} {t('discoverPage.setsSuffix')}</p>
                     </button>
                   </div>
                 ))}

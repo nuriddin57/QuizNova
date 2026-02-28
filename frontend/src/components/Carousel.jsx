@@ -18,35 +18,23 @@ const Carousel = ({ title, description, items = [], renderItem, className = '', 
       {(title || description) && (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            {title && <h2 className="text-3xl font-display font-semibold text-slate-900">{title}</h2>}
-            {description && <p className="text-sm text-slate-500">{description}</p>}
+            {title && <h2 className="text-3xl font-display font-semibold text-slate-900 dark:text-slate-100">{title}</h2>}
+            {description && <p className="text-sm text-slate-600 dark:text-slate-300">{description}</p>}
           </div>
           <div className="hidden gap-3 sm:flex">
-            <motion.button
-              type="button"
-              whileTap={{ scale: 0.92 }}
-              className="rounded-2xl bg-white/80 p-3 text-lg text-primary-500 shadow-soft"
-              onClick={() => scroll('left')}
-            >
+            <motion.button type="button" whileTap={{ scale: 0.94 }} className="btn-glass rounded-xl p-3 text-lg" onClick={() => scroll('left')}>
               <HiChevronLeft />
             </motion.button>
-            <motion.button
-              type="button"
-              whileTap={{ scale: 0.92 }}
-              className="rounded-2xl bg-white/80 p-3 text-lg text-primary-500 shadow-soft"
-              onClick={() => scroll('right')}
-            >
+            <motion.button type="button" whileTap={{ scale: 0.94 }} className="btn-glass rounded-xl p-3 text-lg" onClick={() => scroll('right')}>
               <HiChevronRight />
             </motion.button>
           </div>
         </div>
       )}
-      <div
-        ref={trackRef}
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-primary-200"
-      >
+
+      <div ref={trackRef} className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-300 dark:scrollbar-thumb-cyan-400/60">
         {items.map((item) => (
-          <div key={item.id} className={cn('snap-start', itemWidth)}>
+          <div key={item.id} className={cn('snap-start h-full', itemWidth)}>
             {renderItem?.(item)}
           </div>
         ))}
@@ -56,3 +44,4 @@ const Carousel = ({ title, description, items = [], renderItem, className = '', 
 }
 
 export default Carousel
+

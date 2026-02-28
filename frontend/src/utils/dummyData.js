@@ -59,9 +59,33 @@ export const socialProofStats = [
 ]
 
 export const howItWorksSteps = [
-  { id: 'hw-1', badgeKey: 'data.landing.howItWorks.step1.badge', icon: '🧩', titleKey: 'data.landing.howItWorks.step1.title', bodyKey: 'data.landing.howItWorks.step1.body' },
-  { id: 'hw-2', badgeKey: 'data.landing.howItWorks.step2.badge', icon: '🎮', titleKey: 'data.landing.howItWorks.step2.title', bodyKey: 'data.landing.howItWorks.step2.body' },
-  { id: 'hw-3', badgeKey: 'data.landing.howItWorks.step3.badge', icon: '📈', titleKey: 'data.landing.howItWorks.step3.title', bodyKey: 'data.landing.howItWorks.step3.body' },
+  {
+    id: 'hw-1',
+    actionId: 'prepare_quiz',
+    badgeKey: 'data.landing.howItWorks.step1.badge',
+    icon: '🧩',
+    titleKey: 'data.landing.howItWorks.step1.title',
+    bodyKey: 'data.landing.howItWorks.step1.body',
+    ctaKey: 'data.landing.howItWorks.step1.cta',
+  },
+  {
+    id: 'hw-2',
+    actionId: 'start_session',
+    badgeKey: 'data.landing.howItWorks.step2.badge',
+    icon: '🎮',
+    titleKey: 'data.landing.howItWorks.step2.title',
+    bodyKey: 'data.landing.howItWorks.step2.body',
+    ctaKey: 'data.landing.howItWorks.step2.cta',
+  },
+  {
+    id: 'hw-3',
+    actionId: 'view_results',
+    badgeKey: 'data.landing.howItWorks.step3.badge',
+    icon: '📈',
+    titleKey: 'data.landing.howItWorks.step3.title',
+    bodyKey: 'data.landing.howItWorks.step3.body',
+    ctaKey: 'data.landing.howItWorks.step3.cta',
+  },
 ]
 
 export const gameModes = [
@@ -304,4 +328,3 @@ export const announcementsFeed = [
   { id: 'ann-2', titleKey: 'data.dashboard.announcements.a2.title', detailKey: 'data.dashboard.announcements.a2.detail', timeKey: 'data.dashboard.announcements.a2.time' },
   { id: 'ann-3', titleKey: 'data.dashboard.announcements.a3.title', detailKey: 'data.dashboard.announcements.a3.detail', timeKey: 'data.dashboard.announcements.a3.time' },
 ]
-

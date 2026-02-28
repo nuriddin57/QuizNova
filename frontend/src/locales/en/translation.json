@@ -21,12 +21,14 @@
     "lobby": "Game Lobby",
     "play": "Play",
     "login": "Log In",
+    "logout": "Log Out",
     "startPlaying": "Start Playing",
     "apiChecking": "Checking API...",
     "apiOnline": "API online",
     "apiIssue": "API issue",
     "apiOffline": "API offline",
     "apiOfflineHelp": "Cannot reach backend API (check http://127.0.0.1:8001)",
+    "loggedOut": "Logged out successfully",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
   },
@@ -206,7 +208,12 @@
     "footerReports": "Reports",
     "footerTeachers": "Teachers",
     "footerParents": "Parents",
-    "footerStudents": "Students"
+    "footerStudents": "Students",
+    "discord": "Discord",
+    "youtube": "YouTube",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "support": "Support"
   },
   "discoverPage": {
     "title": "Discover Sets",
@@ -281,7 +288,10 @@
     "hostMode": "Host mode",
     "saveSet": "Save set",
     "savedToLibrary": "{{title}} saved to your library",
-    "hostingShareCode": "Hosting {{title}}... share the lobby code!"
+    "hostingShareCode": "Hosting {{title}}... share the lobby code!",
+    "openSet": "Open set",
+    "defaultSubject": "General",
+    "defaultCreator": "Community"
   },
   "quizEditor": {
     "title": "Title",
@@ -303,5 +313,308 @@
     "questionRequired": "Question text is required",
     "twoChoicesRequired": "At least two choices required",
     "selectCorrectChoice": "Select one correct choice"
+  },
+  "data": {
+    "creators": {
+      "codeClub": "Code Club",
+      "community": "Community",
+      "counselTeam": "Counsel Team",
+      "labCrew": "Lab Crew",
+      "languageLab": "Language Lab",
+      "mrKhan": "Mr Khan",
+      "msAri": "Ms Ari",
+      "quizNova": "Quiz Nova"
+    },
+    "dashboard": {
+      "announcements": {
+        "a1": {
+          "detail": "A1 detail",
+          "time": "A1 time",
+          "title": "A1 title"
+        },
+        "a2": {
+          "detail": "A2 detail",
+          "time": "A2 time",
+          "title": "A2 title"
+        },
+        "a3": {
+          "detail": "A3 detail",
+          "time": "A3 time",
+          "title": "A3 title"
+        }
+      },
+      "badges": {
+        "accuracy": {
+          "desc": "Accuracy desc",
+          "title": "Accuracy title"
+        },
+        "builder": {
+          "desc": "Builder desc",
+          "title": "Builder title"
+        },
+        "host": {
+          "desc": "Host desc",
+          "title": "Host title"
+        },
+        "streak": {
+          "desc": "Streak desc",
+          "title": "Streak title"
+        }
+      },
+      "highlights": {
+        "activeStudents": {
+          "badge": "Active Students badge",
+          "label": "Active Students label"
+        },
+        "avgMastery": {
+          "badge": "Avg Mastery badge",
+          "label": "Avg Mastery label"
+        },
+        "homework": {
+          "badge": "Homework badge",
+          "label": "Homework label"
+        },
+        "liveSessions": {
+          "badge": "Live Sessions badge",
+          "label": "Live Sessions label"
+        }
+      },
+      "modes": {
+        "classic": "Classic",
+        "factoryLite": "Factory Lite",
+        "rocketRush": "Rocket Rush"
+      },
+      "quick": {
+        "assign": {
+          "desc": "Assign desc",
+          "label": "Assign label"
+        },
+        "create": {
+          "desc": "Create desc",
+          "label": "Create label"
+        },
+        "host": {
+          "desc": "Host desc",
+          "label": "Host label"
+        },
+        "join": {
+          "desc": "Join desc",
+          "label": "Join label"
+        }
+      },
+      "timeline": {
+        "t1": {
+          "detail": "T1 detail",
+          "time": "T1 time",
+          "title": "T1 title"
+        },
+        "t2": {
+          "detail": "T2 detail",
+          "time": "T2 time",
+          "title": "T2 title"
+        },
+        "t3": {
+          "detail": "T3 detail",
+          "time": "T3 time",
+          "title": "T3 title"
+        },
+        "t4": {
+          "detail": "T4 detail",
+          "time": "T4 time",
+          "title": "T4 title"
+        }
+      }
+    },
+    "discover": {
+      "categories": {
+        "extras": "Extras",
+        "humanities": "Humanities",
+        "stem": "Stem"
+      },
+      "collections": {
+        "earthWeek": "Earth Week",
+        "selMoments": "Sel Moments",
+        "stemShowdown": "Stem Showdown"
+      },
+      "items": {
+        "artMusic": "Art Music",
+        "civics": "Civics",
+        "ela": "Ela",
+        "engineering": "Engineering",
+        "geography": "Geography",
+        "languages": "Languages",
+        "robotics": "Robotics"
+      }
+    },
+    "filters": {
+      "all": "All"
+    },
+    "landing": {
+      "faq": {
+        "a1": "Faq A1",
+        "a2": "Faq A2",
+        "a3": "Faq A3",
+        "q1": "Faq Q1",
+        "q2": "Faq Q2",
+        "q3": "Faq Q3"
+      },
+      "featureTiles": {
+        "accuracy": {
+          "body": "Track mastery and improve weak topics quickly.",
+          "title": "Accuracy training"
+        },
+        "live": {
+          "body": "Launch live classroom battles with instant feedback.",
+          "title": "Live game sessions"
+        },
+        "rewards": {
+          "body": "Keep learners engaged with badges and rewards.",
+          "title": "Rewards and streaks"
+        }
+      },
+      "gameModes": {
+        "duration": {
+          "10min": "10 min",
+          "12min": "12 min",
+          "15min": "15 min",
+          "selfPaced": "Self Paced"
+        },
+        "goldQuest": {
+          "desc": "Gold Quest desc",
+          "title": "Gold Quest title"
+        },
+        "homework": {
+          "desc": "Homework desc",
+          "title": "Homework title"
+        },
+        "rocketRush": {
+          "desc": "Rocket Rush desc",
+          "title": "Rocket Rush title"
+        },
+        "tags": {
+          "async": "Async",
+          "classic": "Classic",
+          "fast": "Fast",
+          "strategy": "Strategy"
+        },
+        "towerDefense": {
+          "desc": "Tower Defense desc",
+          "title": "Tower Defense title"
+        }
+      },
+      "heroStats": {
+        "answers": "Answers",
+        "players": "Players",
+        "rating": "Rating"
+      },
+      "highlights": {
+        "parent": {
+          "b1": "Parent B1",
+          "b2": "Parent B2",
+          "b3": "Parent B3",
+          "cta": "Parent cta",
+          "title": "Parent title"
+        },
+        "teacher": {
+          "b1": "Teacher B1",
+          "b2": "Teacher B2",
+          "b3": "Teacher B3",
+          "cta": "Teacher cta",
+          "title": "Teacher title"
+        }
+      },
+      "howItWorks": {
+        "step1": {
+          "badge": "Step 1",
+          "body": "Choose a ready quiz or build your own set of questions.",
+          "title": "Prepare your quiz",
+          "cta": "Prepare quiz"
+        },
+        "step2": {
+          "badge": "Step 2",
+          "body": "Create a room, share the code, and start a live session.",
+          "title": "Start the session",
+          "cta": "Start session"
+        },
+        "step3": {
+          "badge": "Step 3",
+          "body": "Review leaderboard and performance data right after the game.",
+          "title": "Get results",
+          "cta": "View results"
+        }
+      },
+      "newsletter": {
+        "perk1": "Perk1",
+        "perk2": "Perk2",
+        "perk3": "Perk3"
+      },
+      "recentActivity": {
+        "assigned": "Assigned",
+        "assignedTime": "Assigned Time",
+        "hosted": "Hosted",
+        "hostedTime": "Hosted Time",
+        "summary": "Summary",
+        "summaryTime": "Summary Time"
+      },
+      "socialProof": {
+        "accuracyDetail": "Average score improvement",
+        "accuracyLabel": "Mastery gain",
+        "classesDetail": "Teachers running weekly sessions",
+        "classesLabel": "Active classes",
+        "savedDetail": "Ready-to-host quiz collections",
+        "savedLabel": "Saved sets",
+        "weeklyDetail": "Submitted in live and homework modes",
+        "weeklyLabel": "Weekly answers"
+      },
+      "testimonials": {
+        "t1": {
+          "name": "T1 name",
+          "quote": "T1 quote",
+          "role": "T1 role",
+          "school": "T1 school"
+        },
+        "t2": {
+          "name": "T2 name",
+          "quote": "T2 quote",
+          "role": "T2 role",
+          "school": "T2 school"
+        },
+        "t3": {
+          "name": "T3 name",
+          "quote": "T3 quote",
+          "role": "T3 role",
+          "school": "T3 school"
+        }
+      },
+      "weeklyChallenge": {
+        "deadline": "Deadline",
+        "desc": "Weekly Challenge desc",
+        "reward": "Reward",
+        "title": "Weekly Challenge title"
+      }
+    },
+    "sets": {
+      "artRhythm": "Art Rhythm",
+      "codingLoops": "Coding Loops",
+      "earthSystems": "Earth Systems",
+      "fractions": "Fractions",
+      "languageBoost": "Language Boost",
+      "mathBasics": "Math Basics",
+      "rocketRushPack": "Rocket Rush Pack",
+      "scienceBasics": "Science Basics",
+      "selMindful": "Sel Mindful",
+      "spaceExplorers": "Space Explorers",
+      "triviaMix": "Trivia Mix",
+      "worldHistory": "World History"
+    },
+    "subjects": {
+      "art": "Art",
+      "coding": "Coding",
+      "history": "History",
+      "math": "Math",
+      "science": "Science",
+      "sel": "Sel",
+      "trivia": "Trivia"
+    }
   }
 }

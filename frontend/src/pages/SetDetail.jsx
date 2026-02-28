@@ -117,9 +117,9 @@ const SetDetail = () => {
               </p>
             ) : null}
             <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
-              <span className="rounded-2xl bg-surface-soft px-3 py-2 text-slate-700 dark:bg-slate-800 dark:text-slate-200">{questionCount} questions</span>
+              <span className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.06)] dark:border-white/12 dark:bg-white/10 dark:text-slate-200">{questionCount} questions</span>
               {quiz.owner_username && (
-                <span className="rounded-2xl bg-surface-soft px-3 py-2 text-slate-700 dark:bg-slate-800 dark:text-slate-200">by {quiz.owner_username}</span>
+                <span className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.06)] dark:border-white/12 dark:bg-white/10 dark:text-slate-200">by {quiz.owner_username}</span>
               )}
             </div>
           </div>
@@ -139,7 +139,7 @@ const SetDetail = () => {
         <div className="mt-4 space-y-4">
           {(quiz.questions || []).length ? (
             quiz.questions.map((q, index) => (
-              <div key={q.id || index} className="rounded-2xl bg-surface-soft px-4 py-3 dark:bg-slate-800">
+              <div key={q.id || index} className="light-tile rounded-2xl px-4 py-3">
                 <p className="font-semibold text-slate-900 dark:text-slate-100">{index + 1}. {q.text}</p>
                 <div className="mt-2 grid gap-2 sm:grid-cols-2">
                   {(q.choices || []).map((c) => (

@@ -15,6 +15,7 @@ const Login = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
+  const redirectTo = typeof location.state?.from === 'string' ? location.state.from : '/dashboard'
   const [form, setForm] = useState({ username: '', password: '' })
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({})
@@ -51,7 +52,7 @@ const Login = () => {
       const { data } = await postLogin({ username: form.username, password: form.password })
       setTokens({ access: data?.access, refresh: data?.refresh })
       toast.success(t('auth.welcomeBack'))
-      navigate('/dashboard')
+      navigate(redirectTo, { replace: true })
     } catch (error) {
       // handled by interceptor
     } finally {
@@ -96,7 +97,7 @@ const Login = () => {
         <p className="text-sm font-semibold uppercase tracking-[0.4em] text-primary-400">{t('auth.loginTag')}</p>
         <h2 className="mt-3 text-4xl font-display font-bold text-slate-900 dark:text-slate-100">{t('auth.loginTitle')}</h2>
         <p className="mt-4 text-base text-slate-500 dark:text-slate-300">{t('auth.loginDesc')}</p>
-        <div className="mt-8 rounded-3xl bg-surface-soft p-5 text-sm text-slate-600 dark:bg-slate-800 dark:text-slate-200">
+        <div className="light-tile mt-8 rounded-3xl p-5 text-sm text-slate-600 dark:text-slate-200">
           {t('auth.needAccount')} {' '}
           <Link to="/register" className="font-semibold text-primary-500">
             {t('auth.createOne')}
@@ -133,7 +134,7 @@ const Login = () => {
           </button>
         </div>
         {showReset && (
-          <div className="mt-5 rounded-2xl border border-primary-100 bg-surface-soft p-4 dark:border-slate-700 dark:bg-slate-800">
+          <div className="light-tile mt-5 rounded-2xl p-4">
             <p className="mb-3 text-sm font-semibold text-slate-700 dark:text-slate-200">{t('auth.resetTitle')}</p>
             <div className="space-y-3">
               <InputField

@@ -62,7 +62,7 @@ const Register = () => {
           <li>- {t('auth.feature3')}</li>
         </ul>
       </div>
-      <form onSubmit={handleSubmit} className="rounded-3xl bg-surface-soft p-8 shadow-soft dark:bg-slate-800">
+      <form onSubmit={handleSubmit} className="light-tile rounded-3xl p-8">
         <div className="space-y-4">
           <InputField label={t('auth.username')} icon={HiUserCircle} value={form.username} onChange={updateField('username')} error={errors.username} placeholder={t('auth.usernamePlaceholder')} />
           <InputField label={t('auth.email')} type="email" icon={HiEnvelope} value={form.email} onChange={updateField('email')} error={errors.email} placeholder={t('auth.emailPlaceholder')} />

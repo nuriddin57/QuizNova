@@ -34,25 +34,19 @@ const SetCard = ({
   const detailPath = detailTo || (id ? `/sets/${id}` : null)
 
   return (
-    <motion.div
-      whileHover={{ y: -6 }}
-      transition={{ duration: 0.22 }}
-      className="overflow-hidden rounded-[32px] bg-white shadow-card dark:bg-slate-900"
-    >
-      <div className={cn('h-32 w-full bg-gradient-to-br', gradient)} />
+    <motion.article whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="frost-card overflow-hidden rounded-[20px]">
+      <div className={cn('h-28 w-full bg-gradient-to-r', gradient)} />
       <div className="space-y-4 px-6 pb-6 pt-5">
         <div className="flex items-center justify-between">
           <Badge tone="primary">{badgeLabel}</Badge>
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">
             {rating ?? 4.5} {'\u2605'}
           </span>
         </div>
+
         <div>
           {detailPath ? (
-            <Link
-              to={detailPath}
-              className="text-2xl font-display font-semibold text-slate-900 transition hover:text-primary-500 dark:text-slate-100 dark:hover:text-primary-300"
-            >
+            <Link to={detailPath} className="text-2xl font-display font-semibold text-slate-900 transition hover:text-indigo-600 dark:text-slate-100 dark:hover:text-cyan-100">
               {titleLabel}
             </Link>
           ) : (
@@ -62,29 +56,31 @@ const SetCard = ({
             {t('setCard.by')} {creatorLabel}
           </p>
         </div>
+
         <div className="flex flex-wrap gap-4 text-sm font-semibold text-slate-600 dark:text-slate-300">
           <span>{questionTotal} {t('setCard.questionsShort')}</span>
           <span>{plays || 0} {t('setCard.plays')}</span>
         </div>
+
         <div className="flex flex-wrap gap-3">
           {detailPath ? (
-            <SecondaryButton as={Link} to={detailPath} type="button" className="!px-4 !py-2 !text-sm" onClick={onOpen}>
+            <SecondaryButton as={Link} to={detailPath} type="button" className="!px-4 !py-2" onClick={onOpen}>
               {t('setCard.openSet')}
             </SecondaryButton>
           ) : null}
-          <button
-            type="button"
-            onClick={onHost}
-            className="rounded-2xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white shadow-glow transition hover:bg-primary-400"
-          >
-            {t('setCard.hostMode')}
+
+          <button type="button" onClick={onHost} className="neon-gradient-border inline-flex rounded-2xl p-0">
+            <span className="inner inline-flex items-center justify-center rounded-2xl px-4 py-2 text-sm font-semibold">
+              {t('setCard.hostMode')}
+            </span>
           </button>
-          <SecondaryButton type="button" className="!px-4 !py-2 !text-sm" onClick={onSave}>
+
+          <SecondaryButton type="button" className="!px-4 !py-2" onClick={onSave}>
             {t('setCard.saveSet')}
           </SecondaryButton>
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   )
 }
 

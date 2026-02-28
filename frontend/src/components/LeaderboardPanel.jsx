@@ -21,13 +21,13 @@ export default function LeaderboardPanel({ players = [], leaderboard = [] }) {
   const remaining = Math.max(0, sorted.length - topRows.length)
 
   return (
-    <div className="rounded-[32px] bg-white p-6 shadow-card dark:bg-slate-900">
+    <div className="frost-card rounded-[20px] p-6">
       <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Yetakchilar jadvali</h3>
 
       {!sorted.length ? (
         <p className="mt-4 text-sm text-slate-500 dark:text-slate-300">Hali o'yinchi yo'q</p>
       ) : (
-        <div className="mt-4 overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700">
+        <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700">
           <div className="grid grid-cols-[56px,1fr,96px] bg-slate-50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:bg-slate-800 dark:text-slate-300">
             <span>Rank</span>
             <span>Nick</span>
@@ -38,16 +38,14 @@ export default function LeaderboardPanel({ players = [], leaderboard = [] }) {
               <div key={keyOf(row)} className="grid grid-cols-[56px,1fr,96px] px-4 py-3 text-sm">
                 <span className="font-semibold text-slate-500 dark:text-slate-300">#{index + 1}</span>
                 <span className="font-semibold text-slate-900 dark:text-slate-100">{row.name}</span>
-                <span className="text-right font-semibold text-primary-500">{row.score}</span>
+                <span className="text-right font-semibold text-indigo-600 dark:text-primary-400">{row.score}</span>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {remaining > 0 && (
-        <p className="mt-3 text-xs font-semibold text-slate-500 dark:text-slate-300">va yana {remaining} ta</p>
-      )}
+      {remaining > 0 && <p className="mt-3 text-xs font-semibold text-slate-500 dark:text-slate-300">va yana {remaining} ta</p>}
     </div>
   )
 }
