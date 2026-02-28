@@ -17,7 +17,7 @@ export default function Home() {
             <Link to="/dashboard" className="bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold text-lg px-8 py-4 rounded-2xl hover:scale-105 transition-all shadow-lg hover:shadow-purple-200">
               🎓 Create a Quiz
             </Link>
-            <Link to="/join" className="bg-white border-3 border-purple-600 text-purple-700 font-bold text-lg px-8 py-4 rounded-2xl hover:scale-105 transition-all shadow-lg border-2">
+            <Link to="/join" className="bg-white border-2 border-purple-600 text-purple-700 font-bold text-lg px-8 py-4 rounded-2xl hover:scale-105 transition-all shadow-lg">
               🎮 Join a Game
             </Link>
           </div>

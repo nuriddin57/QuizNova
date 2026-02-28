@@ -151,7 +151,10 @@ io.on('connection', (socket) => {
     const player = session.players[nickname];
     if (!player) return;
     const q = session.quiz.questions[session.currentQuestionIndex];
-    if (player.answers[session.currentQuestionIndex] !== undefined) return; // already answered
+    if (player.answers[session.currentQuestionIndex] !== undefined) {
+      socket.emit('answer:result', { alreadyAnswered: true });
+      return;
+    }
     player.answers[session.currentQuestionIndex] = answerIndex;
     session.answeredCount++;
     const correct = answerIndex === q.correctIndex;
