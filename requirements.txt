@@ -1,4 +1,4 @@
-Django>=4.2
+Django
 djangorestframework
 djangorestframework-simplejwt
 channels
@@ -6,3 +6,4 @@ channels-redis
 psycopg2-binary
 django-jazzmin
 django-cors-headers
+gunicorn
