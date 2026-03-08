@@ -6,3 +6,5 @@ channels-redis
 psycopg2-binary
 django-jazzmin
 django-cors-headers
+gunicorn>=21.2 
+openpyxl>=3.1

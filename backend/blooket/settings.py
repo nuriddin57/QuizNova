@@ -19,6 +19,7 @@ DEBUG = os.getenv('DEBUG', '0') == '1'
 ALLOWED_HOSTS = csv_to_list('ALLOWED_HOSTS', '127.0.0.1,localhost')
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -30,10 +31,15 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'channels',
-    'jazzmin',
+    'fields.apps.FieldsConfig',
+    'subjects.apps.SubjectsConfig',
     'users',
     'quizzes',
     'games',
+    'ai_tools.apps.AIToolsConfig',
+    'results.apps.ResultsConfig',
+    'analytics.apps.AnalyticsConfig',
+    'integrations.apps.IntegrationsConfig',
 ]
 
 MIDDLEWARE = [
@@ -111,7 +117,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ),
 }
 
@@ -119,6 +125,17 @@ REST_FRAMEWORK = {
 REST_FRAMEWORK.update({
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+        'rest_framework.throttling.ScopedRateThrottle',
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': os.getenv('THROTTLE_ANON', '80/minute'),
+        'user': os.getenv('THROTTLE_USER', '300/minute'),
+        'join': os.getenv('THROTTLE_JOIN', '30/minute'),
+        'host_create': os.getenv('THROTTLE_HOST_CREATE', '30/hour'),
+    },
 })
 
 SIMPLE_JWT = {
@@ -135,6 +152,22 @@ CSRF_TRUSTED_ORIGINS = csv_to_list(
     'http://localhost:5173,http://127.0.0.1:5173,http://localhost:8001,http://127.0.0.1:8001',
 )
 
+FRONTEND_APP_URL = os.getenv('FRONTEND_APP_URL') or (CORS_ALLOWED_ORIGINS[0] if CORS_ALLOWED_ORIGINS else 'http://127.0.0.1:5173')
+
+UNIVERSITY_PROVIDER = os.getenv('UNIVERSITY_PROVIDER', 'sharda')
+UNIVERSITY_API_BASE_URL = os.getenv('UNIVERSITY_API_BASE_URL', '').rstrip('/')
+UNIVERSITY_CLIENT_ID = os.getenv('UNIVERSITY_CLIENT_ID', '')
+UNIVERSITY_CLIENT_SECRET = os.getenv('UNIVERSITY_CLIENT_SECRET', '')
+UNIVERSITY_REDIRECT_URI = os.getenv('UNIVERSITY_REDIRECT_URI', '')
+UNIVERSITY_AUTH_URL = os.getenv('UNIVERSITY_AUTH_URL', '')
+UNIVERSITY_TOKEN_URL = os.getenv('UNIVERSITY_TOKEN_URL', '')
+UNIVERSITY_USERINFO_URL = os.getenv('UNIVERSITY_USERINFO_URL', '')
+UNIVERSITY_STUDENTS_ENDPOINT = os.getenv('UNIVERSITY_STUDENTS_ENDPOINT', '')
+UNIVERSITY_TEACHERS_ENDPOINT = os.getenv('UNIVERSITY_TEACHERS_ENDPOINT', '')
+UNIVERSITY_SUBJECTS_ENDPOINT = os.getenv('UNIVERSITY_SUBJECTS_ENDPOINT', '')
+UNIVERSITY_SERVICE_ACCESS_TOKEN = os.getenv('UNIVERSITY_SERVICE_ACCESS_TOKEN', '')
+UNIVERSITY_SYNC_TIMEOUT = int(os.getenv('UNIVERSITY_SYNC_TIMEOUT', '20'))
+
 # Channels config: prefer Redis via env, else in-memory for development
 REDIS_URL = os.getenv('REDIS_URL')
 if REDIS_URL:
@@ -150,5 +183,9 @@ else:
     }
 
 JAZZMIN_SETTINGS = {
-    'site_title': 'Blooket Admin',
+    'site_title': 'QuizNova Jazzmin',
+    'site_header': 'QuizNova University Admin',
+    'site_brand': 'QuizNova Jazzmin',
+    'welcome_sign': 'Sharda University QuizNova administration',
+    'copyright': 'QuizNova',
 }

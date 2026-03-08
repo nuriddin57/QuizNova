@@ -16,6 +16,9 @@ import { useRoomStore } from '../store/roomStore'
 
 const RECENT_CODES_KEY = 'blooket_recent_codes'
 const MAX_RECENT_CODES = 6
+const CLIENT_ID_KEY = 'quiznova:client-id'
+const RECONNECT_MAP_KEY = 'quiznova:reconnect-map'
+const AVATAR_OPTIONS = ['avatar-1', 'avatar-2', 'avatar-3', 'avatar-4', 'avatar-5', 'avatar-6']
 
 const normalizeJoinCode = (value) => {
   const raw = String(value || '').trim()
@@ -73,6 +76,37 @@ const saveRecentCodes = (codes) => {
   }
 }
 
+const getOrCreateClientId = () => {
+  try {
+    const existing = localStorage.getItem(CLIENT_ID_KEY)
+    if (existing) return existing
+    const next = `client_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`
+    localStorage.setItem(CLIENT_ID_KEY, next)
+    return next
+  } catch {
+    return `client_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`
+  }
+}
+
+const loadReconnectMap = () => {
+  try {
+    const raw = localStorage.getItem(RECONNECT_MAP_KEY)
+    if (!raw) return {}
+    const parsed = JSON.parse(raw)
+    return parsed && typeof parsed === 'object' ? parsed : {}
+  } catch {
+    return {}
+  }
+}
+
+const saveReconnectMap = (nextMap) => {
+  try {
+    localStorage.setItem(RECONNECT_MAP_KEY, JSON.stringify(nextMap))
+  } catch {
+    // ignore storage failures
+  }
+}
+
 const GameLobby = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -83,7 +117,7 @@ const GameLobby = () => {
   const setRoom = useRoomStore((state) => state.setRoom)
   const clearStoredRoom = useRoomStore((state) => state.clearRoom)
   const [quizzes, setQuizzes] = useState([])
-  const [hostForm, setHostForm] = useState({ quizId: '', mode: 'rocket-rush' })
+  const [hostForm, setHostForm] = useState({ quizId: '', mode: 'classic' })
   const [joinForm, setJoinForm] = useState({ code: '', name: '' })
   const [players, setPlayers] = useState([])
   const [modalOpen, setModalOpen] = useState(false)
@@ -274,7 +308,7 @@ const GameLobby = () => {
     if (!normalizedCode) return toast.error(t('lobby.enterGameCode'))
     setLoading(true)
     try {
-      const { data } = await joinRoom({ code: normalizedCode, name: joinForm.name.trim() || 'Guest' }, { _silent: true })
+      const { data } = await joinRoom({ code: normalizedCode, name: joinForm.name.trim() || t('common.guest') }, { _silent: true })
       const nextRoom = { sessionId: data.session_id, code: data.code, role: 'player', playerId: data.player_id, name: data.name }
       setRoom(nextRoom)
       setJoinForm((prev) => ({ ...prev, code: normalizeJoinCode(data.code) }))
@@ -340,9 +374,12 @@ const GameLobby = () => {
           <label className="block text-sm font-semibold text-slate-600 dark:text-slate-200">
             {t('lobby.mode')}
             <select value={hostForm.mode} onChange={(e) => setHostForm((p) => ({ ...p, mode: e.target.value }))} className="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
-              <option value="rocket-rush">Rocket Rush</option>
               <option value="classic">{t('lobby.classic')}</option>
-              <option value="factory-lite">{t('lobby.factoryLite')}</option>
+              <option value="speed">{t('lobby.speedMode')}</option>
+              <option value="team">{t('lobby.teamMode')}</option>
+              <option value="battle">{t('lobby.battleMode')}</option>
+              <option value="survival">{t('lobby.survivalMode')}</option>
+              <option value="treasure">{t('lobby.treasureMode')}</option>
             </select>
           </label>
           <PrimaryButton onClick={hostGame} disabled={loading} Icon={HiPlay}>

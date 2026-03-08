@@ -1,40 +1,44 @@
 import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+
 import Card from '../components/Card'
 import SecondaryButton from '../components/SecondaryButton'
 import SectionWrapper from '../components/SectionWrapper'
 
-const legalContent = {
-  '/privacy': {
-    title: 'Privacy Policy',
-    description: 'Quiz Nova protects classroom data and only uses required information to run accounts, sessions, and game history.',
-    bullets: [
-      'Only required profile and gameplay data is stored.',
-      'Teacher and student access is role-restricted.',
-      'You can request account data updates or deletion from support.',
-    ],
-  },
-  '/terms': {
-    title: 'Terms of Service',
-    description: 'By using Quiz Nova, users agree to classroom-safe and lawful usage of quizzes, sessions, and shared content.',
-    bullets: [
-      'Do not upload harmful, abusive, or copyrighted content without permission.',
-      'Accounts are responsible for their own credentials and activity.',
-      'Service features may evolve as the platform improves.',
-    ],
-  },
-  '/support': {
-    title: 'Support',
-    description: 'Need help with hosting, joining, or account issues? The support team can guide setup and troubleshooting.',
-    bullets: [
-      'Check backend and frontend services are running locally.',
-      'Verify game code, login, and network access before joining.',
-      'Report issues with steps to reproduce for faster fixes.',
-    ],
-  },
-}
-
 const LegalInfo = () => {
+  const { t } = useTranslation()
   const { pathname } = useLocation()
+
+  const legalContent = {
+    '/privacy': {
+      title: t('legal.privacyTitle'),
+      description: t('legal.privacyDescription'),
+      bullets: [
+        t('legal.privacyBullet1'),
+        t('legal.privacyBullet2'),
+        t('legal.privacyBullet3'),
+      ],
+    },
+    '/terms': {
+      title: t('legal.termsTitle'),
+      description: t('legal.termsDescription'),
+      bullets: [
+        t('legal.termsBullet1'),
+        t('legal.termsBullet2'),
+        t('legal.termsBullet3'),
+      ],
+    },
+    '/support': {
+      title: t('legal.supportTitle'),
+      description: t('legal.supportDescription'),
+      bullets: [
+        t('legal.supportBullet1'),
+        t('legal.supportBullet2'),
+        t('legal.supportBullet3'),
+      ],
+    },
+  }
+
   const content = legalContent[pathname] || legalContent['/support']
 
   return (
@@ -52,7 +56,7 @@ const LegalInfo = () => {
         </ul>
         <div className="mt-6">
           <SecondaryButton as={Link} to="/">
-            Back to Home
+            {t('legal.backHome')}
           </SecondaryButton>
         </div>
       </Card>

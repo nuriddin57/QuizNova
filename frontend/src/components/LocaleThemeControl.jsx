@@ -16,7 +16,7 @@ const LocaleThemeControl = ({ compact = false }) => {
         <span className="sr-only">{t('common.language')}</span>
         <select
           aria-label={t('common.language')}
-          value={i18n.language}
+          value={(i18n.resolvedLanguage || i18n.language || 'uz').split('-')[0]}
           onChange={(e) => setAppLanguage(e.target.value)}
           className="rounded-xl border border-slate-200 bg-white px-2 py-1 text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-primary-300 dark:border-white/20 dark:bg-white/12 dark:text-slate-100 dark:focus:ring-cyan-300/50"
         >

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
@@ -7,7 +7,7 @@ import HostControlsPanel from '../components/HostControlsPanel'
 import useGameSocket from '../hooks/useGameSocket'
 import { useRoomStore } from '../store/roomStore'
 
-const TimerRing = ({ total = 0, remaining = 0 }) => {
+const TimerRing = ({ total = 0, remaining = 0, label }) => {
   const safeTotal = Math.max(Number(total) || 1, 1)
   const safeRemaining = Math.max(0, Number(remaining) || 0)
   const progress = Math.min(1, safeRemaining / safeTotal)
@@ -32,7 +32,7 @@ const TimerRing = ({ total = 0, remaining = 0 }) => {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center rounded-full border border-slate-200 bg-white text-center dark:border-white/20 dark:bg-white/8 dark:backdrop-blur-md">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">Time</span>
+        <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">{label}</span>
         <span className="text-lg font-bold text-slate-900 dark:text-slate-100">{safeRemaining}s</span>
       </div>
     </div>
@@ -48,11 +48,21 @@ const GamePlay = () => {
   const [remainingTime, setRemainingTime] = useState(0)
   const [rewardBurst, setRewardBurst] = useState(null)
   const questionShownAtRef = useRef(Date.now())
+  const wsIdentity = useMemo(
+    () => ({
+      playerId: room?.playerId,
+      reconnectToken: room?.reconnectToken,
+      clientId: room?.clientId,
+    }),
+    [room?.clientId, room?.playerId, room?.reconnectToken]
+  )
 
   const {
     wsStatus,
     phase,
     question,
+    questionToken,
+    questionStartedAt,
     currentIndex,
     totalQuestions,
     players,
@@ -60,16 +70,16 @@ const GamePlay = () => {
     answerAck,
     lastError,
     sendAction,
-  } = useGameSocket(room?.code)
+  } = useGameSocket(room?.code, wsIdentity)
 
   useEffect(() => {
     if (!question) return
     setSelectedChoice(null)
     setLocked(false)
     setAnswerResult(null)
-    questionShownAtRef.current = Date.now()
+    questionShownAtRef.current = questionStartedAt ? questionStartedAt * 1000 : Date.now()
     setRemainingTime(question?.timer || 0)
-  }, [question?.id, question])
+  }, [question?.id, question, questionStartedAt])
 
   useEffect(() => {
     if (!answerAck) return
@@ -109,7 +119,7 @@ const GamePlay = () => {
 
   const sendWithGuard = (action, payload = {}) => {
     const ok = sendAction(action, payload)
-    if (!ok) toast.error('WS uzildi', { id: 'ws-disconnected' })
+    if (!ok) toast.error(t('game.wsDisconnected'), { id: 'ws-disconnected' })
     return ok
   }
 
@@ -119,7 +129,15 @@ const GamePlay = () => {
     setSelectedChoice(choiceId)
     setLocked(true)
     const elapsedSec = Math.max(0, (Date.now() - questionShownAtRef.current) / 1000)
-    const sent = sendWithGuard('answer', { player_id: room.playerId, choice_id: choiceId, ts: elapsedSec })
+    const sent = sendWithGuard('answer', {
+      player_id: room.playerId,
+      question_id: question.id,
+      choice_id: choiceId,
+      question_token: questionToken,
+      reconnect_token: room?.reconnectToken,
+      client_id: room?.clientId,
+      ts: elapsedSec,
+    })
     if (!sent) setLocked(false)
   }
 
@@ -131,14 +149,14 @@ const GamePlay = () => {
   const me = players.find((p) => p.id === room?.playerId)
   const wsLabel =
     wsStatus === 'connected'
-      ? 'WS ulangan'
+      ? t('game.wsConnected')
       : wsStatus === 'connecting'
-      ? 'WS ulanmoqda'
+      ? t('game.wsConnecting')
       : wsStatus === 'reconnecting'
-      ? 'WS qayta ulanmoqda'
+      ? t('game.wsReconnecting')
       : wsStatus === 'error'
-      ? 'WS xato'
-      : 'WS uzildi'
+      ? t('game.wsError')
+      : t('game.wsDisconnected')
 
   if (!room?.code) {
     return (
@@ -179,7 +197,7 @@ const GamePlay = () => {
           </div>
         </div>
 
-        {wsStatus !== 'connected' && <p className="mt-3 text-xs font-semibold text-rose-500">WS uzildi</p>}
+        {wsStatus !== 'connected' && <p className="mt-3 text-xs font-semibold text-rose-500">{t('game.wsDisconnected')}</p>}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[2fr,1fr]">
@@ -198,7 +216,7 @@ const GamePlay = () => {
                   <p className="text-sm font-semibold uppercase tracking-[0.4em] text-indigo-500 dark:text-cyan-200">{t('game.question')} {currentIndex + 1}</p>
                   <h2 className="mt-3 text-3xl font-display font-semibold text-slate-900 dark:text-slate-100">{question.text}</h2>
                 </div>
-                <TimerRing total={question?.timer || 0} remaining={remainingTime ?? question?.timer} />
+                <TimerRing total={question?.timer || 0} remaining={remainingTime ?? question?.timer} label={t('game.timer')} />
               </div>
 
               <AnimatePresence>
@@ -211,9 +229,9 @@ const GamePlay = () => {
                     transition={{ duration: 0.32 }}
                     className="pointer-events-none absolute -top-2 right-2 rounded-xl border border-emerald-300/70 bg-emerald-50 px-3 py-2 text-right dark:border-emerald-300/55 dark:bg-emerald-500/16"
                   >
-                    <p className="text-xs font-semibold uppercase tracking-[0.25em] text-emerald-600 dark:text-emerald-100">Reward</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.25em] text-emerald-600 dark:text-emerald-100">{t('game.reward')}</p>
                     <p className="text-sm font-bold text-emerald-700 dark:text-emerald-100">+{rewardBurst.xp} XP</p>
-                    <p className="text-sm font-bold text-amber-600 dark:text-amber-200">+{rewardBurst.coins} Coins</p>
+                    <p className="text-sm font-bold text-amber-600 dark:text-amber-200">+{rewardBurst.coins} {t('game.coins')}</p>
                   </motion.div>
                 )}
               </AnimatePresence>

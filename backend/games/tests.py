@@ -156,7 +156,7 @@ class TeacherHostingPermissionTests(TestCase):
         self.client.force_authenticate(user=self.student)
         response = self.client.post('/api/rooms/create', {'quiz': self.quiz.id, 'mode': 'classic'}, format='json')
         self.assertEqual(response.status_code, 403)
-        self.assertEqual(response.data.get('detail'), 'Teacher auth required for hosting.')
+        self.assertEqual(response.data.get('detail'), 'Teacher role is required.')
 
     def test_only_host_can_control_ws_flow(self):
         session = GameSession.objects.create(quiz=self.quiz, host=self.teacher, code='HOST123')
@@ -171,3 +171,84 @@ class TeacherHostingPermissionTests(TestCase):
 
         self.assertTrue(consumers.GameConsumer._can_control_session(host_consumer))
         self.assertFalse(consumers.GameConsumer._can_control_session(non_host_consumer))
+
+
+class QuizAttemptSubmissionAndLeaderboardTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.teacher = User.objects.create_user(username='teacher_stats', password='pass', role='teacher')
+        self.student1 = User.objects.create_user(username='student_stats_1', password='pass', role='student')
+        self.student2 = User.objects.create_user(username='student_stats_2', password='pass', role='student')
+
+        self.quiz = Quiz.objects.create(title='Stats Quiz', description='desc', owner=self.teacher)
+        self.q1 = Question.objects.create(quiz=self.quiz, text='Q1', timer_seconds=20, order=0)
+        self.q2 = Question.objects.create(quiz=self.quiz, text='Q2', timer_seconds=20, order=1)
+        self.q1a = Choice.objects.create(question=self.q1, text='A', is_correct=True)
+        self.q1b = Choice.objects.create(question=self.q1, text='B', is_correct=False)
+        self.q2a = Choice.objects.create(question=self.q2, text='A', is_correct=False)
+        self.q2b = Choice.objects.create(question=self.q2, text='B', is_correct=True)
+
+    def _submit_for(self, user, answers):
+        self.client.force_authenticate(user=user)
+        return self.client.post(
+            f'/api/quiz/{self.quiz.id}/attempt/submit/',
+            {'answers': answers},
+            format='json',
+        )
+
+    def test_submit_attempt_creates_attempt_and_answers(self):
+        response = self._submit_for(
+            self.student1,
+            [
+                {'question_id': self.q1.id, 'choice_id': self.q1a.id},
+                {'question_id': self.q2.id, 'choice_id': self.q2b.id},
+            ],
+        )
+        self.assertEqual(response.status_code, 201)
+        payload = response.data.get('attempt') or {}
+        self.assertEqual(payload.get('correct_answers'), 2)
+        self.assertEqual(payload.get('total_questions'), 2)
+        self.assertEqual(len(payload.get('answers') or []), 2)
+
+    def test_student_leaderboard_returns_only_own_attempts(self):
+        self._submit_for(
+            self.student1,
+            [
+                {'question_id': self.q1.id, 'choice_id': self.q1a.id},
+                {'question_id': self.q2.id, 'choice_id': self.q2a.id},
+            ],
+        )
+        self._submit_for(
+            self.student2,
+            [
+                {'question_id': self.q1.id, 'choice_id': self.q1b.id},
+                {'question_id': self.q2.id, 'choice_id': self.q2b.id},
+            ],
+        )
+
+        self.client.force_authenticate(user=self.student1)
+        response = self.client.get(f'/api/quiz/{self.quiz.id}/leaderboard/')
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.data.get('can_view_all'))
+        rows = response.data.get('leaderboard') or []
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0].get('user'), self.student1.id)
+
+    def test_teacher_leaderboard_returns_all_attempts_with_usernames(self):
+        self._submit_for(
+            self.student1,
+            [{'question_id': self.q1.id, 'choice_id': self.q1a.id}],
+        )
+        self._submit_for(
+            self.student2,
+            [{'question_id': self.q1.id, 'choice_id': self.q1b.id}],
+        )
+
+        self.client.force_authenticate(user=self.teacher)
+        response = self.client.get(f'/api/quiz/{self.quiz.id}/leaderboard/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.data.get('can_view_all'))
+        rows = response.data.get('leaderboard') or []
+        usernames = {item.get('user_username') for item in rows}
+        self.assertIn(self.student1.username, usernames)
+        self.assertIn(self.student2.username, usernames)

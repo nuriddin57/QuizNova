@@ -268,6 +268,16 @@ export const getQuiz = async (id, options = {}) => {
   }
 }
 
+export const getQuizLeaderboard = async (quizId, config = {}) => {
+  const { data } = await api.get(`/api/quiz/${quizId}/leaderboard/`, config)
+  return data
+}
+
+export const submitQuizAttempt = async (quizId, answers = []) => {
+  const { data } = await api.post(`/api/quiz/${quizId}/attempt/submit/`, { answers })
+  return data?.attempt || null
+}
+
 export const listSessions = async () => {
   const { data } = await api.get('/api/sessions/')
   return Array.isArray(data) ? data : data?.results || []
@@ -283,12 +293,39 @@ export const joinSession = (sessionId, name) => api.post(`/api/sessions/${sessio
 export const joinSessionByCode = (code, name) => api.post('/api/sessions/join-by-code/', { code, name })
 export const createRoom = (payload, config = {}) => api.post('/api/rooms/create', payload, config)
 export const joinRoom = (payload, config = {}) => api.post('/api/rooms/join', payload, config)
+export const getHostHistory = async () => {
+  const { data } = await api.get('/api/stats/history/host/')
+  return data
+}
+export const getHostInsights = async () => {
+  const { data } = await api.get('/api/stats/insights/host/')
+  return data
+}
+export const getGameReport = async (gameId) => {
+  const { data } = await api.get(`/api/games/${gameId}/report`)
+  return data
+}
+export const importQuizCsv = async (quizId, { file = null, csv = '', replace = true } = {}) => {
+  if (file) {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('replace', replace ? '1' : '0')
+    const { data } = await api.post(`/api/quizzes/${quizId}/import-csv/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return data
+  }
+  const { data } = await api.post(`/api/quizzes/${quizId}/import-csv/`, { csv, replace })
+  return data
+}
 export const getGameState = async (id) => {
   const { data } = await api.get(`/api/games/${id}/state`)
   return data
 }
 
-export const buildRoomWsUrl = (code) => {
+export const buildRoomWsUrl = (code, options = {}) => {
   const protocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws'
   const host = (() => {
     if (import.meta.env.VITE_API_URL) return new URL(import.meta.env.VITE_API_URL).host
@@ -301,9 +338,14 @@ export const buildRoomWsUrl = (code) => {
     if (typeof window !== 'undefined') return window.location.host
     return '127.0.0.1:8001'
   })()
-  const token = getAccessToken()
-  const tokenQuery = token ? `?token=${encodeURIComponent(token)}` : ''
-  return `${protocol}://${host}/ws/game/${code}/${tokenQuery}`
+  const params = new URLSearchParams()
+  const token = options.token || getAccessToken()
+  if (token) params.set('token', token)
+  if (options.playerId) params.set('player_id', String(options.playerId))
+  if (options.reconnectToken) params.set('reconnect_token', String(options.reconnectToken))
+  if (options.clientId) params.set('client_id', String(options.clientId))
+  const query = params.toString()
+  return `${protocol}://${host}/ws/game/${code}/${query ? `?${query}` : ''}`
 }
 
 export default api

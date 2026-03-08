@@ -8,27 +8,40 @@ import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
 import LocaleThemeControl from './LocaleThemeControl'
 import { getApiBaseUrl, getHealth } from '../api/axios'
-import { clearTokens, isAuthenticated } from '../utils/auth'
+import { clearTokens, getCurrentUserRole, isAuthenticated } from '../utils/auth'
 import { toastHelpers } from '../utils/toastHelpers'
 import { useRoomStore } from '../store/roomStore'
+import { useAuth } from '../context/AuthContext'
+import quizNovaLogo from '../assets/brand/quiznova/quiznova-icon.svg'
 
 const Navbar = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const clearRoom = useRoomStore((state) => state.clearRoom)
+  const { logout } = useAuth()
   const [open, setOpen] = useState(false)
   const [apiStatus, setApiStatus] = useState({ label: t('nav.apiChecking'), tone: 'pending' })
   const lastToneRef = useRef('pending')
   const authed = isAuthenticated()
+  const role = getCurrentUserRole()
+  const canManageSets = authed && (role === 'teacher' || role === 'admin')
 
   const links = useMemo(
-    () => [
-      { label: t('nav.discover'), path: '/discover' },
-      { label: t('nav.dashboard'), path: '/dashboard' },
-      { label: t('nav.lobby'), path: '/lobby' },
-      { label: t('nav.play'), path: '/play' },
-    ],
-    [t]
+    () => {
+      const baseLinks = [
+        { label: t('nav.discover'), path: '/discover' },
+        { label: t('academy.subjectsNav'), path: '/subjects' },
+        { label: t('nav.dashboard'), path: '/dashboard' },
+        { label: t('academy.resultsNav'), path: '/results' },
+        { label: t('nav.lobby'), path: '/lobby' },
+        { label: t('nav.play'), path: '/play' },
+      ]
+      if (canManageSets) {
+        baseLinks.splice(2, 0, { label: t('nav.adminPanel'), path: role === 'admin' ? '/admin/users' : '/teacher/dashboard' })
+      }
+      return baseLinks
+    },
+    [canManageSets, role, t]
   )
 
   useEffect(() => {
@@ -67,13 +80,14 @@ const Navbar = () => {
 
   const statusStyles =
     apiStatus.tone === 'online'
-      ? 'border border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-400/45 dark:bg-emerald-400/18 dark:text-emerald-100'
+      ? 'border border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-400/45 dark:bg-emerald-950/70 dark:text-emerald-100'
       : apiStatus.tone === 'offline'
-      ? 'border border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-400/50 dark:bg-rose-500/16 dark:text-rose-100'
-      : 'border border-slate-200 bg-slate-50 text-slate-600 dark:border-white/25 dark:bg-white/10 dark:text-slate-300'
+      ? 'border border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-400/50 dark:bg-rose-950/70 dark:text-rose-100'
+      : 'border border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-400/45 dark:bg-slate-900/80 dark:text-slate-100'
 
   const handleLogout = () => {
     clearTokens()
+    logout()
     clearRoom()
     setOpen(false)
     toastHelpers.success(t('nav.loggedOut'))
@@ -84,7 +98,7 @@ const Navbar = () => {
     <header className="fixed inset-x-0 top-0 z-40">
       <div className="mx-auto mt-4 flex w-[95%] max-w-[1200px] items-center rounded-2xl border border-black/5 bg-white px-4 py-3 shadow-[0_10px_30px_rgba(15,23,42,0.08)] dark:frost-panel dark:shadow-soft">
         <Link to="/" className="flex items-center gap-2 font-display text-xl font-bold text-slate-900 dark:text-slate-100">
-          <span className="rounded-xl bg-gradient-to-br from-indigo-500 to-blue-500 p-2 text-white">*</span>
+          <img src={quizNovaLogo} alt="QuizNova logo" className="h-9 w-9 rounded-xl object-cover" />
           {t('nav.brand')}
         </Link>
 
@@ -116,7 +130,7 @@ const Navbar = () => {
           ) : (
             <>
               <SecondaryButton as={Link} to="/login">{t('nav.login')}</SecondaryButton>
-              <PrimaryButton as={Link} to="/register">{t('nav.startPlaying')}</PrimaryButton>
+              <PrimaryButton as={Link} to="/login">University Access</PrimaryButton>
             </>
           )}
         </div>
@@ -165,8 +179,8 @@ const Navbar = () => {
                 <SecondaryButton as={Link} to="/login" className="w-full" onClick={() => setOpen(false)}>
                   {t('nav.login')}
                 </SecondaryButton>
-                <PrimaryButton as={Link} to="/register" className="w-full" onClick={() => setOpen(false)}>
-                  {t('nav.startPlaying')}
+                <PrimaryButton as={Link} to="/login" className="w-full" onClick={() => setOpen(false)}>
+                  University Access
                 </PrimaryButton>
               </div>
             )}

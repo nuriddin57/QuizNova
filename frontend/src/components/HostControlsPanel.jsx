@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 const isActionEnabled = ({ action, phase, isHost, wsStatus }) => {
   if (!isHost) return false
   if (wsStatus !== 'connected') return false
@@ -18,6 +20,7 @@ const btnClass = (enabled, tone = 'neutral') => {
 }
 
 export default function HostControlsPanel({ isHost, phase, wsStatus, onStart, onNext, onEnd }) {
+  const { t } = useTranslation()
   if (!isHost) return null
 
   const startEnabled = isActionEnabled({ action: 'start', phase, isHost, wsStatus })
@@ -26,17 +29,17 @@ export default function HostControlsPanel({ isHost, phase, wsStatus, onStart, on
 
   return (
     <div className="frost-card rounded-[20px] p-6">
-      <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Xost boshqaruv elementlari</h3>
-      {wsStatus !== 'connected' ? <p className="mt-2 text-xs font-semibold text-rose-500">WS uzildi</p> : null}
+      <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">{t('game.hostControls')}</h3>
+      {wsStatus !== 'connected' ? <p className="mt-2 text-xs font-semibold text-rose-500">{t('game.wsDisconnected')}</p> : null}
       <div className="mt-4 flex flex-col gap-3">
         <button onClick={onStart} disabled={!startEnabled} className={btnClass(startEnabled)}>
-          Start
+          {t('game.start')}
         </button>
         <button onClick={onNext} disabled={!nextEnabled} className={btnClass(nextEnabled)}>
-          Next
+          {t('game.next')}
         </button>
         <button onClick={onEnd} disabled={!endEnabled} className={btnClass(endEnabled, 'danger')}>
-          End
+          {t('game.endGame')}
         </button>
       </div>
     </div>

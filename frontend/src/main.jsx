@@ -3,16 +3,16 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 
-import i18n from './i18n'
-import { I18nextProvider } from 'react-i18next'
+import './i18n'
 import App from './App'
 import { ThemeProvider } from './providers/ThemeProvider'
+import { AuthProvider } from './context/AuthContext'
 import './styles.css'
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <I18nextProvider i18n={i18n}>
-      <ThemeProvider>
+    <ThemeProvider>
+      <AuthProvider>
         <BrowserRouter>
           <App />
           <Toaster
@@ -26,7 +26,7 @@ createRoot(document.getElementById('root')).render(
             }}
           />
         </BrowserRouter>
-      </ThemeProvider>
-    </I18nextProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </React.StrictMode>
 )

@@ -1,223 +1,175 @@
-﻿# Blooket Loyihasi: Veb-sayt Imkoniyatlari (Uzbek)
+# QuizNova veb-sayti: Imkoniyatlar
 
-## 1. Loyiha haqida
-Ushbu veb-sayt Blooket uslubidagi ta'limiy quiz/o'yin platformasi bo'lib, o'qituvchi quiz yaratishi, jonli o'yin (live game) ochishi va o'quvchilar game code orqali qo'shilishi mumkin.
+## 1. Platforma nima qiladi
+QuizNova - quiz, exam va live game formatlarini birlashtirgan ta'limiy platforma. O'qituvchi quiz yaratadi, savollar bankini boshqaradi, jonli o'yin yoki assignment tayyorlaydi. Talaba esa o'ziga biriktirilgan quizlarni ishlaydi, natijalarini ko'radi va live sessiyalarda qatnashadi.
 
-Frontend: React + Vite
-Backend: Django + Django REST Framework + Channels (WebSocket)
+Texnologiyalar:
+- Frontend: React + Vite
+- Backend: Django + DRF + Channels (WebSocket)
 
 ## 2. Foydalanuvchi rollari
-Sayt quyidagi rollar bilan ishlaydi:
+- `admin`: tizim foydalanuvchilarini boshqaradi, barcha quiz va natijalarni ko'rishi mumkin.
+- `teacher`: quiz yaratadi, tahrirlaydi, publish qiladi, savollar bankidan foydalanadi, analytics ko'radi, live game ochadi.
+- `student`: o'ziga mos quizlarni ko'radi, exam topshiradi, natijalar tarixini kuzatadi, live game'ga qo'shiladi.
+- `guest`: ayrim live o'yinlarda nickname bilan qo'shilish ssenariysi mavjud.
 
-- O'qituvchi (`teacher`)
-- O'quvchi (`student`)
-- Mehmon (`guest`, akkauntsiz qo'shilish)
+## 3. Asosiy imkoniyatlar
+- Ro'yxatdan o'tish, login, token refresh va profilni olish.
+- University login callback va student uchun field selection oqimi.
+- Role-based dashboard: teacher, student va admin uchun alohida yo'nalishlar.
+- Quiz yaratish, tahrirlash, o'chirish, publish/unpublish qilish.
+- Quizlarni qidirish, filterlash va saralash.
+- Quizni subject, topic, module, semester, section va field bo'yicha biriktirish.
+- Public/private visibility va `mine=true` ko'rinishida shaxsiy quizlarni ajratish.
+- Quizga savollarni qo'lda qo'shish yoki question bank'dan biriktirish.
+- Question bank yaratish, qayta ishlatish va bulk import qilish.
+- AI yordamida savollar generatsiya qilish va quizga saqlash.
+- Student uchun exam start/submit oqimi.
+- Natijani ball, foiz, to'g'ri/noto'g'ri javob va pass/fail holati bilan hisoblash.
+- Student result history va subject performance sahifalari.
+- Teacher analytics va quiz-wise performance ko'rish.
+- Live lobby yaratish, room code/link orqali qo'shilish.
+- WebSocket orqali real-time savol yuborish, javob olish va live leaderboard.
+- Discover, subjects, topics, modules va set detail sahifalari.
+- Ko'p til: `uz`, `ru`, `en`.
+- Theme: `light` / `dark`.
+- Navbar ichida API health holatini ko'rsatish.
 
-### O'qituvchi nimalar qila oladi
-- Tizimga kirish / ro'yxatdan o'tish
-- Quiz (savollar to'plami) yaratish va tahrirlash
-- Jonli o'yin sessiyasi (`session`) yaratish
-- O'yinni boshlash / keyingi savolga o'tish / yakunlash
+## 4. Batafsil funksional bloklar
 
-### O'quvchi nimalar qila oladi
-- Akkaunt bilan kirish (ixtiyoriy)
-- O'yin kod orqali sessiyaga qo'shilish
-- Savollarga real vaqtda javob berish
-- Reyting (leaderboard)ni ko'rish
+### 4.1 Auth va account
+- Email yoki ayrim student login formatlari bilan tizimga kirish.
+- `register`, `login`, `refresh token`, `me` endpointlari mavjud.
+- Student va teacher route'lari himoyalangan.
+- Admin uchun alohida users sahifasi bor.
 
-### Mehmon nimalar qila oladi
-- Akkauntsiz nickname bilan game code orqali o'yinga qo'shilish
-- Savollarga javob berish
+### 4.2 Quiz boshqaruvi
+- Teacher/admin yangi quiz yaratadi.
+- Mavjud quizni yangilaydi yoki o'chiradi.
+- Quizni `practice`, `live`, `assignment`, `exam` kabi formatlarda yuritish mumkin.
+- Difficulty, duration, total marks, passing marks, retry va answer reveal kabi qoidalar saqlanadi.
+- Quiz owner yoki admin publish flag'ini yoqib/o'chira oladi.
 
-## 3. Autentifikatsiya (Auth)
-Saytda JWT asosidagi autentifikatsiya ishlatiladi.
+### 4.3 Quiz targeting
+- Quiz barcha field'lar uchun yoki faqat tanlangan field uchun ochilishi mumkin.
+- Subject, topic va module bilan bog'lash mumkin.
+- Semester code, semester number va section bo'yicha cheklash mavjud.
+- Student faqat o'ziga mos publish qilingan quizlarni ko'radi.
 
-Mavjud endpointlar:
-- `POST /api/auth/register/` - ro'yxatdan o'tish
-- `POST /api/auth/login/` - tizimga kirish
-- `POST /api/auth/password-reset/` - parolni yangilash (username/email + yangi parol)
-- `POST /api/auth/token/refresh/` - token yangilash
-- `GET /api/auth/me/` - joriy foydalanuvchi ma'lumoti
+### 4.4 Question bank va import
+- Subject/topic/module bo'yicha reusable savollar banki ishlaydi.
+- Savollarni bankdan quizga bir klikda qo'shish mumkin.
+- CSV, JSON yoki boshqa bulk import ssenariylari uchun import oqimi mavjud.
+- Savol turi, difficulty, marks va explanation bilan saqlanadi.
 
-Frontend tokenlarni localStorage ichida saqlaydi va avtomatik refresh qilishga harakat qiladi.
+### 4.5 AI savol generatsiyasi
+- Teacher uchun AI question generation sahifasi mavjud.
+- Generatsiya qilingan savollarni bevosita quiz banki yoki tanlangan quizga saqlash mumkin.
+- Bu qo'lda savol tayyorlash vaqtini qisqartiradi.
 
-### Forgot Password (MVP reset)
-- Login sahifasidagi `Forgot password?` tugmasi ishlaydi
-- Foydalanuvchi `username` yoki `email` va `new password` kiritib parolni yangilashi mumkin
-- Bu hozircha lokal/MVP reset oqimi (email link/OTP emas)
+### 4.6 Live game
+- Teacher host sifatida room ochadi.
+- Student room code yoki link bilan join qiladi.
+- Lobby, room va play sahifalari mavjud.
+- Real-time yangilanishlar WebSocket orqali ishlaydi.
+- Sessiya davomida live score va yakunda leaderboard ko'rsatiladi.
 
-## 4. Quiz (Savollar to'plami) funksiyalari
-### Mavjud imkoniyatlar
-- Quiz ro'yxatini olish
-- Quiz detail ko'rish
-- Quiz yaratish
-- Quiz tahrirlash
-- Savollar va variantlarni yuborish (multiple-choice format)
+### 4.7 Exam va natijalar
+- Student published quizni boshlaydi.
+- Savollar serverdan tartiblangan holda olinadi.
+- Submit qilinganda score, percentage, correct/wrong va pass/fail hisoblanadi.
+- Natijalar urinishlar tarixi sifatida saqlanadi.
+- Student o'z history va subject performance bo'limini ko'radi.
+- Teacher o'zi yaratgan quizlar bo'yicha umumiy natijalarni filter bilan ko'radi.
 
-### Quiz tarkibi
-- Quiz title
-- Description
-- Category (agar berilgan bo'lsa)
-- Savollar ro'yxati
-- Har bir savolda:
-  - matn
-  - timer
-  - variantlar
-  - to'g'ri javob flag (`is_correct`)
+### 4.8 Akademik katalog
+- Subjects ro'yxati.
+- Har bir subject ichida related quizzes.
+- Topic detail va module detail sahifalari.
+- Set detail va discover orqali tayyor kontentni ko'rish.
 
-## 5. Jonli o'yin (Live Game) / Lobby funksiyalari
-### O'qituvchi uchun
-- Quiz tanlab `Create Lobby` qilish
-- Rejim tanlash (`classic`, `factory-lite`)
-- 7 xonali game code generatsiya qilish
-- Lobby ichidagi o'yinchilarni real vaqtda ko'rish
-- `Start Game` tugmasi bilan o'yinni boshlash
-- Join code bilan birga to'liq join havolasini (`/room/<CODE>`) nusxalash
+## 5. Muhim API endpointlar
+Auth:
+- `POST /api/auth/register/`
+- `POST /api/auth/login/`
+- `POST /api/auth/token/refresh/`
+- `GET /api/auth/me/`
 
-### O'quvchi / mehmon uchun
-- Game code kiritib qo'shilish (`Join by Code`)
-- To'liq join linkni inputga qo'yib qo'shilish (kod avtomatik ajratib olinadi)
-- Nickname bilan sessiyaga kirish
-- Lobby holatini ko'rish
-- So'nggi ishlatilgan kodlarni tez tanlash (`localStorage` orqali recent codes)
+Quiz:
+- `GET /api/quizzes/`
+- `POST /api/quizzes/`
+- `PUT /api/quizzes/{id}/`
+- `DELETE /api/quizzes/{id}/`
+- `POST /api/quizzes/{id}/publish/`
+- `POST /api/quizzes/{id}/add-bank-questions/`
+- `GET /api/sets/`
 
-### Backend join endpointlari
-- `POST /api/sessions/{id}/join/`
-- `POST /api/sessions/join-by-code/`
+Exam / Results:
+- `POST /api/exams/{quiz_id}/start/`
+- `POST /api/exams/{quiz_id}/submit/`
 
-## 6. Real-time (WebSocket) gameplay imkoniyatlari
-WebSocket orqali lobby va o'yin holati yangilanadi.
+Subjects:
+- `GET /api/subjects/`
+- `GET /api/subjects/{id}/quizzes/`
+- `GET /api/topics/{id}/quizzes/`
+- `GET /api/modules/{id}/quizzes/`
 
-### WebSocket manzili
-- `ws://127.0.0.1:8001/ws/game/<CODE>/`
-  (yoki production hostga mos ravishda)
+Game:
+- `POST /api/rooms/create`
+- `POST /api/rooms/join`
+- `ws://<host>/ws/game/<CODE>/`
 
-### Qo'llab-quvvatlanadigan action lar
-- `state` - joriy holatni olish
-- `start` - o'yinni boshlash
-- `next` - keyingi savolga o'tish
-- `answer` - javob yuborish
-- `end` - o'yinni yakunlash va natijalarni finalize qilish
+Health:
+- `GET /api/health/`
 
-### WebSocket event lar (server -> client)
-- `players` - o'yinchilar ro'yxati va score
-- `question` - joriy savol va phase (`lobby`, `question`, `finished`)
-- `answer_ack` - yuborilgan javob bo'yicha tasdiq (`correct/incorrect`)
-- `leaderboard_update` - final leaderboard
+## 6. Hozirda bor sahifalar
+- Landing (`/`)
+- Login / Register (`/login`, `/register`)
+- Dashboard redirect (`/dashboard`)
+- Student dashboard (`/student/dashboard`)
+- Teacher dashboard (`/teacher/dashboard`)
+- Field selection (`/field-selection`)
+- Discover (`/discover`)
+- Subjects (`/subjects`)
+- Subject / Topic / Module detail (`/subjects/:id`, `/topics/:id`, `/modules/:id`)
+- Quiz create (`/teacher/quiz/create`)
+- My sets / admin panel (`/my-sets`, `/admin-panel`)
+- Question bank (`/teacher/question-bank`)
+- Bulk import (`/teacher/bulk-import`)
+- AI generate (`/teacher/ai-generate`)
+- Teacher analytics (`/teacher/analytics`)
+- Subject analytics (`/teacher/analytics/subjects`)
+- Results (`/results`)
+- Set detail (`/sets/:id`)
+- Game lobby (`/host`, `/join`, `/lobby`, `/room/:code`)
+- Game play (`/play`, `/game/:id`)
+- Admin users (`/admin/users`)
+- Legal pages (`/privacy`, `/terms`, `/support`)
 
-## 7. Scoring va natijalar
-### Live score (o'yin davomida)
-- To'g'ri javoblar asosida soddalashtirilgan live score yangilanadi
+## 7. Kim nima qila oladi
+- `admin`: foydalanuvchilarni boshqaradi, tizim bo'ylab nazorat qiladi.
+- `teacher`: quiz yaratadi, publish qiladi, savollar bankidan foydalanadi, AI generate ishlatadi, host qiladi, analytics ko'radi.
+- `student`: o'z fieldiga mos quizlarni ishlaydi, natijani ko'radi, live game'ga qo'shiladi.
+- `guest`: to'liq akademik panel emas, lekin ayrim join oqimlarida ishlatilishi mumkin.
 
-### Final natija (o'yin tugaganda)
-- Backend `Attempt` va `AttemptAnswer` yozuvlarini yaratadi
-- Ballar `time_taken` va to'g'rilik asosida hisoblanadi
-- Leaderboard qayta hisoblanadi va yuboriladi
+## 8. Qisman yoki keyingi bosqichdagilar
+- Market / inventory / economy bloklari
+- Qo'shimcha game mode'lar
+- To'liq export/report pipeline
+- To'liq email yoki OTP asosidagi password reset
 
-## 8. Statistikalar (Student Stats)
-Mavjud endpoint:
-- `GET /api/stats/me/`
-
-Qaytarilishi mumkin bo'lgan ma'lumotlar:
-- total attempts
-- average score
-- highest score
-- accuracy
-- question-level performance
-
-## 9. UI / Frontend qo'shimcha imkoniyatlar
-### i18n (til almashtirish)
-Saytda 3 til qo'llab-quvvatlanadi:
-- Uzbek (`uz`)
-- Russian (`ru`)
-- English (`en`)
-
-### Til aniqlash tartibi
-1. `localStorage['lang']`
-2. brauzer tili (`uz/ru/en`)
-3. fallback: `en`
-
-### Theme (mavzu) almashtirish
-- Light (default)
-- Dark
-
-### Theme aniqlash tartibi
-1. `localStorage['theme']`
-2. tizim (`prefers-color-scheme`)
-3. fallback: `light`
-
-### Combined control
-Navbar o'ng yuqori qismida quyidagilar mavjud:
-- Til dropdown (`UZ / RU / EN`)
-- Theme toggle (light/dark)
-- API holati indikatori (`API online/offline`)
-
-### i18n holati (amaliy)
-- Login/Register/Lobby/Gameplay sahifalarida tarjima ancha to'liq ishlaydi
-- Navbar, modal, asosiy button/label/title matnlar tarjimaga ulangan
-- Katta sahifalardagi ayrim `dummyData` kontent matnlari hali hardcoded bo'lishi mumkin
-
-## 10. Hozirda ishlaydigan asosiy sahifalar
-- Landing
-- Login
-- Register
-- Dashboard (qisman demo/dummy data bilan)
-- Discover (qisman API + fallback data)
-- Game Lobby (REST + WebSocket ulangan)
-- Game Play (WebSocket ulangan)
-
-## 10.1. Brend va logo assetlari
-Loyihaga original `QuizNova` mascot-logo (SVG) assetlari qo'shilgan:
-- icon-only
-- horizontal logo
-- stacked logo
-- dark variant
-- bir nechta expression variantlar
-
-Joylashuvi:
-- `frontend/src/assets/brand/quiznova/`
-
-## 11. Hali to'liq yakunlanmagan qismlar (roadmap)
-Quyidagi funksiyalar to'liq ishlab chiqilmagan yoki qisman demo ko'rinishida:
-
-- Market (pack opening, drop rates)
-- Inventory (blook collection)
-- Tokens / XP economy (daily cap logic)
-- QR code join
-- Teacher reports export CSV
-- To'liq 2+ game mode mechanics
-- Barcha sahifalarni to'liq i18n ga o'tkazish (ayniqsa dummyData kontentlarini locale keylarga ko'chirish)
-- Email link/OTP asosidagi xavfsiz password reset oqimi
-
-## 12. Lokal ishga tushirish (Windows)
-### Backend
+## 9. Lokal ishga tushirish
+Backend:
 1. `cd backend`
-2. `.\\venv\\Scripts\\pip.exe install -r requirements.txt`
-3. `.\\venv\\Scripts\\python.exe manage.py migrate`
-4. `.\\venv\\Scripts\\python.exe manage.py runserver 8001`
+2. `python manage.py migrate`
+3. `python manage.py runserver`
 
-### Frontend
+Frontend:
 1. `cd frontend`
-2. `cmd /c npm install`
-3. `cmd /c npm run dev`
+2. `npm install`
+3. `npm run dev`
 
-## 13. Qisqa xulosa
-Hozirgi holatda loyiha MVP darajasida quyidagilarni amalda bajara oladi:
-- Auth (teacher/student)
-- Quiz CRUD (asosiy)
-- Live lobby yaratish
-- Game code bilan join (guest ham)
-- Game code yoki to'liq join link orqali join qilish
-- Real-time savol yuborish va javob olish
-- Leaderboard / finalize logikasi
-- Join code/join linkni nusxalash va recent codes bilan tez qayta qo'shilish
-- i18n (uz/ru/en) + dark/light theme toggle
-- Forgot password (MVP password reset)
-- API online/offline health status ko'rsatish
-
-Keyingi bosqichda platformani to'liq Blooket-like v1 darajaga olib chiqish uchun economy, market, inventory, reports va qo'shimcha game mode larni qo'shish mumkin.
-
-<!-- ================================================ -->
-
-
-Eslatma: student host qila olmaydi, lekin join + answer + leaderboard to‘liq ishlaydi.
+## 10. Qisqa eslatma
+- `student` host qila olmaydi, lekin join, exam topshirish va natijani ko'rish ishlaydi.
+- Quizlar studentga field, semester, section va publish holatiga qarab ko'rinadi.
+- Agar quiz endpointlarda `500` chiqsa, migratsiyalarni tekshirish kerak.

@@ -8,9 +8,11 @@ const normalizeEntry = (entry) => {
   const id = entry.player_id ?? entry.id ?? null
   const name = String(entry.name ?? entry.nickname ?? 'Guest').trim() || 'Guest'
   const scoreValue = Number(entry.score ?? 0)
+  const avatar = String(entry.avatar ?? 'avatar-1')
   return {
     id,
     name,
+    avatar,
     score: Number.isFinite(scoreValue) ? scoreValue : 0,
   }
 }
@@ -37,7 +39,7 @@ const mergeEntries = (baseList = [], incomingList = []) => {
   return sortEntries([...merged.values()])
 }
 
-export default function useGameSocket(code) {
+export default function useGameSocket(code, socketIdentity = {}) {
   const wsRef = useRef(null)
   const reconnectTimerRef = useRef(null)
   const closedRef = useRef(false)
@@ -51,6 +53,8 @@ export default function useGameSocket(code) {
   const [question, setQuestion] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [totalQuestions, setTotalQuestions] = useState(0)
+  const [questionToken, setQuestionToken] = useState('')
+  const [questionStartedAt, setQuestionStartedAt] = useState(null)
   const [players, setPlayers] = useState([])
   const [leaderboard, setLeaderboard] = useState([])
   const [answerAck, setAnswerAck] = useState(null)
@@ -118,6 +122,8 @@ export default function useGameSocket(code) {
 
       if (msg?.type === 'question') {
         setQuestion(msg.question || null)
+        setQuestionToken(String(msg.question_token || ''))
+        setQuestionStartedAt(msg.question_started_at ?? null)
         setPhase(msg.phase || (msg.question ? 'question' : 'lobby'))
         setCurrentIndex(msg.current_index ?? -1)
         setTotalQuestions(msg.total_questions ?? 0)
@@ -166,7 +172,13 @@ export default function useGameSocket(code) {
       return
     }
 
-    const ws = new WebSocket(buildRoomWsUrl(code))
+    const ws = new WebSocket(
+      buildRoomWsUrl(code, {
+        playerId: socketIdentity?.playerId,
+        reconnectToken: socketIdentity?.reconnectToken,
+        clientId: socketIdentity?.clientId,
+      })
+    )
     wsRef.current = ws
 
     ws.onopen = () => {
@@ -194,7 +206,7 @@ export default function useGameSocket(code) {
         }
       }, RECONNECT_DELAY_MS)
     }
-  }, [clearReconnectTimer, code, handleMessage])
+  }, [clearReconnectTimer, code, handleMessage, socketIdentity?.clientId, socketIdentity?.playerId, socketIdentity?.reconnectToken])
 
   useEffect(() => {
     if (!code) return undefined
@@ -222,6 +234,8 @@ export default function useGameSocket(code) {
     wsStatus,
     phase,
     question,
+    questionToken,
+    questionStartedAt,
     currentIndex,
     totalQuestions,
     players,

@@ -8,8 +8,14 @@ urlpatterns = [
     path('api/health/', health, name='health'),
     path('api/health', health, name='health-no-slash'),
     path('api/', include('users.urls')),
+    path('api/', include('fields.urls')),
+    path('api/', include('subjects.urls')),
     path('api/', include('quizzes.urls')),
     path('api/', include('games.urls')),
+    path('api/', include('results.urls')),
+    path('api/', include('analytics.urls')),
+    path('api/', include('ai_tools.urls')),
+    path('api/integrations/', include('integrations.urls')),
 ]
 
 spa_view = FrontendAppView.as_view()

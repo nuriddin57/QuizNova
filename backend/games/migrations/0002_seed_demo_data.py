@@ -15,22 +15,57 @@ def create_demo_data(apps, schema_editor):
 
     from django.contrib.auth.hashers import make_password
 
-    # Create users
-    teacher, _ = User.objects.get_or_create(username='alice_teacher', defaults={'email': 'alice@example.com', 'role': 'teacher'})
-    teacher.password = make_password('password123')
+    # Create users that satisfy the university-only login validation rules.
+    teacher, _ = User.objects.get_or_create(
+        username='alice_teacher',
+        defaults={
+            'email': 'john.doe@shardauniversity.uz',
+            'full_name': 'John Doe',
+            'role': 'teacher',
+            'teacher_department': 'Computer Science',
+            'teacher_designation': 'Lecturer',
+            'is_verified': True,
+            'university_domain_verified': True,
+            'is_staff': True,
+        },
+    )
+    teacher.email = 'john.doe@shardauniversity.uz'
+    teacher.full_name = 'John Doe'
+    teacher.role = 'teacher'
+    teacher.teacher_department = 'Computer Science'
+    teacher.teacher_designation = 'Lecturer'
+    teacher.is_verified = True
+    teacher.university_domain_verified = True
+    teacher.is_staff = True
+    teacher.password = make_password('demo1234')
     teacher.save()
 
     students = []
     sample_students = [
-        ('bob_student', 'Bob Student'),
-        ('carol_student', 'Carol Learner'),
-        ('dave_student', 'Dave Pupil'),
+        ('bob_student', 'Student One', 'demo.student1@ug.shardauniversity.uz', '202499123'),
+        ('carol_student', 'Student Two', 'demo.student2@ug.shardauniversity.uz', '202499124'),
+        ('dave_student', 'Student Three', 'demo.student3@ug.shardauniversity.uz', '202499125'),
     ]
-    for username, _name in sample_students:
-        u, created = User.objects.get_or_create(username=username, defaults={'email': f'{username}@example.com', 'role': 'student'})
-        if created:
-            u.password = make_password('studentpass')
-            u.save()
+    for username, full_name, email, student_id in sample_students:
+        u, _ = User.objects.get_or_create(
+            username=username,
+            defaults={
+                'email': email,
+                'full_name': full_name,
+                'student_id': student_id,
+                'role': 'student',
+                'is_verified': True,
+                'university_domain_verified': True,
+            },
+        )
+        u.email = email
+        u.full_name = full_name
+        u.student_id = student_id
+        u.role = 'student'
+        u.is_verified = True
+        u.university_domain_verified = True
+        u.password = make_password('demo1234')
+        u.save()
         students.append(u)
 
     # Avoid duplicating demo quizzes
@@ -123,7 +158,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('games', '0001_initial'),
         ('quizzes', '0001_initial'),
-        ('users', '0001_initial'),
+        ('users', '0002_university_profile_fields'),
     ]
 
     operations = [

@@ -1,9 +1,9 @@
 import { cn } from '../utils/cn'
 
 const palette = {
-  primary: 'border border-indigo-200 bg-indigo-50 text-indigo-700 dark:border-primary-300/45 dark:bg-primary-400/18 dark:text-primary-100',
-  accent: 'border border-cyan-200 bg-cyan-50 text-cyan-700 dark:border-accent-cyan/45 dark:bg-accent-cyan/15 dark:text-cyan-100',
-  neutral: 'border border-slate-200 bg-white text-slate-600 dark:border-white/25 dark:bg-white/10 dark:text-slate-200',
+  primary: 'border border-indigo-200 bg-indigo-50 text-indigo-700 dark:border-primary-300/70 dark:bg-primary-500/38 dark:text-white',
+  accent: 'border border-cyan-200 bg-cyan-50 text-cyan-700 dark:border-accent-cyan/70 dark:bg-cyan-500/32 dark:text-white',
+  neutral: 'border border-slate-200 bg-white text-slate-600 dark:border-slate-400/60 dark:bg-slate-800/78 dark:text-slate-100',
 }
 
 const Badge = ({ children, tone = 'primary', className = '' }) => {

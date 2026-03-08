@@ -4,8 +4,9 @@ import PatternBackground from './PatternBackground'
 
 const Layout = ({ children }) => {
   const location = useLocation()
-  const authRoutes = ['/login', '/register']
-  const showNav = !authRoutes.includes(location.pathname)
+  const authRoutes = ['/login', '/register', '/forgot-password']
+  const isUniversityCallback = location.pathname.startsWith('/auth/university/callback')
+  const showNav = !authRoutes.includes(location.pathname) && !isUniversityCallback
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-surface-base text-slate-900 transition-colors dark:text-[#eaf2ff]">

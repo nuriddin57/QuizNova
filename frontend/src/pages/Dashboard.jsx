@@ -128,7 +128,7 @@ const Dashboard = () => {
       return
     }
     if (actionId === 'create_set') {
-      navigate('/my-sets')
+      navigate('/admin-panel')
       return
     }
     if (actionId === 'assign_hw') {
@@ -312,12 +312,12 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between gap-3">
                   <h3 className="text-xl font-semibold text-slate-900">{t('dashboardPage.announcements')}</h3>
                   <div className="flex items-center gap-2">
-                    <span className="rounded-full bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-600">
+                    <span className="rounded-full border border-primary-200 bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-700 dark:border-primary-300/60 dark:bg-primary-500/32 dark:text-white">
                       {unreadAnnouncementsCount} {t('dashboardPage.unread')}
                     </span>
                     <button
                       type="button"
-                      className="text-sm font-semibold text-primary-500"
+                      className="rounded-full px-2 py-1 text-sm font-semibold text-primary-600 hover:text-primary-700 dark:text-cyan-100 dark:hover:text-white"
                       onClick={() => setShowAllAnnouncements((prev) => !prev)}
                     >
                       {showAllAnnouncements ? t('dashboardPage.showLess') : t('dashboardPage.viewAll')}

@@ -141,7 +141,7 @@ const Discover = () => {
   const handleSaveSet = (title) => () => toastHelpers.success(t('setCard.savedToLibrary', { title }))
   const handleHostSetLocalized = (set) => () => {
     toastHelpers.info(t('setCard.hostingShareCode', { title: resolveText(t, set.titleKey, set.title) }))
-    navigate(`/host?set=${set.id}&mode=rocket-rush`)
+    navigate(`/host?set=${set.id}&mode=classic`)
   }
   const handleOpenSet = (set) => () => navigate(`/sets/${set.id}`)
   const sortLabels = { Popular: t('discoverPage.sortPopular'), Newest: t('discoverPage.sortNewest'), Rated: t('discoverPage.sortRated') }

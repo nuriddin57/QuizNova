@@ -38,7 +38,9 @@ const SetCard = ({
       <div className={cn('h-28 w-full bg-gradient-to-r', gradient)} />
       <div className="space-y-4 px-6 pb-6 pt-5">
         <div className="flex items-center justify-between">
-          <Badge tone="primary">{badgeLabel}</Badge>
+          <Badge tone="primary" className="dark:!border-primary-300/80 dark:!bg-primary-600/58 dark:!text-white dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08)]">
+            {badgeLabel}
+          </Badge>
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-300">
             {rating ?? 4.5} {'\u2605'}
           </span>

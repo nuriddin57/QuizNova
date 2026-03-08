@@ -68,8 +68,8 @@ const Landing = () => {
   const goToLogin = (target) => navigate('/login', { state: { from: target } })
   const handleHowItWorksAction = (actionId) => {
     if (actionId === 'prepare_quiz') {
-      if (!authed) return goToLogin('/my-sets')
-      navigate('/my-sets')
+      if (!authed) return goToLogin('/admin-panel')
+      navigate('/admin-panel')
       return
     }
     if (actionId === 'start_session') {
@@ -117,7 +117,7 @@ const Landing = () => {
               </h1>
               <p className="mt-4 max-w-2xl text-xl text-slate-600 dark:text-slate-300">{t('landing.heroDesc')}</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <PrimaryButton as={Link} to="/register">
+                <PrimaryButton as={Link} to="/login">
                   {t('landing.startFree')}
                 </PrimaryButton>
                 <SecondaryButton as={Link} to="/discover" className="min-w-[180px] justify-center">
@@ -366,7 +366,7 @@ const Landing = () => {
                   </li>
                 ))}
               </ul>
-              <PrimaryButton as={Link} to="/register" className="mt-6 w-full justify-center">
+              <PrimaryButton as={Link} to="/login" className="mt-6 w-full justify-center">
                 {resolveText(t, card.ctaKey, card.cta)}
               </PrimaryButton>
             </Card>
@@ -438,8 +438,8 @@ const Landing = () => {
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-slate-400 dark:text-white/60">{t('landing.community')}</p>
               <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-white/80">
-                <li><Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/register">{t('landing.footerTeachers')}</Link></li>
-                <li><Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/register">{t('landing.footerParents')}</Link></li>
+                <li><Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/login">{t('landing.footerTeachers')}</Link></li>
+                <li><Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/login">{t('landing.footerParents')}</Link></li>
                 <li><Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/join">{t('landing.footerStudents')}</Link></li>
               </ul>
             </div>
