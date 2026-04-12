@@ -3,7 +3,7 @@
     "model": "users.user",
     "pk": 1,
     "fields": {
-      "password": "!",
+      "password": "pbkdf2_sha256$1200000$kQAGnbgz9Ch0yRNtaOxQ6e$RJVdFzJcPGs5cwRDW/TtN7PzWKj+E+RUJU4tmE4o0D0=",
       "last_login": null,
       "is_superuser": false,
       "username": "alice_teacher",
@@ -27,7 +27,7 @@
     "model": "users.user",
     "pk": 2,
     "fields": {
-      "password": "!",
+      "password": "pbkdf2_sha256$1200000$kQAGnbgz9Ch0yRNtaOxQ6e$RJVdFzJcPGs5cwRDW/TtN7PzWKj+E+RUJU4tmE4o0D0=",
       "last_login": null,
       "is_superuser": false,
       "username": "bob_student",
@@ -50,7 +50,7 @@
     "model": "users.user",
     "pk": 3,
     "fields": {
-      "password": "!",
+      "password": "pbkdf2_sha256$1200000$kQAGnbgz9Ch0yRNtaOxQ6e$RJVdFzJcPGs5cwRDW/TtN7PzWKj+E+RUJU4tmE4o0D0=",
       "last_login": null,
       "is_superuser": false,
       "username": "carol_student",
@@ -73,7 +73,7 @@
     "model": "users.user",
     "pk": 4,
     "fields": {
-      "password": "!",
+      "password": "pbkdf2_sha256$1200000$kQAGnbgz9Ch0yRNtaOxQ6e$RJVdFzJcPGs5cwRDW/TtN7PzWKj+E+RUJU4tmE4o0D0=",
       "last_login": null,
       "is_superuser": false,
       "username": "dave_student",

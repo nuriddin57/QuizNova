@@ -4,6 +4,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.text import slugify
 
+from .validators import normalize_email, validate_role_email_match
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -26,7 +28,7 @@ class UserManager(BaseUserManager):
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError('Email is required.')
-        email = self.normalize_email(email)
+        email = normalize_email(email)
         extra_fields['email'] = email
         extra_fields['username'] = self._normalize_username(extra_fields.get('username'), email)
         user = self.model(**extra_fields)
@@ -55,15 +57,28 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     ROLE_STUDENT = 'student'
     ROLE_TEACHER = 'teacher'
+    ROLE_PARENT = 'parent'
     ROLE_ADMIN = 'admin'
     ROLE_CHOICES = [
         (ROLE_STUDENT, 'Student'),
         (ROLE_TEACHER, 'Teacher'),
+        (ROLE_PARENT, 'Parent'),
         (ROLE_ADMIN, 'Admin'),
+    ]
+    LANGUAGE_UZ = 'uz'
+    LANGUAGE_RU = 'ru'
+    LANGUAGE_EN = 'en'
+    LANGUAGE_CHOICES = [
+        (LANGUAGE_UZ, 'Uzbek'),
+        (LANGUAGE_RU, 'Russian'),
+        (LANGUAGE_EN, 'English'),
     ]
 
     email = models.EmailField('email address', unique=True, db_index=True)
     full_name = models.CharField(max_length=255, blank=True)
+    avatar = models.URLField(blank=True)
+    school = models.CharField(max_length=255, blank=True)
+    language_preference = models.CharField(max_length=8, choices=LANGUAGE_CHOICES, default=LANGUAGE_UZ)
     student_id = models.CharField(max_length=32, blank=True, null=True, unique=True, db_index=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=ROLE_STUDENT)
     field_of_study = models.ForeignKey(
@@ -93,12 +108,13 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = []
 
     objects = UserManager()
 
     def save(self, *args, **kwargs):
-        self.email = User.objects.normalize_email(self.email or '')
+        self.email = normalize_email(self.email)
+        validate_role_email_match(self.role, self.email, allow_admin=True)
         if not self.username:
             self.username = User.objects._normalize_username('', self.email)
         if not self.full_name:
@@ -112,6 +128,9 @@ class User(AbstractUser):
     def is_teacher(self):
         return self.role == self.ROLE_TEACHER
 
+    def is_parent(self):
+        return self.role == self.ROLE_PARENT
+
     def is_admin(self):
         return self.role == self.ROLE_ADMIN or self.is_staff
 
@@ -124,6 +143,8 @@ class User(AbstractUser):
             return getattr(self, 'student_profile', None)
         if self.is_teacher() or self.is_admin():
             return getattr(self, 'teacher_profile', None)
+        if self.is_parent():
+            return getattr(self, 'parent_profile', None)
         return None
 
 
@@ -136,13 +157,20 @@ class StudentProfile(models.Model):
     student_id = models.CharField(max_length=32, blank=True, db_index=True)
 
     def save(self, *args, **kwargs):
+        update_fields = []
         if self.student_id and self.user.student_id != self.student_id:
             self.user.student_id = self.student_id
+            update_fields.append('student_id')
         if self.semester and self.user.semester_number != self.semester:
             self.user.semester_number = self.semester
+            update_fields.append('semester_number')
         if self.group and self.user.section != self.group:
             self.user.section = self.group
-        self.user.save(update_fields=['student_id', 'semester_number', 'section', 'updated_at'])
+            update_fields.append('section')
+        if update_fields and self.user_id:
+            User.objects.filter(pk=self.user_id).update(
+                **{field: getattr(self.user, field) for field in update_fields}
+            )
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -171,6 +199,16 @@ class TeacherProfile(models.Model):
 
     def __str__(self):
         return f'TeacherProfile<{self.user.email}>'
+
+
+class ParentProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='parent_profile')
+    linked_students = models.ManyToManyField(User, blank=True, related_name='linked_parents')
+    relationship = models.CharField(max_length=50, blank=True)
+    notes = models.TextField(blank=True)
+
+    def __str__(self):
+        return f'ParentProfile<{self.user.email}>'
 
 
 @receiver(post_save, sender=User)
@@ -221,3 +259,6 @@ def ensure_role_profiles(sender, instance, created, **kwargs):
                 department=profile.department,
                 subject_area=profile.subject_area,
             )
+
+    if instance.is_parent():
+        ParentProfile.objects.get_or_create(user=instance)

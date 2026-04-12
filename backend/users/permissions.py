@@ -25,6 +25,14 @@ class IsAdminRole(BasePermission):
         return bool(user and user.is_authenticated and user.is_admin())
 
 
+class IsParentRole(BasePermission):
+    message = 'Parent role is required.'
+
+    def has_permission(self, request, view):
+        user = getattr(request, 'user', None)
+        return bool(user and user.is_authenticated and user.is_parent())
+
+
 class IsVerifiedUniversityUser(BasePermission):
     message = 'Your university profile is not verified.'
 

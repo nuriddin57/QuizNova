@@ -34,7 +34,12 @@ class QuizViewSet(viewsets.ModelViewSet):
         qs = (
             Quiz.objects
             .select_related('owner', 'subject_ref', 'topic_ref', 'module_ref')
-            .prefetch_related('questions__choices', 'assigned_fields', 'quiz_question_links__question_bank_reference')
+            .prefetch_related(
+                'questions__choices',
+                'assigned_fields',
+                'quiz_question_links__question__choices',
+                'quiz_question_links__question_bank_reference',
+            )
             .annotate(question_count=Count('questions', distinct=True))
             .order_by('-created_at')
         )

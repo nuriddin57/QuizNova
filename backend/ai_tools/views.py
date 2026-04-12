@@ -6,11 +6,13 @@ from fields.models import StudyField
 from users.permissions import IsTeacher
 
 from .serializers import (
+    AIQuestionAnalyzeRequestSerializer,
     AIBulkAddToQuizRequestSerializer,
     AIQuestionGenerateRequestSerializer,
+    AIQuestionRegenerateRequestSerializer,
     AISaveToQuestionBankRequestSerializer,
 )
-from .services import generate_questions, to_quiz_payload_questions
+from .services import analyze_question_draft, generate_questions, regenerate_question, to_quiz_payload_questions
 
 
 class GenerateAIQuestionsView(APIView):
@@ -34,9 +36,48 @@ class GenerateAIQuestionsView(APIView):
             difficulty=data['difficulty'],
             number_of_questions=data['number_of_questions'],
             field_of_study_name=field_name,
+            language=data.get('language', 'en'),
         )
         generated['quiz_payload'] = to_quiz_payload_questions(generated['questions'])
         return Response(generated, status=status.HTTP_200_OK)
+
+
+class RegenerateAIQuestionView(APIView):
+    permission_classes = [permissions.IsAuthenticated, IsTeacher]
+
+    def post(self, request):
+        serializer = AIQuestionRegenerateRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        field_name = (data.get('field_of_study_name') or '').strip()
+        field_id = data.get('field_of_study_id')
+        if not field_name and field_id:
+            field = StudyField.objects.filter(id=field_id).first()
+            if field:
+                field_name = field.name
+
+        generated = regenerate_question(
+            topic=data['topic'],
+            subject=data['subject'],
+            difficulty=data['difficulty'],
+            field_of_study_name=field_name,
+            language=data.get('language', 'en'),
+            existing_questions=data.get('existing_questions') or [],
+            current_question_text=data.get('current_question_text', ''),
+            current_question_type=data.get('current_question_type', ''),
+        )
+        return Response(generated, status=status.HTTP_200_OK)
+
+
+class AnalyzeAIQuestionView(APIView):
+    permission_classes = [permissions.IsAuthenticated, IsTeacher]
+
+    def post(self, request):
+        serializer = AIQuestionAnalyzeRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        analysis = analyze_question_draft(**serializer.validated_data)
+        return Response(analysis, status=status.HTTP_200_OK)
 
 
 class BulkAddAIQuestionsToQuizView(APIView):

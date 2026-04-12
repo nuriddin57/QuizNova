@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate
 from django.test import TestCase
 from rest_framework.test import APIClient
 
@@ -102,3 +103,24 @@ class UniversityAuthTests(TestCase):
             format='json',
         )
         self.assertEqual(response.status_code, 403)
+
+    def test_email_login_endpoint_accepts_valid_credentials(self):
+        response = self.client.post(
+            '/api/auth/login/',
+            {'email': 'student1@ug.shardauniversity.uz', 'password': 'StrongPass123!'},
+            format='json',
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('access', response.data)
+        self.assertEqual(response.data['user']['email'], 'student1@ug.shardauniversity.uz')
+
+
+class UserModelTests(TestCase):
+    def test_email_user_can_authenticate_without_manual_username(self):
+        user = get_user_model().objects.create_user(
+            email='new.student@ug.shardauniversity.uz',
+            password='StrongPass123!',
+            role='student',
+        )
+        self.assertTrue(user.username)
+        self.assertTrue(authenticate(username='new.student@ug.shardauniversity.uz', password='StrongPass123!'))

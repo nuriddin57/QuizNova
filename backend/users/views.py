@@ -79,7 +79,13 @@ class StudentFieldSelectionView(APIView):
 
 
 class UserManagementViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by('-created_at').prefetch_related('assigned_fields')
+    queryset = (
+        User.objects
+        .all()
+        .order_by('-created_at')
+        .select_related('field_of_study')
+        .prefetch_related('assigned_fields', 'parent_profile__linked_students')
+    )
     permission_classes = [permissions.IsAuthenticated, IsAdminRole]
 
     def get_serializer_class(self):

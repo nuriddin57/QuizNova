@@ -16,6 +16,10 @@ def csv_to_list(env_name, fallback):
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'changeme-local')
 DEBUG = os.getenv('DEBUG', '0') == '1'
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'development').strip().lower()
+if ENVIRONMENT == 'production' and SECRET_KEY == 'changeme-local':
+    raise RuntimeError('SECRET_KEY must be set in production.')
+
 ALLOWED_HOSTS = csv_to_list('ALLOWED_HOSTS', '127.0.0.1,localhost')
 
 INSTALLED_APPS = [
@@ -40,6 +44,7 @@ INSTALLED_APPS = [
     'results.apps.ResultsConfig',
     'analytics.apps.AnalyticsConfig',
     'integrations.apps.IntegrationsConfig',
+    'marketing.apps.MarketingConfig',
 ]
 
 MIDDLEWARE = [
@@ -77,10 +82,12 @@ ASGI_APPLICATION = 'blooket.asgi.application'
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 if DATABASE_URL:
-    # expect a postgres URL
-   
     DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=int(os.getenv('DB_CONN_MAX_AGE', '600')),
+            ssl_require=os.getenv('DB_SSL_REQUIRE', '0') == '1',
+        )
     }
 else:
     DATABASES = {
@@ -92,7 +99,12 @@ else:
 
 AUTH_USER_MODEL = 'users.User'
 
-AUTH_PASSWORD_VALIDATORS = []
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', 'OPTIONS': {'min_length': 8}},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+]
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
@@ -101,6 +113,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+MEDIA_URL = os.getenv('MEDIA_URL', '/media/')
+MEDIA_ROOT = BASE_DIR / os.getenv('MEDIA_ROOT', 'media')
 STATICFILES_DIRS = []
 LOCAL_STATIC_DIR = BASE_DIR / 'static'
 FRONTEND_DIST_DIR = LOCAL_STATIC_DIR / 'frontend'
@@ -139,10 +153,15 @@ REST_FRAMEWORK.update({
 })
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=int(os.getenv('JWT_ACCESS_MINUTES', '60'))),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=int(os.getenv('JWT_REFRESH_DAYS', '14'))),
+    'ROTATE_REFRESH_TOKENS': os.getenv('JWT_ROTATE_REFRESH_TOKENS', '1') == '1',
+    'BLACKLIST_AFTER_ROTATION': os.getenv('JWT_BLACKLIST_AFTER_ROTATION', '0') == '1',
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', '0') == '1'
 CORS_ALLOWED_ORIGINS = csv_to_list(
     'CORS_ALLOWED_ORIGINS',
     'http://localhost:5173,http://127.0.0.1:5173,http://localhost:8001,http://127.0.0.1:8001',
@@ -153,6 +172,18 @@ CSRF_TRUSTED_ORIGINS = csv_to_list(
 )
 
 FRONTEND_APP_URL = os.getenv('FRONTEND_APP_URL') or (CORS_ALLOWED_ORIGINS[0] if CORS_ALLOWED_ORIGINS else 'http://127.0.0.1:5173')
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', '0') == '1'
+SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', '0') == '1'
+CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', '0') == '1'
+SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '0'))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.getenv('SECURE_HSTS_INCLUDE_SUBDOMAINS', '0') == '1'
+SECURE_HSTS_PRELOAD = os.getenv('SECURE_HSTS_PRELOAD', '0') == '1'
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+USE_X_FORWARDED_HOST = os.getenv('USE_X_FORWARDED_HOST', '1') == '1'
 
 UNIVERSITY_PROVIDER = os.getenv('UNIVERSITY_PROVIDER', 'sharda')
 UNIVERSITY_API_BASE_URL = os.getenv('UNIVERSITY_API_BASE_URL', '').rstrip('/')

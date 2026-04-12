@@ -237,7 +237,8 @@ class QuizQuestionSerializer(serializers.ModelSerializer):
 class QuizSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True, required=False)
     question_links = QuizQuestionSerializer(source='quiz_question_links', many=True, read_only=True)
-    question_count = serializers.IntegerField(read_only=True)
+    question_count = serializers.SerializerMethodField()
+    preview_questions = serializers.SerializerMethodField()
     owner_username = serializers.CharField(source='owner.username', read_only=True)
     assigned_fields = serializers.PrimaryKeyRelatedField(
         queryset=StudyField.objects.filter(is_active=True),
@@ -305,6 +306,7 @@ class QuizSerializer(serializers.ModelSerializer):
             'owner',
             'owner_username',
             'question_count',
+            'preview_questions',
             'questions',
             'question_links',
             'created_at',
@@ -330,6 +332,57 @@ class QuizSerializer(serializers.ModelSerializer):
             'title': obj.module_ref.title,
             'topic_id': obj.module_ref.topic_id,
         }
+
+    def get_question_count(self, obj):
+        annotated_count = getattr(obj, 'question_count', None)
+        if annotated_count is not None:
+            return annotated_count
+        return obj.questions.count()
+
+    def get_preview_questions(self, obj):
+        questions = list(obj.questions.all())
+        if questions:
+            return QuestionSerializer(questions, many=True, context=self.context).data
+
+        preview_questions = []
+        for index, link in enumerate(obj.quiz_question_links.all()):
+            question = getattr(link, 'question', None)
+            if question is not None:
+                preview_questions.append(QuestionSerializer(question, context=self.context).data)
+                continue
+
+            bank = getattr(link, 'question_bank_reference', None)
+            if bank is None:
+                continue
+
+            mapped_choices = []
+            for choice_index, text in enumerate(
+                [bank.option_a, bank.option_b, bank.option_c, bank.option_d],
+                start=1,
+            ):
+                if isinstance(text, str) and text.strip():
+                    mapped_choices.append({
+                        'id': f'{bank.id}-choice-{choice_index}',
+                        'text': text,
+                    })
+
+            preview_questions.append({
+                'id': bank.id or f'bank-{index + 1}',
+                'text': bank.question_text,
+                'text_uz': '',
+                'text_en': '',
+                'image_url': '',
+                'short_answer': '',
+                'explanation': bank.explanation or '',
+                'question_type': bank.question_type,
+                'difficulty': bank.difficulty,
+                'marks': bank.marks,
+                'timer_seconds': 20,
+                'choices': mapped_choices,
+                'order': link.order,
+            })
+
+        return preview_questions
 
     @classmethod
     def _detect_question_kind(cls, choices):

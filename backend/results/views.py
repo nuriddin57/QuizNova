@@ -9,9 +9,9 @@ from rest_framework.views import APIView
 from games.models import Attempt, AttemptAnswer
 from quizzes.models import Quiz
 from quizzes.serializers import QuestionSerializer
-from users.permissions import IsStudent, IsTeacher
+from users.permissions import IsParentRole, IsStudent, IsTeacher
 
-from .serializers import ResultSerializer
+from .serializers import ResultSerializer, StudentMyResultSerializer
 
 
 def _student_can_access_quiz(student, quiz):
@@ -127,18 +127,24 @@ class SubmitExamView(APIView):
         wrong_answers = 0
         mark_per_question = float(quiz.total_marks) / float(total_questions) if total_questions else 0.0
         now = timezone.now()
+        student_profile = getattr(request.user, 'student_profile', None)
+        student_id_snapshot = request.user.student_id or getattr(student_profile, 'student_id', '') or ''
+        field_of_study = getattr(request.user, 'field_of_study', None)
+        field_name_snapshot = getattr(field_of_study, 'name', '')
+        semester_number = request.user.semester_number or getattr(student_profile, 'semester', None)
+        section = request.user.section or getattr(student_profile, 'group', '') or ''
 
         with transaction.atomic():
             attempt = Attempt.objects.create(
                 user=request.user,
                 quiz=quiz,
                 student_name_snapshot=request.user.full_name or request.user.username,
-                student_id_snapshot=request.user.student_id or '',
-                field_of_study=request.user.field_of_study,
-                field_name_snapshot=getattr(getattr(request.user, 'field_of_study', None), 'name', ''),
+                student_id_snapshot=student_id_snapshot,
+                field_of_study=field_of_study,
+                field_name_snapshot=field_name_snapshot,
                 semester_code=request.user.semester_code or '',
-                semester_number=request.user.semester_number,
-                section=request.user.section or '',
+                semester_number=semester_number,
+                section=section,
                 score=0,
                 started_at=now,
                 finished_at=now,
@@ -192,19 +198,49 @@ class StudentResultHistoryView(APIView):
     permission_classes = [permissions.IsAuthenticated, IsStudent]
 
     def get(self, request):
-        qs = Attempt.objects.filter(user=request.user).select_related('quiz', 'user').prefetch_related('answers')
+        qs = (
+            Attempt.objects
+            .filter(user=request.user)
+            .select_related('quiz', 'quiz__subject_ref', 'quiz__topic_ref', 'quiz__module_ref', 'user')
+            .prefetch_related('answers')
+        )
         subject = (request.query_params.get('subject') or '').strip()
+        subject_id = (request.query_params.get('subject_id') or '').strip()
         quiz_type = (request.query_params.get('quiz_type') or '').strip()
         difficulty = (request.query_params.get('difficulty') or '').strip()
 
         if subject:
-            qs = qs.filter(quiz__subject__iexact=subject)
+            qs = qs.filter(Q(quiz__subject__iexact=subject) | Q(quiz__subject_ref__name__iexact=subject))
+        if subject_id:
+            qs = qs.filter(quiz__subject_ref_id=subject_id)
         if quiz_type:
             qs = qs.filter(quiz__quiz_type=quiz_type)
         if difficulty:
             qs = qs.filter(quiz__difficulty=difficulty)
 
         data = ResultSerializer(qs.order_by('-finished_at')[:200], many=True).data
+        return Response({'results': data})
+
+
+class StudentMyResultsView(APIView):
+    permission_classes = [permissions.IsAuthenticated, IsStudent]
+
+    def get(self, request):
+        qs = (
+            Attempt.objects
+            .filter(user=request.user)
+            .select_related('quiz', 'quiz__subject_ref')
+            .order_by('-submitted_at', '-finished_at', '-id')
+        )
+        subject_id = (request.query_params.get('subject_id') or '').strip()
+        subject = (request.query_params.get('subject') or '').strip()
+
+        if subject_id:
+            qs = qs.filter(quiz__subject_ref_id=subject_id)
+        elif subject:
+            qs = qs.filter(Q(quiz__subject_ref__name__iexact=subject) | Q(quiz__subject__iexact=subject))
+
+        data = StudentMyResultSerializer(qs[:200], many=True).data
         return Response({'results': data})
 
 
@@ -283,3 +319,66 @@ class TeacherResultsView(APIView):
 
         data = ResultSerializer(qs.order_by('-finished_at')[:500], many=True).data
         return Response({'results': data})
+
+
+class ParentLinkedStudentsView(APIView):
+    permission_classes = [permissions.IsAuthenticated, IsParentRole]
+
+    def get(self, request):
+        profile = getattr(request.user, 'parent_profile', None)
+        students = profile.linked_students.select_related('field_of_study').order_by('full_name', 'email') if profile else []
+        payload = [
+            {
+                'id': student.id,
+                'full_name': student.full_name or student.username,
+                'email': student.email,
+                'student_id': student.student_id,
+                'field_of_study_name': getattr(student.field_of_study, 'name', ''),
+                'semester_code': student.semester_code,
+                'semester_number': student.semester_number,
+                'section': student.section,
+            }
+            for student in students
+        ]
+        return Response({'students': payload})
+
+
+class ParentProgressView(APIView):
+    permission_classes = [permissions.IsAuthenticated, IsParentRole]
+
+    def get(self, request):
+        profile = getattr(request.user, 'parent_profile', None)
+        linked_ids = list(profile.linked_students.values_list('id', flat=True)) if profile else []
+        if not linked_ids:
+            return Response({'children': [], 'results': []})
+
+        child_id = (request.query_params.get('child_id') or '').strip()
+        qs = Attempt.objects.filter(user_id__in=linked_ids).select_related('quiz', 'user').prefetch_related('answers')
+        if child_id:
+            qs = qs.filter(user_id=child_id)
+
+        results = ResultSerializer(qs.order_by('-finished_at')[:200], many=True).data
+        child_rows = (
+            Attempt.objects.filter(user_id__in=linked_ids)
+            .values('user_id', 'user__full_name', 'user__email')
+            .annotate(
+                attempts=Count('id'),
+                average_score=Avg('score'),
+                best_score=Max('score'),
+                last_finished_at=Max('finished_at'),
+            )
+            .order_by('user__full_name', 'user__email')
+        )
+        children = [
+            {
+                'id': row['user_id'],
+                'full_name': row['user__full_name'] or row['user__email'],
+                'email': row['user__email'],
+                'attempts': row['attempts'] or 0,
+                'average_score': float(row['average_score'] or 0.0),
+                'best_score': float(row['best_score'] or 0.0),
+                'last_finished_at': row['last_finished_at'],
+            }
+            for row in child_rows
+        ]
+        return Response({'children': children, 'results': results})

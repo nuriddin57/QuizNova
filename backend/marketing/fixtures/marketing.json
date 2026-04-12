@@ -1,0 +1,73 @@
+[
+  {
+    "model": "marketing.testimonial",
+    "pk": 1,
+    "fields": {
+      "name": "Dilnoza Karimova",
+      "role": "teacher",
+      "school": "Tashkent Digital School",
+      "quote": "QuizNova helped me turn revision into live, competitive sessions. My students now participate more and I can spot weak topics immediately.",
+      "quote_uz": "QuizNova takrorlash jarayonini jonli va raqobatbardosh darsga aylantirdi. Talabalarim faolroq qatnashmoqda va qaysi mavzular sustligini darhol ko'raman.",
+      "quote_ru": "QuizNova превратил повторение в живые соревновательные занятия. Студенты участвуют активнее, а слабые темы видны сразу.",
+      "quote_en": "QuizNova helped me turn revision into live, competitive sessions. My students now participate more and I can spot weak topics immediately.",
+      "avatar": "",
+      "is_active": true,
+      "created_at": "2026-03-01T09:00:00Z"
+    }
+  },
+  {
+    "model": "marketing.testimonial",
+    "pk": 2,
+    "fields": {
+      "name": "Azizbek Rakhimov",
+      "role": "student",
+      "school": "Sharda University Uzbekistan",
+      "quote": "The weekly challenge keeps me practicing outside class. I like that I can see where I improve instead of just getting a raw score.",
+      "quote_uz": "Haftalik challenge meni darsdan tashqarida ham mashq qilishga undaydi. Faqat ball emas, qaysi joyim yaxshilanayotganini ko'ra olaman.",
+      "quote_ru": "Еженедельный челлендж помогает мне тренироваться вне занятий. Я вижу не только балл, но и то, в чем стал лучше.",
+      "quote_en": "The weekly challenge keeps me practicing outside class. I like that I can see where I improve instead of just getting a raw score.",
+      "avatar": "",
+      "is_active": true,
+      "created_at": "2026-03-02T10:30:00Z"
+    }
+  },
+  {
+    "model": "marketing.testimonial",
+    "pk": 3,
+    "fields": {
+      "name": "Mavluda Sodiqova",
+      "role": "parent",
+      "school": "Innovative Learning Center",
+      "quote": "I finally have a clear picture of my child's progress. The reports are simple to understand and give us better study conversations at home.",
+      "quote_uz": "Farzandimning o'zlashtirishini endi aniq ko'ra olaman. Hisobotlar tushunarli va uyda samarali suhbat qilishimizga yordam beradi.",
+      "quote_ru": "Теперь я четко вижу прогресс ребенка. Отчеты понятные и помогают нам лучше обсуждать учебу дома.",
+      "quote_en": "I finally have a clear picture of my child's progress. The reports are simple to understand and give us better study conversations at home.",
+      "avatar": "",
+      "is_active": true,
+      "created_at": "2026-03-03T11:00:00Z"
+    }
+  },
+  {
+    "model": "marketing.weeklychallenge",
+    "pk": 1,
+    "fields": {
+      "title": "Algorithm Sprint: Arrays and Complexity",
+      "title_uz": "Algoritm sprinti: Massivlar va murakkablik",
+      "title_ru": "Алгоритм-спринт: массивы и сложность",
+      "title_en": "Algorithm Sprint: Arrays and Complexity",
+      "description": "Join this week's challenge to solve a focused set of algorithm questions, compare your accuracy, and unlock a mentor review for top performers.",
+      "description_uz": "Bu haftadagi challenge orqali algoritmlar bo'yicha tanlangan savollarni yeching, aniqligingizni taqqoslang va eng yaxshi ishtirokchilar uchun mentor tahliliga ega bo'ling.",
+      "description_ru": "Присоединяйтесь к челленджу недели: решайте отобранные задачи по алгоритмам, сравнивайте точность и получите разбор от ментора для лучших участников.",
+      "description_en": "Join this week's challenge to solve a focused set of algorithm questions, compare your accuracy, and unlock a mentor review for top performers.",
+      "reward": "Top 10 receive a verified achievement badge and featured leaderboard placement.",
+      "reward_uz": "Top-10 ishtirokchi tasdiqlangan badge va featured leaderboard joyini oladi.",
+      "reward_ru": "Топ-10 получат подтвержденный бейдж и место в выделенном рейтинге.",
+      "reward_en": "Top 10 receive a verified achievement badge and featured leaderboard placement.",
+      "deadline": "2026-03-16T18:00:00Z",
+      "code": "ARRAY26",
+      "is_active": true,
+      "created_at": "2026-03-08T08:00:00Z"
+    }
+  }
+]
+

@@ -2,11 +2,13 @@ import csv
 import io
 import logging
 
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import transaction
 from django.utils import timezone
 
 from fields.models import StudyField
 from users.models import User
+from users.validators import normalize_email, validate_role_email_match
 
 from integrations.models import UniversityIntegrationStatus
 from integrations.providers.base import UniversityProviderError
@@ -51,9 +53,13 @@ def _read_csv_rows(file_obj, required_columns):
 
 @transaction.atomic
 def sync_university_user(normalized_user):
-    email = normalized_user['email'].strip().lower()
+    email = normalize_email(normalized_user['email'])
     full_name = normalized_user.get('full_name', '').strip()
     role = normalized_user['role']
+    try:
+        validate_role_email_match(role, email, allow_admin=True)
+    except DjangoValidationError as exc:
+        raise UniversityProviderError(exc.messages[0])
     first_name, last_name = _split_name(full_name)
 
     user, created = User.objects.get_or_create(

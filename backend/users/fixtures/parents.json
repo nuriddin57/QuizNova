@@ -1,0 +1,49 @@
+[
+  {
+    "model": "users.user",
+    "pk": 50,
+    "fields": {
+      "password": "!",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "parent_guardian",
+      "first_name": "Malika",
+      "last_name": "Karimova",
+      "email": "parent.demo@quiznova.uz",
+      "full_name": "Malika Karimova",
+      "avatar": "",
+      "school": "Sharda University Uzbekistan",
+      "language_preference": "uz",
+      "student_id": null,
+      "role": "parent",
+      "field_of_study": null,
+      "semester_code": "",
+      "semester_number": null,
+      "department": "",
+      "teacher_department": "",
+      "teacher_designation": "",
+      "assigned_fields": [],
+      "assigned_semester_codes": [],
+      "assigned_semester_numbers": [],
+      "academic_year": "",
+      "section": "",
+      "is_verified": true,
+      "university_domain_verified": true,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-03-09T00:00:00Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.parentprofile",
+    "pk": 1,
+    "fields": {
+      "user": 50,
+      "linked_students": [2],
+      "relationship": "Mother",
+      "notes": "Demo parent linked to demo student for progress review."
+    }
+  }
+]
