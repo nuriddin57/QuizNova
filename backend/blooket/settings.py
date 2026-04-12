@@ -164,11 +164,11 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', '0') == '1'
 CORS_ALLOWED_ORIGINS = csv_to_list(
     'CORS_ALLOWED_ORIGINS',
-    'http://localhost:5173,http://127.0.0.1:5173,http://localhost:8001,http://127.0.0.1:8001',
+    'http://localhost:5173,http://127.0.0.1:5173',
 )
 CSRF_TRUSTED_ORIGINS = csv_to_list(
     'CSRF_TRUSTED_ORIGINS',
-    'http://localhost:5173,http://127.0.0.1:5173,http://localhost:8001,http://127.0.0.1:8001',
+    'http://localhost:5173,http://127.0.0.1:5173',
 )
 
 FRONTEND_APP_URL = os.getenv('FRONTEND_APP_URL') or (CORS_ALLOWED_ORIGINS[0] if CORS_ALLOWED_ORIGINS else 'http://127.0.0.1:5173')
