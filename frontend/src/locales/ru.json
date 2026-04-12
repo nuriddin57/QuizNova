@@ -228,6 +228,10 @@
     "curatedRows": "Подборки",
     "swipeToExplore": "Листайте для просмотра",
     "collection": "Коллекция",
+    "setsCount_one": "{{count}} набор",
+    "setsCount_few": "{{count}} набора",
+    "setsCount_many": "{{count}} наборов",
+    "setsCount_other": "{{count}} набора",
     "setsSuffix": "наборов",
     "noSetsTitle": "Нет наборов по этим фильтрам",
     "noSetsDesc": "Выберите другой предмет или очистите поиск.",
@@ -292,7 +296,8 @@
     "hostingShareCode": "Запуск {{title}}... поделитесь кодом лобби!",
     "openSet": "Открыть набор",
     "defaultSubject": "Общее",
-    "defaultCreator": "Сообщество"
+    "defaultCreator": "Сообщество",
+    "defaultTitle": "Набор без названия"
   },
   "quizEditor": {
     "title": "Название",
@@ -347,13 +352,13 @@
   "data": {
     "creators": {
       "codeClub": "Code Club",
-      "community": "Community",
-      "counselTeam": "Counsel Team",
-      "labCrew": "Lab Crew",
-      "languageLab": "Language Lab",
-      "mrKhan": "Mr Khan",
-      "msAri": "Ms Ari",
-      "quizNova": "Quiz Nova"
+      "community": "Сообщество",
+      "counselTeam": "Команда наставников",
+      "labCrew": "Лабораторная команда",
+      "languageLab": "Языковая лаборатория",
+      "mrKhan": "Мистер Хан",
+      "msAri": "Мисс Ари",
+      "quizNova": "QuizNova"
     },
     "dashboard": {
       "announcements": {
@@ -457,27 +462,27 @@
     },
     "discover": {
       "categories": {
-        "extras": "Extras",
-        "humanities": "Humanities",
-        "stem": "Stem"
+        "extras": "Дополнительно",
+        "humanities": "Гуманитарные науки",
+        "stem": "STEM"
       },
       "collections": {
-        "earthWeek": "Earth Week",
-        "selMoments": "Sel Moments",
-        "stemShowdown": "Stem Showdown"
+        "earthWeek": "Неделя Земли",
+        "selMoments": "Моменты SEL",
+        "stemShowdown": "STEM-баттл"
       },
       "items": {
-        "artMusic": "Art Music",
-        "civics": "Civics",
-        "ela": "Ela",
-        "engineering": "Engineering",
-        "geography": "Geography",
-        "languages": "Languages",
-        "robotics": "Robotics"
+        "artMusic": "Искусство и музыка",
+        "civics": "Граждановедение",
+        "ela": "Язык и литература",
+        "engineering": "Инженерия",
+        "geography": "География",
+        "languages": "Языки",
+        "robotics": "Робототехника"
       }
     },
     "filters": {
-      "all": "All"
+      "all": "Все"
     },
     "landing": {
       "faq": {
@@ -624,27 +629,27 @@
       }
     },
     "sets": {
-      "artRhythm": "Art Rhythm",
-      "codingLoops": "Coding Loops",
-      "earthSystems": "Earth Systems",
-      "fractions": "Fractions",
-      "languageBoost": "Language Boost",
-      "mathBasics": "Math Basics",
-      "rocketRushPack": "Rocket Rush Pack",
-      "scienceBasics": "Science Basics",
-      "selMindful": "Sel Mindful",
-      "spaceExplorers": "Space Explorers",
-      "triviaMix": "Trivia Mix",
-      "worldHistory": "World History"
+      "artRhythm": "Ритм искусства",
+      "codingLoops": "Циклы в программировании",
+      "earthSystems": "Системы Земли",
+      "fractions": "Дроби",
+      "languageBoost": "Усиление языка",
+      "mathBasics": "Основы математики",
+      "rocketRushPack": "Набор Rocket Rush",
+      "scienceBasics": "Основы науки",
+      "selMindful": "Осознанный SEL",
+      "spaceExplorers": "Исследователи космоса",
+      "triviaMix": "Микс викторин",
+      "worldHistory": "Всемирная история"
     },
     "subjects": {
-      "art": "Art",
-      "coding": "Coding",
-      "history": "History",
-      "math": "Math",
-      "science": "Science",
-      "sel": "Sel",
-      "trivia": "Trivia"
+      "art": "Искусство",
+      "coding": "Программирование",
+      "history": "История",
+      "math": "Математика",
+      "science": "Наука",
+      "sel": "SEL",
+      "trivia": "Викторина"
     }
   },
   "mySets": {
@@ -808,7 +813,7 @@
     "student": "Студент",
     "quiz": "Квиз",
     "score": "Балл",
-    "correctWrong": "Верно/Неверно",
+    "correctWrong": "Верно/Всего",
     "percentage": "Процент",
     "status": "Статус",
     "pending": "Ожидание",
@@ -848,5 +853,38 @@
     "quizCreated": "????????? ???????.",
     "editQuiz": "????????????? ?????????",
     "backToTeacherDashboard": "????? ? ?????? ?????????????"
+  },
+  "aiGenerator": {
+    "title": "AI генератор вопросов",
+    "description": "Создавайте вопросы университетского уровня и сохраняйте их прямо в свои quiz-материалы.",
+    "backToDashboard": "Назад в панель",
+    "formTitle": "Сгенерировать AI вопросы",
+    "questionCount": "Количество вопросов",
+    "generating": "Генерация...",
+    "generate": "Сгенерировать",
+    "generated": "Сгенерировано вопросов: {{count}} ({{provider}})",
+    "selectQuizFirst": "Сначала выберите quiz",
+    "selectSubjectFirst": "Сначала выберите предмет",
+    "noQuestionsToSave": "Нет сгенерированных вопросов для сохранения",
+    "savedToQuiz": "Сгенерированные вопросы сохранены в quiz",
+    "savedToBank": "Сгенерированные вопросы сохранены в банк вопросов",
+    "subjectForSaving": "Предмет для сохранения",
+    "topicForSaving": "Тема для сохранения",
+    "optionalQuizTarget": "Необязательный quiz",
+    "selectQuiz": "Выберите quiz",
+    "newQuizTitle": "Название нового quiz",
+    "newQuizTitlePlaceholder": "Sorting Algorithms Quiz",
+    "newQuizTitleRequired": "Введите название нового quiz",
+    "saveAsNewQuiz": "Сохранить как новый quiz",
+    "savedAsNewQuiz": "Сгенерированные вопросы сохранены как новый quiz",
+    "saveToQuiz": "Сохранить в quiz",
+    "saveToBank": "Сохранить в банк",
+    "noGeneratedQuestions": "Сгенерированных вопросов пока нет."
+  },
+  "questionPreview": {
+    "title": "Вопрос {{index}}",
+    "questionText": "Текст вопроса",
+    "optionLabel": "Вариант {{label}}",
+    "explanationOptional": "Пояснение (необязательно)"
   }
 }

@@ -8,48 +8,24 @@ import { useTranslation } from 'react-i18next'
 import Card from '../components/Card'
 import PrimaryButton from '../components/PrimaryButton'
 import SecondaryButton from '../components/SecondaryButton'
-import { getQuiz, getQuizLeaderboard, getSets, submitQuizAttempt } from '../api/axios'
-import { discoverSets, trendingSets } from '../utils/dummyData'
+import { getQuiz, getQuizLeaderboard, submitQuizAttempt } from '../api/axios'
 import { getAccessTokenPayload, getCurrentUserRole, isAuthenticated } from '../utils/auth'
-
-const buildLocalFallbackQuiz = (set, t) => {
-  if (!set) return null
-  const previewCount = Math.min(Number(set.questions || 0) || 0, 6)
-  return {
-    id: set.id,
-    title: set.title,
-    description: t('setDetail.localPreviewDescription'),
-    category: set.subject || t('setDetail.defaultCategory'),
-    owner_username: set.creator || t('setDetail.defaultCreator'),
-    question_count: Number(set.questions || 0) || previewCount,
-    _localPreview: true,
-    questions: Array.from({ length: Math.max(previewCount, 3) }).map((_, idx) => ({
-      id: `${set.id}-q-${idx + 1}`,
-      text: `${set.title} - ${t('setDetail.sampleQuestion', { n: idx + 1 })}`,
-      timer_seconds: 20,
-      choices: [
-        { id: `${set.id}-q-${idx + 1}-a`, text: 'A' },
-        { id: `${set.id}-q-${idx + 1}-b`, text: 'B' },
-        { id: `${set.id}-q-${idx + 1}-c`, text: 'C' },
-      ],
-    })),
-  }
-}
-
-const localSetCatalog = [...discoverSets, ...trendingSets]
-const findLocalSet = (id) => localSetCatalog.find((item) => String(item?.id) === String(id))
 
 const getChoiceKey = (choice, index) => String(choice?.id ?? `choice-${index}`)
 const getQuestionKey = (question, index) => String(question?.id ?? `question-${index}`)
+const isPositiveNumber = (value) => Number.isFinite(Number(value)) && Number(value) > 0
+const getChoiceLabel = (index) => String.fromCharCode(65 + index)
 
 const SetDetail = () => {
   const { t } = useTranslation()
-  const { id } = useParams()
+  const { setId: rawSetId = '' } = useParams()
+  const setId = decodeURIComponent(rawSetId)
   const navigate = useNavigate()
   const [loading, setLoading] = useState(true)
   const [loadingStats, setLoadingStats] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [quiz, setQuiz] = useState(null)
+  const [notFound, setNotFound] = useState(false)
   const [leaderboardRows, setLeaderboardRows] = useState([])
   const [canViewAllStats, setCanViewAllStats] = useState(false)
   const [selectedAnswers, setSelectedAnswers] = useState({})
@@ -62,27 +38,23 @@ const SetDetail = () => {
 
   useEffect(() => {
     let mounted = true
+    errorToastShown.current = false
     ;(async () => {
+      setLoading(true)
+      setNotFound(false)
+      setQuiz(null)
+      setLeaderboardRows([])
+      setCanViewAllStats(false)
       try {
-        const data = await getQuiz(id, { silent: true })
+        const data = await getQuiz(setId, { silent: true })
         if (mounted) setQuiz(data)
-      } catch {
-        let fallbackSource = findLocalSet(id)
-        if (!fallbackSource) {
-          try {
-            const listData = await getSets()
-            fallbackSource = (listData?.results || []).find((item) => String(item?.id) === String(id)) || null
-          } catch {
-            fallbackSource = null
-          }
-        }
-
-        const localFallback = buildLocalFallbackQuiz(fallbackSource, t)
-        if (mounted && localFallback) {
-          setQuiz(localFallback)
-        } else if (!errorToastShown.current) {
+      } catch (error) {
+        if (!mounted) return
+        if (error?.response?.status === 404) {
+          setNotFound(true)
+        } else {
           errorToastShown.current = true
-          toast.error(t('setDetail.setNotFoundTitle'))
+          toast.error(t('messages.somethingWentWrong'))
         }
       } finally {
         if (mounted) setLoading(false)
@@ -91,10 +63,10 @@ const SetDetail = () => {
     return () => {
       mounted = false
     }
-  }, [id, t])
+  }, [setId, t])
 
   const loadStats = useCallback(async () => {
-    if (!authed || !quiz?.id || quiz?._localPreview) {
+    if (!authed || !quiz?.id) {
       setLeaderboardRows([])
       setCanViewAllStats(false)
       return
@@ -110,13 +82,50 @@ const SetDetail = () => {
     } finally {
       setLoadingStats(false)
     }
-  }, [authed, quiz?.id, quiz?._localPreview])
+  }, [authed, quiz?.id])
 
   useEffect(() => {
     loadStats()
   }, [loadStats])
 
-  const questionCount = useMemo(() => quiz?.question_count ?? quiz?.questions?.length ?? 0, [quiz])
+  const questions = useMemo(() => {
+    const previewQuestions = Array.isArray(quiz?.preview_questions) ? quiz.preview_questions : []
+    if (previewQuestions.length > 0) return previewQuestions
+
+    const directQuestions = Array.isArray(quiz?.questions) ? quiz.questions : []
+    if (directQuestions.length > 0) return directQuestions
+
+    const links = Array.isArray(quiz?.question_links) ? quiz.question_links : []
+    return links
+      .map((link, index) => {
+        if (link?.question) return link.question
+        const bank = link?.question_bank_reference
+        if (!bank) return null
+        const mappedChoices = [
+          bank.option_a,
+          bank.option_b,
+          bank.option_c,
+          bank.option_d,
+        ]
+          .filter((option) => typeof option === 'string' && option.trim())
+          .map((text, choiceIndex) => ({
+            id: `${bank.id || `bank-${index}`}-choice-${choiceIndex + 1}`,
+            text,
+          }))
+        return {
+          id: isPositiveNumber(link?.question) ? Number(link.question) : bank.id || `bank-${index}`,
+          text: bank.question_text || '',
+          timer_seconds: 20,
+          choices: mappedChoices,
+        }
+      })
+      .filter(Boolean)
+  }, [quiz])
+
+  const questionCount = useMemo(
+    () => quiz?.question_count ?? questions.length ?? 0,
+    [quiz?.question_count, questions.length]
+  )
 
   const myLatestAttempt = useMemo(() => {
     if (lastSubmittedAttempt && Number(lastSubmittedAttempt?.user) === currentUserId) return lastSubmittedAttempt
@@ -141,7 +150,7 @@ const SetDetail = () => {
 
   const questionStatsMap = useMemo(() => {
     const stats = {}
-    for (const question of quiz?.questions || []) {
+    for (const question of questions) {
       stats[String(question.id)] = { answeredCount: 0, correctCount: 0, choiceStats: {} }
       for (const choice of question.choices || []) {
         stats[String(question.id)].choiceStats[String(choice.id)] = { count: 0, users: [] }
@@ -173,15 +182,11 @@ const SetDetail = () => {
       }
     }
     return stats
-  }, [canViewAllStats, leaderboardRows, quiz?.questions, t])
+  }, [canViewAllStats, leaderboardRows, questions, t])
 
   const canHost = role === 'teacher' || role === 'admin'
 
   const handleHost = () => {
-    if (quiz?._localPreview) {
-      toast.error(t('setDetail.seedBackendFirst'))
-      return
-    }
     if (!canHost) {
       toast.error(t('setDetail.teacherOnlyHost'))
       return
@@ -199,17 +204,15 @@ const SetDetail = () => {
 
   const handleSubmitAnswers = async () => {
     if (!authed) {
-      navigate('/login', { state: { from: `/sets/${id}` } })
+      navigate('/login', { state: { from: `/sets/${encodeURIComponent(setId)}` } })
       return
     }
-    if (quiz?._localPreview) {
-      toast.error(t('setDetail.seedBackendFirst'))
-      return
-    }
-    const answersPayload = Object.entries(selectedAnswers).map(([questionId, choiceId]) => ({
-      question_id: Number(questionId),
-      choice_id: Number(choiceId),
-    }))
+    const answersPayload = Object.entries(selectedAnswers)
+      .map(([questionId, choiceId]) => ({
+        question_id: Number(questionId),
+        choice_id: Number(choiceId),
+      }))
+      .filter((answer) => isPositiveNumber(answer.question_id) && isPositiveNumber(answer.choice_id))
     if (!answersPayload.length) {
       toast.error(t('setDetail.selectAtLeastOne'))
       return
@@ -237,10 +240,12 @@ const SetDetail = () => {
   }
 
   if (!quiz) {
+    const title = notFound ? t('setDetail.setNotFoundTitle') : t('messages.somethingWentWrong')
+    const description = notFound ? t('setDetail.setNotFoundDesc') : t('messages.somethingWentWrong')
     return (
       <Card>
-        <h2 className="text-2xl font-display font-semibold text-slate-900 dark:text-slate-100">{t('setDetail.setNotFoundTitle')}</h2>
-        <p className="mt-2 text-slate-500 dark:text-slate-300">{t('setDetail.setNotFoundDesc')}</p>
+        <h2 className="text-2xl font-display font-semibold text-slate-900 dark:text-slate-100">{title}</h2>
+        <p className="mt-2 text-slate-500 dark:text-slate-300">{description}</p>
         <div className="mt-4">
           <SecondaryButton as={Link} to="/discover">{t('setDetail.backToDiscover')}</SecondaryButton>
         </div>
@@ -256,11 +261,6 @@ const SetDetail = () => {
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-400">{quiz.category || t('setDetail.defaultCategory')}</p>
             <h1 className="mt-2 text-3xl font-display font-bold text-slate-900 dark:text-slate-100">{quiz.title}</h1>
             <p className="mt-3 text-slate-600 dark:text-slate-300">{quiz.description || t('setDetail.noDescription')}</p>
-            {quiz._localPreview ? (
-              <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-500">
-                {t('setDetail.localPreviewOnly')}
-              </p>
-            ) : null}
             <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold">
               <span className="rounded-2xl border border-slate-200 bg-white px-3 py-2 text-slate-700 shadow-[0_8px_20px_rgba(15,23,42,0.06)] dark:border-white/12 dark:bg-white/10 dark:text-slate-200">
                 {t('setDetail.questionsCount', { count: questionCount })}
@@ -286,7 +286,7 @@ const SetDetail = () => {
       <Card className="rounded-[32px]">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">{t('setDetail.answerSummary')}</h2>
-          <PrimaryButton type="button" onClick={handleSubmitAnswers} disabled={submitting || !authed || quiz._localPreview}>
+          <PrimaryButton type="button" onClick={handleSubmitAnswers} disabled={submitting || !authed || !questions.length}>
             {submitting ? t('setDetail.submittingAnswers') : t('setDetail.submitAnswers')}
           </PrimaryButton>
         </div>
@@ -337,8 +337,8 @@ const SetDetail = () => {
       <Card>
         <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">{t('setDetail.questionsPreview')}</h2>
         <div className="mt-4 space-y-4">
-          {(quiz.questions || []).length ? (
-            quiz.questions.map((q, index) => {
+          {questions.length ? (
+            questions.map((q, index) => {
               const questionKey = getQuestionKey(q, index)
               const questionStats = questionStatsMap[questionKey] || { answeredCount: 0, correctCount: 0, choiceStats: {} }
               const persistedAnswer = myAnswerMap[questionKey]
@@ -370,7 +370,7 @@ const SetDetail = () => {
                               : 'border-slate-200 bg-white text-slate-700 hover:border-primary-300'
                           }`}
                         >
-                          <p className="font-semibold">{choice.text}</p>
+                          <p className="font-semibold">{getChoiceLabel(choiceIndex)}. {choice.text}</p>
                           <p className="mt-1 text-xs">
                             {t('setDetail.selectedByCount', { count: choiceStats.count })}
                           </p>

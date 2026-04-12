@@ -16,6 +16,7 @@ const FieldSelection = () => {
   const { user, role, updateMyAcademicProfile } = useAuth()
   const [fields, setFields] = useState([])
   const [form, setForm] = useState({
+    student_id: '',
     field_of_study: '',
     semester_code: '',
     semester_number: '1',
@@ -41,8 +42,9 @@ const FieldSelection = () => {
   }, [])
 
   useEffect(() => {
-    if (user?.field_of_study) {
+    if (user) {
       setForm({
+        student_id: user.student_id || '',
         field_of_study: String(user.field_of_study || ''),
         semester_code: user.semester_code || '',
         semester_number: String(user.semester_number || '1'),
@@ -52,13 +54,14 @@ const FieldSelection = () => {
   }, [user])
 
   const submit = async () => {
-    if (!form.field_of_study || !form.semester_code || !form.semester_number || !form.section) {
+    if (!form.student_id || !form.field_of_study || !form.semester_code || !form.semester_number || !form.section) {
       toast.error(t('fieldSelection.completeProfile'))
       return
     }
     setSaving(true)
     try {
       await updateMyAcademicProfile({
+        student_id: form.student_id.trim(),
         field_of_study: Number(form.field_of_study),
         semester_code: form.semester_code,
         semester_number: Number(form.semester_number),
@@ -83,6 +86,12 @@ const FieldSelection = () => {
         <h1 className="text-3xl font-display font-bold text-slate-900">{t('fieldSelection.title')}</h1>
         <p className="mt-2 text-sm text-slate-600">{t('fieldSelection.description')}</p>
         <div className="mt-5 space-y-4">
+          <input
+            value={form.student_id}
+            onChange={(event) => setForm((prev) => ({ ...prev, student_id: event.target.value }))}
+            placeholder={t('fieldSelection.studentIdPlaceholder')}
+            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+          />
           <FieldSelectDropdown
             fields={fields}
             value={form.field_of_study}

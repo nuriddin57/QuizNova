@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 
 import { startExam, submitExam } from '../api/results'
 import Card from '../components/Card'
@@ -10,7 +11,10 @@ import SectionWrapper from '../components/SectionWrapper'
 import { useAuth } from '../context/AuthContext'
 import { isStudentRole } from '../utils/role'
 
+const getChoiceLabel = (index) => String.fromCharCode(65 + index)
+
 const QuizTake = () => {
+  const { t } = useTranslation()
   const { quizId } = useParams()
   const { role, loading } = useAuth()
   const [exam, setExam] = useState(null)
@@ -56,7 +60,7 @@ const QuizTake = () => {
       }
       const data = await submitExam(quizId, payload)
       setResult(data?.result || null)
-      toast.success('Exam submitted')
+      toast.success(t('quizTake.examSubmitted'))
     } catch {
       // handled globally
     } finally {
@@ -72,20 +76,20 @@ const QuizTake = () => {
     return (
       <SectionWrapper className="pt-4" disableMotion>
         <Card className="mx-auto max-w-2xl rounded-[36px] bg-white/95 p-8">
-          <h1 className="text-3xl font-display font-bold text-slate-900">Exam Result</h1>
-          <p className="mt-3 text-lg text-slate-700">Score: {result.score}</p>
-          <p className="text-lg text-slate-700">Correct: {result.correct_answers}</p>
-          <p className="text-lg text-slate-700">Wrong: {result.wrong_answers}</p>
-          <p className="text-lg text-slate-700">Percentage: {Number(result.percentage || 0).toFixed(2)}%</p>
+          <h1 className="text-3xl font-display font-bold text-slate-900">{t('quizTake.examResult')}</h1>
+          <p className="mt-3 text-lg text-slate-700">{t('quizTake.score')}: {result.score}</p>
+          <p className="text-lg text-slate-700">{t('quizTake.correct')}: {result.correct_answers}</p>
+          <p className="text-lg text-slate-700">{t('quizTake.wrong')}: {result.wrong_answers}</p>
+          <p className="text-lg text-slate-700">{t('quizTake.percentage')}: {Number(result.percentage || 0).toFixed(2)}%</p>
           <p className="text-lg text-slate-700">
-            Status:{' '}
+            {t('quizTake.status')}:{' '}
             <span className={result.pass_fail_status === 'pass' ? 'text-emerald-600' : 'text-rose-600'}>
-              {result.pass_fail_status}
+              {result.pass_fail_status === 'pass' ? t('quizTake.pass') : t('quizTake.fail')}
             </span>
           </p>
           <div className="mt-6 flex gap-2">
-            <PrimaryButton as={Link} to="/results">View History</PrimaryButton>
-            <SecondaryButton as={Link} to="/student/dashboard">Back to Dashboard</SecondaryButton>
+            <PrimaryButton as={Link} to="/results">{t('quizTake.viewHistory')}</PrimaryButton>
+            <SecondaryButton as={Link} to="/student/dashboard">{t('quizTake.backToDashboard')}</SecondaryButton>
           </div>
         </Card>
       </SectionWrapper>
@@ -95,14 +99,14 @@ const QuizTake = () => {
   return (
     <SectionWrapper className="pt-4" disableMotion>
       <Card className="mx-auto max-w-4xl rounded-[36px] bg-white/95 p-8">
-        <h1 className="text-3xl font-display font-bold text-slate-900">{exam?.title || 'Loading exam...'}</h1>
+        <h1 className="text-3xl font-display font-bold text-slate-900">{exam?.title || t('quizTake.loadingExam')}</h1>
         {exam ? (
           <>
             <p className="mt-2 text-sm text-slate-600">
-              Subject: {exam.subject} | Difficulty: {exam.difficulty} | Duration: {exam.duration_minutes} minutes
+              {t('quizTake.subject')}: {exam.subject} | {t('quizTake.difficulty')}: {exam.difficulty} | {t('quizTake.duration')}: {exam.duration_minutes} {t('quizTake.minutes')}
             </p>
             <p className="mt-1 text-sm text-slate-600">
-              Answered {answeredCount} of {exam.questions.length}
+              {t('quizTake.answeredCount', { answered: answeredCount, total: exam.questions.length })}
             </p>
             <div className="mt-5 space-y-4">
               {exam.questions.map((question, index) => (
@@ -111,7 +115,7 @@ const QuizTake = () => {
                     {index + 1}. {question.text}
                   </p>
                   <div className="mt-3 grid gap-2">
-                    {(question.choices || []).map((choice) => {
+                    {(question.choices || []).map((choice, choiceIndex) => {
                       const active = answers[question.id] === choice.id
                       return (
                         <button
@@ -122,7 +126,7 @@ const QuizTake = () => {
                             active ? 'border-primary-400 bg-primary-50 text-primary-700' : 'border-slate-200 bg-white text-slate-700'
                           }`}
                         >
-                          {choice.text}
+                          {getChoiceLabel(choiceIndex)}. {choice.text}
                         </button>
                       )
                     })}
@@ -132,12 +136,12 @@ const QuizTake = () => {
             </div>
             <div className="mt-6">
               <PrimaryButton type="button" disabled={submitting} onClick={submit}>
-                {submitting ? 'Submitting...' : 'Submit Exam'}
+                {submitting ? t('quizTake.submitting') : t('quizTake.submitExam')}
               </PrimaryButton>
             </div>
           </>
         ) : (
-          <p className="mt-3 text-sm text-slate-500">Exam not available or not assigned to your field.</p>
+          <p className="mt-3 text-sm text-slate-500">{t('quizTake.notAvailable')}</p>
         )}
       </Card>
     </SectionWrapper>

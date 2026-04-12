@@ -3,8 +3,8 @@ import { Link, Navigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 
-import { bulkAddAIQuestions, generateAIQuestions, saveAIQuestionsToBank } from '../api/ai'
-import { listMyQuizzes } from '../api/quizzes'
+import { bulkAddAIQuestions, generateAIQuestions, regenerateAIQuestion, saveAIQuestionsToBank } from '../api/ai'
+import { createQuiz, listMyQuizzes } from '../api/quizzes'
 import { listSubjects, listTopics } from '../api/subjects'
 import AIGenerateQuestionForm from '../components/AIGenerateQuestionForm'
 import Card from '../components/Card'
@@ -16,10 +16,11 @@ import { useAuth } from '../context/AuthContext'
 import { isTeacherRole } from '../utils/role'
 
 const AIGenerateQuestions = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { role, loading } = useAuth()
   const [generating, setGenerating] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [regeneratingIndex, setRegeneratingIndex] = useState(null)
   const [questions, setQuestions] = useState([])
   const [quizzes, setQuizzes] = useState([])
   const [subjects, setSubjects] = useState([])
@@ -27,6 +28,8 @@ const AIGenerateQuestions = () => {
   const [selectedSubjectId, setSelectedSubjectId] = useState('')
   const [selectedTopicId, setSelectedTopicId] = useState('')
   const [selectedQuizId, setSelectedQuizId] = useState('')
+  const [generatedMeta, setGeneratedMeta] = useState(null)
+  const [newQuizTitle, setNewQuizTitle] = useState('')
 
   useEffect(() => {
     let mounted = true
@@ -60,9 +63,15 @@ const AIGenerateQuestions = () => {
   const handleGenerate = async (payload) => {
     setGenerating(true)
     try {
-      const data = await generateAIQuestions(payload)
+      const requestPayload = {
+        ...payload,
+        language: payload.language || i18n.language || 'en',
+      }
+      const data = await generateAIQuestions(requestPayload)
       const generatedCount = data?.questions?.length || 0
       setQuestions(data?.questions || [])
+      setGeneratedMeta(requestPayload)
+      setNewQuizTitle(payload?.topic ? `${payload.topic} Quiz` : payload?.subject ? `${payload.subject} Quiz` : '')
       toast.success(t('aiGenerator.generated', { count: generatedCount, provider: data?.provider || 'mock' }))
     } catch {
       // handled globally
@@ -77,6 +86,30 @@ const AIGenerateQuestions = () => {
 
   const removeQuestion = (index) => {
     setQuestions((prev) => prev.filter((_, idx) => idx !== index))
+  }
+
+  const handleRegenerateQuestion = async (index) => {
+    if (!generatedMeta) return
+
+    setRegeneratingIndex(index)
+    try {
+      const data = await regenerateAIQuestion({
+        ...generatedMeta,
+        current_question_text: questions[index]?.question_text || '',
+        current_question_type: questions[index]?.question_type || questions[index]?.type || 'multiple_choice',
+        existing_questions: questions
+          .filter((_, questionIndex) => questionIndex !== index)
+          .map((question) => question.question_text),
+      })
+      if (data?.question) {
+        setQuestions((prev) => prev.map((item, questionIndex) => (questionIndex === index ? data.question : item)))
+        toast.success(t('aiGenerator.regeneratedQuestion'))
+      }
+    } catch {
+      // handled globally
+    } finally {
+      setRegeneratingIndex(null)
+    }
   }
 
   const saveToQuiz = async () => {
@@ -96,6 +129,8 @@ const AIGenerateQuestions = () => {
       })
       toast.success(t('aiGenerator.savedToQuiz'))
       setQuestions([])
+      setGeneratedMeta(null)
+      setNewQuizTitle('')
     } catch {
       // handled globally
     } finally {
@@ -118,12 +153,88 @@ const AIGenerateQuestions = () => {
         subject_ref: Number(selectedSubjectId),
         topic_ref: selectedTopicId ? Number(selectedTopicId) : null,
         quiz_id: selectedQuizId ? Number(selectedQuizId) : undefined,
-        difficulty: 'medium',
+        difficulty: generatedMeta?.difficulty || 'medium',
         marks: 1,
         questions,
       })
       toast.success(t('aiGenerator.savedToBank'))
       setQuestions([])
+      setGeneratedMeta(null)
+      setNewQuizTitle('')
+    } catch {
+      // handled globally
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const saveAsNewQuiz = async () => {
+    if (!questions.length) {
+      toast.error(t('aiGenerator.noQuestionsToSave'))
+      return
+    }
+
+    const normalizedTitle = newQuizTitle.trim() || generatedMeta?.topic?.trim() || generatedMeta?.subject?.trim()
+    if (!normalizedTitle) {
+      toast.error(t('aiGenerator.newQuizTitleRequired'))
+      return
+    }
+
+    const selectedSubject = subjects.find((subject) => subject.id === Number(selectedSubjectId))
+    const selectedTopic = topics.find((topic) => topic.id === Number(selectedTopicId))
+    const difficulty = generatedMeta?.difficulty || 'medium'
+    const totalMarks = questions.length
+    const payload = {
+      title: normalizedTitle,
+      description: generatedMeta?.topic
+        ? `${generatedMeta.subject || selectedSubject?.name || t('academy.general')}: ${generatedMeta.topic}`
+        : generatedMeta?.subject || selectedSubject?.name || normalizedTitle,
+      category: selectedSubject?.name || generatedMeta?.subject || t('academy.general'),
+      subject: selectedSubject?.name || generatedMeta?.subject || normalizedTitle,
+      subject_ref: selectedSubject ? selectedSubject.id : null,
+      topic_ref: selectedTopic ? selectedTopic.id : null,
+      semester: Number(selectedSubject?.semester || 1),
+      difficulty,
+      quiz_type: 'practice',
+      duration_minutes: Math.max(10, questions.length * 2),
+      total_marks: totalMarks,
+      passing_marks: Math.max(1, Math.ceil(totalMarks * 0.4)),
+      randomize_questions: false,
+      randomize_options: false,
+      allow_retry: true,
+      show_answers_after_submit: true,
+      is_published: false,
+      visibility: 'private',
+      apply_to_all_fields: !selectedSubject,
+      assigned_fields: selectedSubject?.field_of_study ? [selectedSubject.field_of_study] : [],
+      target_field_of_study: selectedSubject?.field_of_study || null,
+      strict_structure: false,
+      questions: questions.map((question, index) => ({
+        text: question.question_text,
+        explanation: question.explanation || '',
+        question_type: question.question_type || 'mcq',
+        difficulty,
+        marks: 1,
+        timer_seconds: 30,
+        order: index,
+        choices: (question.options || []).map((option, optionIndex) => ({
+          text: option,
+          is_correct: optionIndex === Number(question.correct_answer_index || 0),
+          order: optionIndex,
+        })),
+      })),
+    }
+
+    setSaving(true)
+    try {
+      const createdQuiz = await createQuiz(payload)
+      const refreshedQuizzes = await listMyQuizzes()
+      setQuizzes(refreshedQuizzes)
+      setSelectedQuizId(String(createdQuiz?.id || ''))
+      setQuestions([])
+      setGeneratedMeta(null)
+      setNewQuizTitle('')
+      toast.success(t('aiGenerator.savedAsNewQuiz'))
     } catch {
       // handled globally
     } finally {
@@ -152,6 +263,15 @@ const AIGenerateQuestions = () => {
 
         <Card className="rounded-[36px] bg-white/95 p-6">
           <div className="grid gap-3 md:grid-cols-2">
+            <label className="text-sm font-semibold text-slate-700 md:col-span-2">
+              {t('aiGenerator.newQuizTitle')}
+              <input
+                value={newQuizTitle}
+                onChange={(e) => setNewQuizTitle(e.target.value)}
+                placeholder={t('aiGenerator.newQuizTitlePlaceholder')}
+                className="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2.5"
+              />
+            </label>
             <label className="text-sm font-semibold text-slate-700">
               {t('aiGenerator.subjectForSaving')}
               <select value={selectedSubjectId} onChange={(e) => setSelectedSubjectId(e.target.value)} className="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2.5">
@@ -171,7 +291,7 @@ const AIGenerateQuestions = () => {
               </select>
             </label>
           </div>
-          <div className="mt-3 grid gap-3 md:grid-cols-[1fr,220px,220px]">
+          <div className="mt-3 grid gap-3 md:grid-cols-[1fr,220px,220px,220px]">
             <label className="text-sm font-semibold text-slate-700">
               {t('aiGenerator.optionalQuizTarget')}
               <select
@@ -187,6 +307,11 @@ const AIGenerateQuestions = () => {
                 ))}
               </select>
             </label>
+            <div className="self-end">
+              <PrimaryButton type="button" disabled={saving} onClick={saveAsNewQuiz}>
+                {saving ? t('academy.saving') : t('aiGenerator.saveAsNewQuiz')}
+              </PrimaryButton>
+            </div>
             <div className="self-end">
               <PrimaryButton type="button" disabled={saving} onClick={saveToQuiz}>
                 {saving ? t('academy.saving') : t('aiGenerator.saveToQuiz')}
@@ -209,6 +334,8 @@ const AIGenerateQuestions = () => {
                 question={question}
                 onChange={(next) => updateQuestion(index, next)}
                 onDelete={() => removeQuestion(index)}
+                onRegenerate={() => handleRegenerateQuestion(index)}
+                regenerating={regeneratingIndex === index}
               />
             ))
           ) : (

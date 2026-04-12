@@ -11,27 +11,31 @@ Texnologiyalar:
 - `admin`: tizim foydalanuvchilarini boshqaradi, barcha quiz va natijalarni ko'rishi mumkin.
 - `teacher`: quiz yaratadi, tahrirlaydi, publish qiladi, savollar bankidan foydalanadi, analytics ko'radi, live game ochadi.
 - `student`: o'ziga mos quizlarni ko'radi, exam topshiradi, natijalar tarixini kuzatadi, live game'ga qo'shiladi.
+- `parent`: bog'langan talabalar natijalari va weekly challenge holatini ko'radi.
 - `guest`: ayrim live o'yinlarda nickname bilan qo'shilish ssenariysi mavjud.
 
 ## 3. Asosiy imkoniyatlar
 - Ro'yxatdan o'tish, login, token refresh va profilni olish.
 - University login callback va student uchun field selection oqimi.
 - Role-based dashboard: teacher, student va admin uchun alohida yo'nalishlar.
+- Parent uchun alohida dashboard va info sahifasi mavjud.
 - Quiz yaratish, tahrirlash, o'chirish, publish/unpublish qilish.
 - Quizlarni qidirish, filterlash va saralash.
 - Quizni subject, topic, module, semester, section va field bo'yicha biriktirish.
 - Public/private visibility va `mine=true` ko'rinishida shaxsiy quizlarni ajratish.
 - Quizga savollarni qo'lda qo'shish yoki question bank'dan biriktirish.
 - Question bank yaratish, qayta ishlatish va bulk import qilish.
-- AI yordamida savollar generatsiya qilish va quizga saqlash.
+- AI yordamida savollar generatsiya qilish, alohida savolni regenerate qilish va quizga/bankka saqlash.
 - Student uchun exam start/submit oqimi.
 - Natijani ball, foiz, to'g'ri/noto'g'ri javob va pass/fail holati bilan hisoblash.
 - Student result history va subject performance sahifalari.
 - Teacher analytics va quiz-wise performance ko'rish.
+- Parent linked students natijalari va weekly challenge kartalari.
+- Landing va parent dashboard orqali weekly challenge va testimonial bloklari.
 - Live lobby yaratish, room code/link orqali qo'shilish.
 - WebSocket orqali real-time savol yuborish, javob olish va live leaderboard.
 - Discover, subjects, topics, modules va set detail sahifalari.
-- Ko'p til: `uz`, `ru`, `en`.
+- Ko'p til: `uz`, `ru`, `en` va sahifa title'lari ham lokalizatsiya qilingan.
 - Theme: `light` / `dark`.
 - Navbar ichida API health holatini ko'rsatish.
 
@@ -40,8 +44,9 @@ Texnologiyalar:
 ### 4.1 Auth va account
 - Email yoki ayrim student login formatlari bilan tizimga kirish.
 - `register`, `login`, `refresh token`, `me` endpointlari mavjud.
-- Student va teacher route'lari himoyalangan.
+- Student, teacher, parent va admin route'lari himoyalangan.
 - Admin uchun alohida users sahifasi bor.
+- Student email domeni va teacher email domeni bo'yicha rolga mos kirish tekshiruvi mavjud.
 
 ### 4.2 Quiz boshqaruvi
 - Teacher/admin yangi quiz yaratadi.
@@ -64,8 +69,15 @@ Texnologiyalar:
 
 ### 4.5 AI savol generatsiyasi
 - Teacher uchun AI question generation sahifasi mavjud.
-- Generatsiya qilingan savollarni bevosita quiz banki yoki tanlangan quizga saqlash mumkin.
-- Bu qo'lda savol tayyorlash vaqtini qisqartiradi.
+- Generatsiya qilingan savollar backend tomonda tozalanadi, duplicate va yaqin duplicate savollar rad qilinadi.
+- Savol matni tugallanmagan yoki sifatsiz bo'lsa qayta generatsiya qilinadi.
+- Variantlar server tomonda shuffle qilinadi va correct answer mapping saqlanadi.
+- Har bir savol preview kartasida alohida `Regenerate Question` tugmasi mavjud.
+- `10` ta savol generatsiya qilinganda qat'iy format ishlaydi:
+  - `5 ta A/B/C` savol
+  - `5 ta True/False` savol
+- Generatsiya qilingan savollarni bevosita quiz banki, tanlangan quiz yoki yangi quiz sifatida saqlash mumkin.
+- Bu qo'lda savol tayyorlash vaqtini qisqartiradi va teacher review jarayonini tezlashtiradi.
 
 ### 4.6 Live game
 - Teacher host sifatida room ochadi.
@@ -81,12 +93,19 @@ Texnologiyalar:
 - Natijalar urinishlar tarixi sifatida saqlanadi.
 - Student o'z history va subject performance bo'limini ko'radi.
 - Teacher o'zi yaratgan quizlar bo'yicha umumiy natijalarni filter bilan ko'radi.
+- Parent linked studentlar bo'yicha recent results va progress ko'ra oladi.
 
 ### 4.8 Akademik katalog
 - Subjects ro'yxati.
 - Har bir subject ichida related quizzes.
 - Topic detail va module detail sahifalari.
 - Set detail va discover orqali tayyor kontentni ko'rish.
+
+### 4.9 Marketing va weekly challenge
+- Landing sahifasida weekly challenge spotlight, testimonials va audience benefits bloklari mavjud.
+- Parent info sahifasi ota-onalar uchun platforma foydasini tushuntiradi.
+- Parent dashboard ichida weekly challenge deadline va recent results kartalari bor.
+- Weekly challenge detail sahifasi public ochilishi mumkin.
 
 ## 5. Muhim API endpointlar
 Auth:
@@ -114,6 +133,18 @@ Subjects:
 - `GET /api/topics/{id}/quizzes/`
 - `GET /api/modules/{id}/quizzes/`
 
+AI:
+- `POST /api/ai/questions/generate/`
+- `POST /api/ai/questions/regenerate/`
+- `POST /api/ai/questions/analyze/`
+- `POST /api/ai/questions/bulk-add/`
+- `POST /api/ai/questions/save-to-bank/`
+
+Marketing:
+- `GET /api/marketing/testimonials/`
+- `GET /api/marketing/weekly-challenge/current/`
+- `GET /api/marketing/weekly-challenge/{code}/`
+
 Game:
 - `POST /api/rooms/create`
 - `POST /api/rooms/join`
@@ -127,6 +158,7 @@ Health:
 - Login / Register (`/login`, `/register`)
 - Dashboard redirect (`/dashboard`)
 - Student dashboard (`/student/dashboard`)
+- Parent dashboard (`/parent/dashboard`)
 - Teacher dashboard (`/teacher/dashboard`)
 - Field selection (`/field-selection`)
 - Discover (`/discover`)
@@ -141,6 +173,8 @@ Health:
 - Subject analytics (`/teacher/analytics/subjects`)
 - Results (`/results`)
 - Set detail (`/sets/:id`)
+- Parent info (`/parents`)
+- Weekly challenge detail (`/challenges/:code`)
 - Game lobby (`/host`, `/join`, `/lobby`, `/room/:code`)
 - Game play (`/play`, `/game/:id`)
 - Admin users (`/admin/users`)
@@ -149,6 +183,7 @@ Health:
 ## 7. Kim nima qila oladi
 - `admin`: foydalanuvchilarni boshqaradi, tizim bo'ylab nazorat qiladi.
 - `teacher`: quiz yaratadi, publish qiladi, savollar bankidan foydalanadi, AI generate ishlatadi, host qiladi, analytics ko'radi.
+- `parent`: bog'langan studentlar progressi, recent results va weekly challenge ma'lumotlarini ko'radi.
 - `student`: o'z fieldiga mos quizlarni ishlaydi, natijani ko'radi, live game'ga qo'shiladi.
 - `guest`: to'liq akademik panel emas, lekin ayrim join oqimlarida ishlatilishi mumkin.
 
@@ -172,4 +207,7 @@ Frontend:
 ## 10. Qisqa eslatma
 - `student` host qila olmaydi, lekin join, exam topshirish va natijani ko'rish ishlaydi.
 - Quizlar studentga field, semester, section va publish holatiga qarab ko'rinadi.
+- AI generator 10 ta savolda 5 ta `A/B/C` va 5 ta `True/False` savol qaytaradigan qilib sozlangan.
+- AI generatsiyada sifatsiz yoki juda o'xshash savollar backend darajasida filtrlanadi.
+- Preview ichida bitta savolni alohida regenerate qilish mumkin.
 - Agar quiz endpointlarda `500` chiqsa, migratsiyalarni tekshirish kerak.

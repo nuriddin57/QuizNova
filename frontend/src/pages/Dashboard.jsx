@@ -149,7 +149,7 @@ const Dashboard = () => {
       return
     }
     if (item.id === 'tl-2') {
-      navigate('/sets/set-fractions')
+      navigate('/discover')
       return
     }
     if (item.id === 'tl-3') {

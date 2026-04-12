@@ -152,7 +152,7 @@ const TeacherDashboard = () => {
             {quizzes.length ? (
               quizzes.map((quiz) => (
                 <div key={quiz.id} className="space-y-3">
-                  <QuizCard quiz={quiz} actionLabel={t('academy.openQuiz')} actionTo={`/sets/${quiz.id}`} />
+                  <QuizCard quiz={quiz} actionLabel={t('academy.openQuiz')} actionTo={`/sets/${encodeURIComponent(String(quiz.id))}`} />
                   <div className="flex items-center gap-2">
                     <SecondaryButton type="button" onClick={() => togglePublish(quiz)}>
                       {quiz.is_published ? t('teacherDashboard.unpublish') : t('teacherDashboard.publish')}

@@ -13,6 +13,7 @@ import { cn } from '../utils/cn'
 import { discoverSets, setFilters, featuredCollections, discoverCategories } from '../utils/dummyData'
 import { toastHelpers } from '../utils/toastHelpers'
 import { getSets } from '../api/axios'
+import { getLocalizedField } from '../utils/localization'
 
 const sortOptions = ['Popular', 'Newest', 'Rated'] // sort values remain stable
 const perPage = 6
@@ -32,10 +33,11 @@ const categoryKeywords = {
   Trivia: 'trivia',
 }
 
-const resolveText = (t, key, fallback = '') => (key ? t(key) : fallback)
+const resolveText = (t, key, fallback = '') => (key ? t(key, { defaultValue: fallback }) : fallback)
 
 const Discover = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const lang = i18n.resolvedLanguage || i18n.language || 'en'
   const navigate = useNavigate()
   const [sets, setSets] = useState([])
   const [activeFilter, setActiveFilter] = useState('All')
@@ -84,6 +86,7 @@ const Discover = () => {
   useEffect(() => {
     let mounted = true
     ;(async () => {
+      setLoading(true)
       const data = await getSets()
       if (mounted) {
         if (data.results?.length) {
@@ -99,16 +102,26 @@ const Discover = () => {
     return () => {
       mounted = false
     }
-  }, [])
+  }, [lang])
 
   useEffect(() => {
     setPage(1)
   }, [activeFilter, contextKeyword, contextSubjects, searchTerm, sortOption])
 
+  const getLocalizedCardText = (item, key, field, fallback = '') =>
+    resolveText(t, key, getLocalizedField(item, field, lang) || fallback)
+
   const filteredSets = useMemo(() => {
-    const getSetTitle = (set) => resolveText(t, set.titleKey, set.title || '')
+    const getSetTitle = (set) =>
+      resolveText(t, set.titleKey, getLocalizedField(set, 'title', lang) || set.title || '')
+
     const byFilter = sets.filter((set) => {
-      const setSubject = set.subject || set.category || 'General'
+      const setSubject =
+        getLocalizedField(set, 'subject', lang) ||
+        getLocalizedField(set, 'category', lang) ||
+        set.subject ||
+        set.category ||
+        'General'
       const topFilterMatch = activeFilter === 'All' || setSubject === activeFilter
       const contextSubjectMatch = !contextSubjects.length || contextSubjects.includes(setSubject)
       const contextText = `${getSetTitle(set)} ${setSubject || ''}`.toLowerCase()
@@ -133,17 +146,17 @@ const Discover = () => {
     })
 
     return sorted
-  }, [activeFilter, contextKeyword, contextSubjects, searchTerm, sets, sortOption, t])
+  }, [activeFilter, contextKeyword, contextSubjects, lang, searchTerm, sets, sortOption, t])
 
   const totalPages = Math.max(1, Math.ceil(filteredSets.length / perPage))
   const paginated = filteredSets.slice((page - 1) * perPage, page * perPage)
 
   const handleSaveSet = (title) => () => toastHelpers.success(t('setCard.savedToLibrary', { title }))
   const handleHostSetLocalized = (set) => () => {
-    toastHelpers.info(t('setCard.hostingShareCode', { title: resolveText(t, set.titleKey, set.title) }))
+    toastHelpers.info(t('setCard.hostingShareCode', { title: resolveText(t, set.titleKey, getLocalizedField(set, 'title', lang) || set.title) }))
     navigate(`/host?set=${set.id}&mode=classic`)
   }
-  const handleOpenSet = (set) => () => navigate(`/sets/${set.id}`)
+  const handleOpenSet = (set) => () => navigate(`/sets/${encodeURIComponent(String(set.id))}`)
   const sortLabels = { Popular: t('discoverPage.sortPopular'), Newest: t('discoverPage.sortNewest'), Rated: t('discoverPage.sortRated') }
 
   return (
@@ -190,22 +203,30 @@ const Discover = () => {
             <div className="mt-4 flex flex-wrap items-center gap-2">
               {activeCategoryItem ? (
                 <span className="rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-600">
-                  {resolveText(
-                    t,
-                    discoverCategories
+                  {(() => {
+                    const matchedItem = discoverCategories
                       .flatMap((category) => category.items || [])
-                      .find((item) => item.value === activeCategoryItem)?.labelKey,
-                    activeCategoryItem
-                  )}
+                      .find((item) => item.value === activeCategoryItem)
+                    return getLocalizedCardText(
+                      matchedItem,
+                      matchedItem?.labelKey,
+                      'label',
+                      matchedItem?.value || matchedItem?.name || activeCategoryItem
+                    )
+                  })()}
                 </span>
               ) : null}
               {activeCollectionId ? (
                 <span className="rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-600">
-                  {resolveText(
-                    t,
-                    featuredCollections.find((collection) => collection.id === activeCollectionId)?.titleKey,
-                    activeCollectionId
-                  )}
+                  {(() => {
+                    const matchedCollection = featuredCollections.find((collection) => collection.id === activeCollectionId)
+                    return getLocalizedCardText(
+                      matchedCollection,
+                      matchedCollection?.titleKey,
+                      'title',
+                      activeCollectionId
+                    )
+                  })()}
                 </span>
               ) : null}
               <button
@@ -225,7 +246,9 @@ const Discover = () => {
             <div className="mt-4 space-y-5 text-sm text-slate-600">
               {discoverCategories.map((category) => (
                 <div key={category.id}>
-                  <p className="text-base font-semibold text-slate-900">{resolveText(t, category.titleKey, category.title)}</p>
+                  <p className="text-base font-semibold text-slate-900">
+                    {getLocalizedCardText(category, category.titleKey, 'title', category.title)}
+                  </p>
                   <ul className="mt-2 space-y-1 text-sm">
                     {category.items.map((item) => (
                       <li key={item.value || item}>
@@ -238,7 +261,7 @@ const Discover = () => {
                           )}
                         >
                           <span className={cn('h-1.5 w-1.5 rounded-full', activeCategoryItem === (item.value || item) ? 'bg-primary-500' : 'bg-primary-400')} />
-                          {resolveText(t, item.labelKey, item.value || item)}
+                          {getLocalizedCardText(item, item.labelKey, 'label', item.value || item.name || item)}
                         </button>
                       </li>
                     ))}
@@ -270,8 +293,12 @@ const Discover = () => {
                       >
                       <div className={cn('pointer-events-none absolute inset-0 bg-gradient-to-br opacity-18 dark:opacity-60', collection.gradient)} />
                       <p className="relative z-10 text-sm uppercase tracking-[0.3em] text-slate-600 dark:text-white/70">{t('discoverPage.collection')}</p>
-                      <p className="relative z-10 mt-2 text-xl font-display font-semibold text-slate-900 dark:text-slate-100">{resolveText(t, collection.titleKey, collection.title)}</p>
-                      <p className="relative z-10 text-sm text-slate-600 dark:text-white/80">{collection.sets} {t('discoverPage.setsSuffix')}</p>
+                      <p className="relative z-10 mt-2 text-xl font-display font-semibold text-slate-900 dark:text-slate-100">
+                        {getLocalizedCardText(collection, collection.titleKey, 'title', collection.title)}
+                      </p>
+                      <p className="relative z-10 text-sm text-slate-600 dark:text-white/80">
+                        {t('discoverPage.setsCount', { count: Number(collection.sets) || 0 })}
+                      </p>
                     </button>
                   </div>
                 ))}
@@ -287,7 +314,7 @@ const Discover = () => {
                       key={set.id}
                       {...set}
                       onOpen={handleOpenSet(set)}
-                      onSave={handleSaveSet(resolveText(t, set.titleKey, set.title))}
+                      onSave={handleSaveSet(resolveText(t, set.titleKey, getLocalizedField(set, 'title', lang) || set.title))}
                       onHost={handleHostSetLocalized(set)}
                     />
                   ))

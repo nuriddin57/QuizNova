@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
+import { HiArrowTrendingUp, HiSparkles, HiUserGroup } from 'react-icons/hi2'
 import PrimaryButton from '../components/PrimaryButton'
 import SecondaryButton from '../components/SecondaryButton'
 import Card from '../components/Card'
@@ -22,15 +23,18 @@ import {
   gameModes,
   trendingSets,
   categoryChips,
-  weeklyChallenge,
-  testimonials,
   faqItems,
-  teacherParentHighlights,
   newsletterPerks,
 } from '../utils/dummyData'
 import { toastHelpers } from '../utils/toastHelpers'
-import { isAuthenticated } from '../utils/auth'
+import { getCurrentUserRole, isAuthenticated } from '../utils/auth'
 import { useRoomStore } from '../store/roomStore'
+import { getCurrentWeeklyChallenge, getPublicTestimonials } from '../api/marketing'
+import TestimonialCard from '../components/home/TestimonialCard'
+import WeeklyChallengeSpotlight from '../components/home/WeeklyChallengeSpotlight'
+import AudienceBenefitsSection from '../components/home/AudienceBenefitsSection'
+import LoadingSkeleton from '../components/LoadingSkeleton'
+import SectionStatusCard from '../components/home/SectionStatusCard'
 
 const statAccents = [
   'from-[#6F5BFF] via-[#8C7CFF] to-[#C9B6FF]',
@@ -46,9 +50,110 @@ const Landing = () => {
   const navigate = useNavigate()
   const room = useRoomStore((state) => state.room)
   const [activeCategory, setActiveCategory] = useState(categoryChips[0]?.value || 'Math')
+  const [testimonials, setTestimonials] = useState([])
+  const [testimonialsLoading, setTestimonialsLoading] = useState(true)
+  const [testimonialsError, setTestimonialsError] = useState(false)
+  const [weeklyChallenge, setWeeklyChallenge] = useState(null)
+  const [challengeLoading, setChallengeLoading] = useState(true)
+  const [challengeError, setChallengeError] = useState(false)
   const authed = isAuthenticated()
+  const role = getCurrentUserRole()
+
+  useEffect(() => {
+    let mounted = true
+
+    const loadTestimonials = async () => {
+      try {
+        setTestimonialsLoading(true)
+        setTestimonialsError(false)
+        const data = await getPublicTestimonials()
+        if (mounted) setTestimonials(data)
+      } catch {
+        if (mounted) {
+          setTestimonials([])
+          setTestimonialsError(true)
+        }
+      } finally {
+        if (mounted) setTestimonialsLoading(false)
+      }
+    }
+
+    const loadChallenge = async () => {
+      try {
+        setChallengeLoading(true)
+        setChallengeError(false)
+        const data = await getCurrentWeeklyChallenge()
+        if (mounted) setWeeklyChallenge(data)
+      } catch {
+        if (mounted) {
+          setWeeklyChallenge(null)
+          setChallengeError(true)
+        }
+      } finally {
+        if (mounted) setChallengeLoading(false)
+      }
+    }
+
+    loadTestimonials()
+    loadChallenge()
+
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  const audienceCards = useMemo(
+    () => [
+      {
+        id: 'teacher-benefits',
+        eyebrowKey: 'landing.audience.teacher.eyebrow',
+        titleKey: 'landing.audience.teacher.title',
+        descriptionKey: 'landing.audience.teacher.description',
+        iconBgClass: 'bg-gradient-to-br from-primary-500 to-accent-blue',
+        Icon: HiSparkles,
+        benefits: [
+          { icon: 'teacher_quizzes', titleKey: 'landing.audience.teacher.benefits.quizzesTitle', bodyKey: 'landing.audience.teacher.benefits.quizzesBody' },
+          { icon: 'teacher_live', titleKey: 'landing.audience.teacher.benefits.liveTitle', bodyKey: 'landing.audience.teacher.benefits.liveBody' },
+          { icon: 'teacher_progress', titleKey: 'landing.audience.teacher.benefits.progressTitle', bodyKey: 'landing.audience.teacher.benefits.progressBody' },
+          { icon: 'teacher_leaderboard', titleKey: 'landing.audience.teacher.benefits.leaderboardTitle', bodyKey: 'landing.audience.teacher.benefits.leaderboardBody' },
+        ],
+        primaryCta: {
+          to: role === 'teacher' || role === 'admin' ? '/teacher/dashboard' : '/register',
+          labelKey: role === 'teacher' || role === 'admin' ? 'landing.audience.teacher.primaryDashboard' : 'landing.audience.teacher.primarySignup',
+        },
+        secondaryCta: {
+          to: role === 'teacher' || role === 'admin' ? '/teacher/analytics' : '/login',
+          labelKey: 'landing.audience.teacher.secondaryLearnMore',
+        },
+      },
+      {
+        id: 'parent-benefits',
+        eyebrowKey: 'landing.audience.parent.eyebrow',
+        titleKey: 'landing.audience.parent.title',
+        descriptionKey: 'landing.audience.parent.description',
+        iconBgClass: 'bg-gradient-to-br from-accent-cyan to-primary-500',
+        Icon: HiUserGroup,
+        benefits: [
+          { icon: 'parent_progress', titleKey: 'landing.audience.parent.benefits.progressTitle', bodyKey: 'landing.audience.parent.benefits.progressBody' },
+          { icon: 'parent_challenge', titleKey: 'landing.audience.parent.benefits.challengeTitle', bodyKey: 'landing.audience.parent.benefits.challengeBody' },
+          { icon: 'parent_strengths', titleKey: 'landing.audience.parent.benefits.strengthsTitle', bodyKey: 'landing.audience.parent.benefits.strengthsBody' },
+          { icon: 'parent_activity', titleKey: 'landing.audience.parent.benefits.activityTitle', bodyKey: 'landing.audience.parent.benefits.activityBody' },
+        ],
+        primaryCta: {
+          to: '/parents',
+          labelKey: 'landing.audience.parent.primaryInfo',
+        },
+        secondaryCta: {
+          to: authed ? '/results' : '/login',
+          labelKey: 'landing.audience.parent.secondaryTrack',
+        },
+      },
+    ],
+    [authed, role]
+  )
 
   const handleCopyChallenge = async () => {
+    if (!weeklyChallenge?.code) return
     try {
       await navigator.clipboard.writeText(weeklyChallenge.code)
       toastHelpers.copy(t('landing.challengeCopied'))
@@ -304,74 +409,83 @@ const Landing = () => {
       </SectionWrapper>
 
       <SectionWrapper id="weekly-challenge" className="pt-0">
-        <div className="frost-card relative overflow-hidden rounded-[40px] p-8 text-slate-900 dark:text-white">
-          <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${weeklyChallenge.gradient} opacity-20 dark:opacity-65`} />
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-            <div className="relative z-10">
-              <p className="text-sm font-semibold uppercase tracking-[0.4em] text-slate-700 dark:text-white/70">{t('landing.weeklyChallenge')}</p>
-              <h2 className="mt-3 text-3xl font-display font-bold">{resolveText(t, weeklyChallenge.titleKey)}</h2>
-              <p className="mt-2 text-slate-700 dark:text-white/85">{resolveText(t, weeklyChallenge.descriptionKey)}</p>
-              <div className="mt-4 flex flex-wrap gap-3 text-sm font-semibold text-slate-800 dark:text-white/90">
-                <span className="rounded-2xl border border-slate-200 bg-white px-4 py-2 dark:border-white/20 dark:bg-white/15">{t('landing.reward')}: {resolveText(t, weeklyChallenge.rewardKey)}</span>
-                <span className="rounded-2xl border border-slate-200 bg-white px-4 py-2 dark:border-white/20 dark:bg-white/15">{resolveText(t, weeklyChallenge.deadlineKey)}</span>
-              </div>
-            </div>
-            <div className="relative z-10 rounded-3xl border border-slate-200 bg-white p-5 text-center dark:border-white/20 dark:bg-white/15 dark:backdrop-blur-md">
-              <p className="text-sm uppercase tracking-[0.4em] text-slate-700 dark:text-white/70">{t('landing.challengeCode')}</p>
-              <p className="mt-2 text-4xl font-black tracking-[0.3em]">{weeklyChallenge.code}</p>
-              <div className="mt-4 flex flex-col gap-3">
-                <PrimaryButton type="button" onClick={handleCopyChallenge}>
-                  {t('landing.copyCode')}
-                </PrimaryButton>
-                <SecondaryButton as={Link} to="/dashboard" className="!border-slate-300 !bg-white !text-slate-700 dark:!border-white/40 dark:!bg-transparent dark:!text-white">
-                  {t('landing.viewChallengeDetails')}
-                </SecondaryButton>
-              </div>
-            </div>
-          </div>
-        </div>
+        <WeeklyChallengeSpotlight
+          challenge={weeklyChallenge}
+          loading={challengeLoading}
+          error={challengeError}
+          onCopy={handleCopyChallenge}
+          authed={authed}
+        />
       </SectionWrapper>
 
       <SectionWrapper id="testimonials" className="pt-0">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-400">{t('landing.lovedBySchools')}</p>
             <h2 className="mt-1 text-3xl font-display font-bold text-slate-900">{t('landing.testimonials')}</h2>
+            <p className="mt-3 max-w-2xl text-base leading-7 text-slate-600">{t('landing.testimonialsIntro')}</p>
           </div>
+          {!testimonialsLoading && testimonials.length > 0 ? (
+            <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-600 shadow-[0_10px_25px_rgba(15,23,42,0.05)]">
+              <HiArrowTrendingUp className="text-primary-500" />
+              {t('landing.socialProofSummary', { count: testimonials.length })}
+            </div>
+          ) : null}
         </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <Card key={testimonial.id} className="h-full rounded-[32px]">
-              <div className="text-4xl">{testimonial.avatar}</div>
-              <p className="mt-4 text-lg font-semibold text-slate-900">{resolveText(t, testimonial.nameKey, testimonial.name)}</p>
-              <p className="text-sm font-semibold text-primary-500">{resolveText(t, testimonial.roleKey, testimonial.role)}</p>
-              <p className="text-sm text-slate-500">{resolveText(t, testimonial.schoolKey, testimonial.school)}</p>
-              <p className="mt-4 text-base text-slate-600">"{resolveText(t, testimonial.quoteKey, testimonial.quote)}"</p>
-            </Card>
-          ))}
-        </div>
+        {testimonialsLoading ? (
+          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <Card key={index} className="rounded-[32px]" hover={false}>
+                <div className="flex items-center gap-4">
+                  <LoadingSkeleton className="h-14 w-14 rounded-2xl" />
+                  <div className="flex-1 space-y-2">
+                    <LoadingSkeleton className="h-5 w-40" />
+                    <LoadingSkeleton className="h-4 w-28" />
+                    <LoadingSkeleton className="h-4 w-36" />
+                  </div>
+                </div>
+                <LoadingSkeleton className="mt-6" lines={4} />
+              </Card>
+            ))}
+          </div>
+        ) : testimonialsError ? (
+          <div className="mt-8">
+            <SectionStatusCard
+              title={t('landing.testimonialsUnavailableTitle')}
+              body={t('landing.testimonialsUnavailableBody')}
+              action={<SecondaryButton as={Link} to={authed ? '/dashboard' : '/login'}>{t('landing.openDashboard')}</SecondaryButton>}
+              className="rounded-[32px]"
+            />
+          </div>
+        ) : testimonials.length ? (
+          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {testimonials.map((testimonial) => (
+              <TestimonialCard
+                key={testimonial.id}
+                testimonial={testimonial}
+                roleLabel={t(`landing.testimonialRoles.${testimonial.role}`)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="mt-8">
+            <SectionStatusCard
+              title={t('landing.noTestimonialsTitle')}
+              body={t('landing.noTestimonialsBody')}
+              action={<PrimaryButton as={Link} to={authed ? '/dashboard' : '/login'}>{t('landing.explorePlatform')}</PrimaryButton>}
+              className="rounded-[32px]"
+            />
+          </div>
+        )}
       </SectionWrapper>
 
       <SectionWrapper id="teacher-parent" className="pt-0">
-        <div className="grid gap-6 md:grid-cols-2">
-          {teacherParentHighlights.map((card) => (
-            <Card key={card.id} className="h-full rounded-[36px]">
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-400">{resolveText(t, card.titleKey, card.title)}</p>
-              <h3 className="mt-3 text-3xl font-display font-semibold text-slate-900">{t('landing.personalizedBenefits')}</h3>
-              <ul className="mt-4 space-y-3 text-sm text-slate-600">
-                {(card.bulletsKeys || card.bullets || []).map((bulletKey) => (
-                  <li key={bulletKey} className="flex items-start gap-2">
-                    <span className="mt-1 inline-block h-2 w-2 rounded-full bg-primary-400" />
-                    {resolveText(t, bulletKey, bulletKey)}
-                  </li>
-                ))}
-              </ul>
-              <PrimaryButton as={Link} to="/login" className="mt-6 w-full justify-center">
-                {resolveText(t, card.ctaKey, card.cta)}
-              </PrimaryButton>
-            </Card>
-          ))}
+        <div className="mb-6 max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-primary-400">{t('landing.personalizedBenefits')}</p>
+          <h2 className="mt-2 text-3xl font-display font-bold text-slate-900">{t('landing.audience.sectionTitle')}</h2>
+          <p className="mt-3 text-base leading-7 text-slate-600">{t('landing.audience.sectionBody')}</p>
         </div>
+        <AudienceBenefitsSection cards={audienceCards} />
       </SectionWrapper>
 
       <SectionWrapper id="faq" className="pt-0">
@@ -449,13 +563,13 @@ const Landing = () => {
                 <div className="mt-3 flex gap-4">
                   <a className="hover:text-slate-900 dark:hover:text-primary-200" href="https://discord.com" target="_blank" rel="noreferrer">{t('landing.discord')}</a>
                   <a className="hover:text-slate-900 dark:hover:text-primary-200" href="https://youtube.com" target="_blank" rel="noreferrer">{t('landing.youtube')}</a>
-                  <a className="hover:text-slate-900 dark:hover:text-primary-200" href="https://x.com" target="_blank" rel="noreferrer">X</a>
+                  <a className="hover:text-slate-900 dark:hover:text-primary-200" href="https://x.com" target="_blank" rel="noreferrer">{t('landing.x')}</a>
                 </div>
               </div>
               <p className="text-xs text-slate-500 dark:text-white/60">
                 <Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/privacy">{t('landing.privacy')}</Link> &middot; <Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/terms">{t('landing.terms')}</Link> &middot; <Link className="hover:text-slate-900 dark:hover:text-primary-200" to="/support">{t('landing.support')}</Link>
               </p>
-              <p className="text-xs text-slate-500 dark:text-white/60">&copy; {new Date().getFullYear()} Quiz Nova</p>
+              <p className="text-xs text-slate-500 dark:text-white/60">&copy; {new Date().getFullYear()} {t('landing.brandName')}</p>
             </div>
           </div>
         </footer>

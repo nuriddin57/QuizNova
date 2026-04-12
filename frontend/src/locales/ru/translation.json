@@ -1,5 +1,10 @@
 {
   "common": {
+    "easy": "Легкий",
+    "medium": "Средний",
+    "hard": "Сложный",
+    "true": "Верно",
+    "false": "Неверно",
     "language": "Язык",
     "theme": "Тема",
     "light": "Светлая",
@@ -15,6 +20,7 @@
     "players": "игроков"
   },
   "nav": {
+    "universityAccess": "Доступ университета",
     "brand": "QuizNova",
     "discover": "Обзор",
     "dashboard": "Панель",
@@ -65,6 +71,7 @@
     "role": "Роль",
     "teacher": "Учитель",
     "student": "Ученик",
+    "parent": "Родитель",
     "agreeTerms": "Я принимаю условия использования.",
     "creating": "Создание...",
     "createAccount": "Создать аккаунт",
@@ -77,6 +84,114 @@
     "usernamePlaceholder": "Введите имя пользователя",
     "passwordPlaceholder": "Введите пароль",
     "emailPlaceholder": "you@example.com"
+  },
+  "loginPage": {
+    "loginAsStudent": "Войти как студент",
+    "loginAsTeacher": "Войти как преподаватель",
+    "teacherEmail": "Email преподавателя",
+    "teacherEmailPlaceholder": "john.doe@shardauniversity.uz",
+    "studentEmailPlaceholder": "student@ug.shardauniversity.uz",
+    "parentEmailPlaceholder": "parent@example.com",
+    "universityLogin": "Вход через университет",
+    "loginAsParent": "Войти как родитель",
+    "parentLoginSuccess": "Вход родителя выполнен",
+    "studentRoleMismatch": "Этот аккаунт не является аккаунтом ученика.",
+    "teacherRoleMismatch": "Этот аккаунт не является аккаунтом учителя.",
+    "parentRoleMismatch": "Этот аккаунт не является аккаунтом родителя."
+  },
+  "pagination": {
+    "prev": "Назад",
+    "next": "Вперед",
+    "pageStatus": "Страница {{page}} / {{total}}"
+  },
+  "universityAuth": {
+    "missingTokens": "Университетский вход не вернул локальные токены.",
+    "failed": "Сбой университетского входа.",
+    "finishingTitle": "Завершение входа через университет",
+    "finishingBody": "Сессия QuizNova создается."
+  },
+  "quizTake": {
+    "examSubmitted": "Экзамен отправлен",
+    "examResult": "Результат экзамена",
+    "score": "Балл",
+    "correct": "Верные",
+    "wrong": "Неверные",
+    "percentage": "Процент",
+    "status": "Статус",
+    "pass": "Сдал",
+    "fail": "Не сдал",
+    "viewHistory": "История",
+    "backToDashboard": "Назад в панель",
+    "loadingExam": "Загрузка экзамена...",
+    "subject": "Предмет",
+    "difficulty": "Сложность",
+    "duration": "Длительность",
+    "minutes": "мин",
+    "answeredCount": "Отвечено {{answered}} из {{total}}",
+    "submitting": "Отправка...",
+    "submitExam": "Отправить экзамен",
+    "notAvailable": "Экзамен недоступен или не назначен для вашего направления."
+  },
+  "adminUsers": {
+    "title": "Управление пользователями",
+    "subtitle": "Просмотр студентов, преподавателей и администраторов в каталоге пользователей.",
+    "columns": {
+      "name": "Имя",
+      "email": "Email",
+      "role": "Роль",
+      "status": "Статус"
+    },
+    "noUsers": "Пользователи не найдены.",
+    "unknownUser": "Неизвестный пользователь",
+    "roles": {
+      "student": "Студент",
+      "teacher": "Преподаватель",
+      "parent": "Родитель",
+      "admin": "Админ"
+    }
+  },
+  "registerPage": {
+    "fullName": "Полное имя",
+    "fullNamePlaceholder": "John Doe",
+    "fullNameRequired": "Полное имя обязательно",
+    "passwordMin": "Минимум 8 символов",
+    "fieldRequired": "Поле {{field}} обязательно",
+    "studentProfile": "Профиль студента",
+    "teacherProfile": "Профиль преподавателя",
+    "parentProfile": "Профиль родителя",
+    "profileFields": {
+      "university": "Университет",
+      "faculty": "Факультет",
+      "semester": "Семестр",
+      "group": "Группа",
+      "studentId": "ID студента",
+      "relationship": "Родство",
+      "linkedStudents": "ID привязанных студентов (через запятую)",
+      "notes": "Заметки",
+      "department": "Кафедра",
+      "employeeId": "ID сотрудника",
+      "subjectArea": "Предметная область"
+    }
+  },
+  "parentDashboard": {
+    "badge": "Панель родителя",
+    "familyOverview": "Обзор семейного обучения",
+    "viewResults": "Посмотреть результаты",
+    "parentGuide": "Гид для родителей",
+    "noLinkedStudentsTitle": "Пока нет связанных учеников",
+    "noLinkedStudentsBody": "Попросите администратора связать ваш родительский аккаунт с одним или несколькими профилями учеников.",
+    "totalAttempts": "Всего попыток",
+    "averageScore": "Средний балл",
+    "bestScore": "Лучший балл",
+    "passRate": "Процент прохождения",
+    "linkedStudents": "Связанные ученики",
+    "linkedStudentsBody": "Следите за учениками, связанными с вашим аккаунтом, и фильтруйте их последние результаты.",
+    "allChildren": "Все дети",
+    "weeklyChallenge": "Челлендж недели",
+    "challengeDeadline": "Срок: {{deadline}}",
+    "noChallenge": "Сейчас нет активного челленджа недели.",
+    "recentResults": "Последние результаты",
+    "recentResultsBody": "Просматривайте последние попытки, баллы и статус pass/fail для связанных учеников."
   },
   "lobby": {
     "hostTitle": "Создать live-игру",
@@ -214,7 +329,90 @@
     "youtube": "YouTube",
     "privacy": "Конфиденциальность",
     "terms": "Условия",
-    "support": "Поддержка"
+    "support": "Поддержка",
+    "deadline": "Срок",
+    "deadlineLabel": "Срок: {{deadline}}",
+    "challengeCodeHelp": "Поделитесь этим кодом с классом, чтобы подключиться к челленджу недели и отслеживать участие в одном месте.",
+    "challengeUnavailableTitle": "Челлендж недели временно недоступен",
+    "challengeUnavailableBody": "Сейчас не удалось загрузить текущий челлендж. Вы все равно можете просматривать квизы, войти в систему и вернуться позже.",
+    "noChallengeTitle": "Новый челлендж недели скоро появится",
+    "noChallengeBody": "Наша команда готовит следующий челлендж с новыми вопросами, понятной наградой и новым циклом лидерборда.",
+    "explorePlatform": "Открыть QuizNova",
+    "openDashboard": "Открыть дашборд",
+    "testimonialsIntro": "Учителя, ученики и родители используют QuizNova, чтобы сделать обучение наглядным, измеримым и мотивирующим каждую неделю.",
+    "socialProofSummary": "{{count}} подтвержденных историй от активных пользователей",
+    "testimonialsUnavailableTitle": "Отзывы сейчас недоступны",
+    "testimonialsUnavailableBody": "Не удалось загрузить карточки отзывов. Платформа по-прежнему доступна, вы можете продолжить работу.",
+    "noTestimonialsTitle": "Мы собираем новые истории успеха",
+    "noTestimonialsBody": "Новые отзывы школ и семей появятся здесь сразу после проверки командой QuizNova.",
+    "testimonialRoles": {
+      "teacher": "Учитель",
+      "student": "Ученик",
+      "parent": "Родитель",
+      "school_admin": "Администратор школы"
+    },
+    "audience": {
+      "sectionTitle": "Сделано и для класса, и для семей, которые стоят за ним",
+      "sectionBody": "QuizNova объединяет живое вовлечение, структурированную практику и видимость прогресса в одном потоке: учителя принимают решения быстрее, а родители остаются в курсе.",
+      "teacher": {
+        "eyebrow": "Для учителей",
+        "title": "Проводите уроки лучше с меньшей подготовкой",
+        "description": "Быстро планируйте квизы, запускайте живые сессии и превращайте каждую попытку в полезную обратную связь для урока.",
+        "primarySignup": "Создать аккаунт учителя",
+        "primaryDashboard": "Открыть дашборд учителя",
+        "secondaryLearnMore": "Посмотреть инструменты",
+        "benefits": {
+          "quizzesTitle": "Быстро создавайте квизы",
+          "quizzesBody": "Создавайте с нуля, импортируйте банк вопросов или собирайте структурированные квизы по предмету за минуты.",
+          "liveTitle": "Проводите live-игры уверенно",
+          "liveBody": "Запускайте сессии в реальном времени, делитесь кодом входа и управляйте классом через понятную панель ведущего.",
+          "progressTitle": "Отслеживайте прогресс учеников",
+          "progressBody": "После каждого задания или игры смотрите completion, accuracy и слабые темы по уровню вопроса.",
+          "leaderboardTitle": "Используйте лидерборд и отчеты",
+          "leaderboardBody": "Просматривайте рейтинги, последние попытки и сводки по успеваемости, не выходя из рабочего процесса."
+        }
+      },
+      "parent": {
+        "eyebrow": "Для родителей",
+        "title": "Понимайте прогресс без догадок",
+        "description": "Следите за учебной активностью, участием в челленджах и сильными сторонами по темам, чтобы домашняя поддержка была точнее.",
+        "primaryInfo": "Обзор для родителей",
+        "secondaryTrack": "Следить за активностью",
+        "benefits": {
+          "progressTitle": "Понятный мониторинг прогресса",
+          "progressBody": "Оценивайте не только отдельные тесты, но и тренд баллов и завершения заданий.",
+          "challengeTitle": "Участие в челлендже недели",
+          "challengeBody": "Видьте, присоединился ли ребенок к челленджу, насколько регулярно тренируется и что получает в результате.",
+          "strengthsTitle": "Сильные и слабые стороны",
+          "strengthsBody": "Понимайте, какие предметы улучшаются, а где еще нужна дополнительная практика.",
+          "activityTitle": "Учебная активность в одном месте",
+          "activityBody": "Смотрите последние попытки, темп обучения и вовлеченность в классе в простом интерфейсе."
+        }
+      }
+    },
+    "challengeMissingTitle": "Челлендж не найден",
+    "challengeMissingBody": "Срок этого челленджа мог истечь, он мог быть архивирован или ссылка неверна.",
+    "backToHome": "На главную",
+    "goToDiscover": "Посмотреть квизы",
+    "signInToJoin": "Войти, чтобы участвовать",
+    "parentPage": {
+      "eyebrow": "Для родителей",
+      "title": "Более понятный способ следить за обучением дома",
+      "description": "QuizNova дает семьям практичный обзор прогресса, участия и учебного ритма, чтобы разговоры о поддержке были спокойнее и конкретнее.",
+      "primaryCta": "Войти в QuizNova",
+      "secondaryCta": "Связаться с поддержкой",
+      "cards": {
+        "progressTitle": "Прогресс по неделям",
+        "progressBody": "Смотрите, как часто ребенок завершает квизы, как меняются баллы и растет ли регулярность.",
+        "challengeTitle": "Челлендж недели в одном окне",
+        "challengeBody": "Проверьте, подключился ли ребенок к последнему челленджу, использовал ли код и оставался ли активным до дедлайна.",
+        "insightTitle": "Сильные и слабые стороны без сложных отчетов",
+        "insightBody": "Понимайте, по каким темам растет уверенность, а где еще нужна целевая повторная практика.",
+        "activityTitle": "Последняя учебная активность без шума",
+        "activityBody": "Просматривайте недавние сессии и попытки без сложных и перегруженных дашбордов."
+      }
+    },
+    "x": "X"
   },
   "discoverPage": {
     "title": "Поиск наборов",
@@ -228,6 +426,10 @@
     "curatedRows": "Подборки",
     "swipeToExplore": "Листайте для просмотра",
     "collection": "Коллекция",
+    "setsCount_one": "{{count}} набор",
+    "setsCount_few": "{{count}} набора",
+    "setsCount_many": "{{count}} наборов",
+    "setsCount_other": "{{count}} набора",
     "setsSuffix": "наборов",
     "noSetsTitle": "Нет наборов по этим фильтрам",
     "noSetsDesc": "Выберите другой предмет или очистите поиск.",
@@ -292,7 +494,8 @@
     "hostingShareCode": "Запуск {{title}}... поделитесь кодом лобби!",
     "openSet": "Открыть набор",
     "defaultSubject": "Общее",
-    "defaultCreator": "Сообщество"
+    "defaultCreator": "Сообщество",
+    "defaultTitle": "Набор без названия"
   },
   "quizEditor": {
     "title": "Название",
@@ -347,13 +550,13 @@
   "data": {
     "creators": {
       "codeClub": "Code Club",
-      "community": "Community",
-      "counselTeam": "Counsel Team",
-      "labCrew": "Lab Crew",
-      "languageLab": "Language Lab",
-      "mrKhan": "Mr Khan",
-      "msAri": "Ms Ari",
-      "quizNova": "Quiz Nova"
+      "community": "Сообщество",
+      "counselTeam": "Команда наставников",
+      "labCrew": "Лабораторная команда",
+      "languageLab": "Языковая лаборатория",
+      "mrKhan": "Мистер Хан",
+      "msAri": "Мисс Ари",
+      "quizNova": "QuizNova"
     },
     "dashboard": {
       "announcements": {
@@ -457,27 +660,27 @@
     },
     "discover": {
       "categories": {
-        "extras": "Extras",
-        "humanities": "Humanities",
-        "stem": "Stem"
+        "extras": "Дополнительно",
+        "humanities": "Гуманитарные науки",
+        "stem": "STEM"
       },
       "collections": {
-        "earthWeek": "Earth Week",
-        "selMoments": "Sel Moments",
-        "stemShowdown": "Stem Showdown"
+        "earthWeek": "Неделя Земли",
+        "selMoments": "Моменты SEL",
+        "stemShowdown": "STEM-баттл"
       },
       "items": {
-        "artMusic": "Art Music",
-        "civics": "Civics",
-        "ela": "Ela",
-        "engineering": "Engineering",
-        "geography": "Geography",
-        "languages": "Languages",
-        "robotics": "Robotics"
+        "artMusic": "Искусство и музыка",
+        "civics": "Граждановедение",
+        "ela": "Язык и литература",
+        "engineering": "Инженерия",
+        "geography": "География",
+        "languages": "Языки",
+        "robotics": "Робототехника"
       }
     },
     "filters": {
-      "all": "All"
+      "all": "Все"
     },
     "landing": {
       "faq": {
@@ -624,27 +827,27 @@
       }
     },
     "sets": {
-      "artRhythm": "Art Rhythm",
-      "codingLoops": "Coding Loops",
-      "earthSystems": "Earth Systems",
-      "fractions": "Fractions",
-      "languageBoost": "Language Boost",
-      "mathBasics": "Math Basics",
-      "rocketRushPack": "Rocket Rush Pack",
-      "scienceBasics": "Science Basics",
-      "selMindful": "Sel Mindful",
-      "spaceExplorers": "Space Explorers",
-      "triviaMix": "Trivia Mix",
-      "worldHistory": "World History"
+      "artRhythm": "Ритм искусства",
+      "codingLoops": "Циклы в программировании",
+      "earthSystems": "Системы Земли",
+      "fractions": "Дроби",
+      "languageBoost": "Усиление языка",
+      "mathBasics": "Основы математики",
+      "rocketRushPack": "Набор Rocket Rush",
+      "scienceBasics": "Основы науки",
+      "selMindful": "Осознанный SEL",
+      "spaceExplorers": "Исследователи космоса",
+      "triviaMix": "Микс викторин",
+      "worldHistory": "Всемирная история"
     },
     "subjects": {
-      "art": "Art",
-      "coding": "Coding",
-      "history": "History",
-      "math": "Math",
-      "science": "Science",
-      "sel": "Sel",
-      "trivia": "Trivia"
+      "art": "Искусство",
+      "coding": "Программирование",
+      "history": "История",
+      "math": "Математика",
+      "science": "Наука",
+      "sel": "SEL",
+      "trivia": "Викторина"
     }
   },
   "mySets": {
@@ -744,6 +947,17 @@
     "correctAnswer": "Правильный ответ",
     "marks": "Баллы",
     "explanation": "Пояснение",
+    "analyzeQuestion": "Анализировать вопрос",
+    "analysisLoading": "Анализируется...",
+    "analysisTitle": "Анализ вопроса",
+    "analysisScore": "Оценка качества",
+    "analysisStrengths": "Сильные стороны",
+    "analysisIssues": "Проблемы",
+    "analysisSuggestions": "Рекомендации",
+    "analysisNoStrengths": "Явных сильных сторон не найдено.",
+    "analysisNoIssues": "Серьезных проблем не найдено.",
+    "analysisNoSuggestions": "Дополнительных рекомендаций нет.",
+    "analysisQuestionRequired": "Сначала введите текст вопроса.",
     "saving": "Сохранение...",
     "saveQuestion": "Сохранить вопрос",
     "previewOnly": "Только предпросмотр",
@@ -808,7 +1022,7 @@
     "student": "Студент",
     "quiz": "Квиз",
     "score": "Балл",
-    "correctWrong": "Верно/Неверно",
+    "correctWrong": "Верно/Всего",
     "percentage": "Процент",
     "status": "Статус",
     "pending": "Ожидание",
@@ -847,6 +1061,11 @@
     "quizUpdated": "????????? ?????????.",
     "quizCreated": "????????? ???????.",
     "editQuiz": "????????????? ?????????",
-    "backToTeacherDashboard": "????? ? ?????? ?????????????"
+    "backToTeacherDashboard": "????? ? ?????? ?????????????",
+    "formats": {
+      "json": "JSON",
+      "csv": "CSV",
+      "excel": "Excel"
+    }
   }
 }

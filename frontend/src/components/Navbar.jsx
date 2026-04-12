@@ -130,7 +130,7 @@ const Navbar = () => {
           ) : (
             <>
               <SecondaryButton as={Link} to="/login">{t('nav.login')}</SecondaryButton>
-              <PrimaryButton as={Link} to="/login">University Access</PrimaryButton>
+              <PrimaryButton as={Link} to="/login">{t('nav.universityAccess')}</PrimaryButton>
             </>
           )}
         </div>
@@ -180,7 +180,7 @@ const Navbar = () => {
                   {t('nav.login')}
                 </SecondaryButton>
                 <PrimaryButton as={Link} to="/login" className="w-full" onClick={() => setOpen(false)}>
-                  University Access
+                  {t('nav.universityAccess')}
                 </PrimaryButton>
               </div>
             )}

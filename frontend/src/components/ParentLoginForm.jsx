@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import PrimaryButton from './PrimaryButton'
 
-const StudentLoginForm = ({ loading = false, onSubmit }) => {
+const ParentLoginForm = ({ loading = false, onSubmit }) => {
   const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -21,7 +21,7 @@ const StudentLoginForm = ({ loading = false, onSubmit }) => {
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder={t('loginPage.studentEmailPlaceholder')}
+          placeholder={t('loginPage.parentEmailPlaceholder')}
           className="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2.5"
         />
       </label>
@@ -35,10 +35,10 @@ const StudentLoginForm = ({ loading = false, onSubmit }) => {
         />
       </label>
       <PrimaryButton type="submit" disabled={loading}>
-        {loading ? t('auth.signingIn') : t('loginPage.loginAsStudent')}
+        {loading ? t('auth.signingIn') : t('loginPage.loginAsParent')}
       </PrimaryButton>
     </form>
   )
 }
 
-export default StudentLoginForm
+export default ParentLoginForm

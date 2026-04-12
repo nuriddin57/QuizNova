@@ -51,9 +51,9 @@ const BulkImportForm = ({ subjects = [], topics = [], modules = [], loading = fa
           {modules.map((module) => <option key={module.id} value={module.id}>{module.title}</option>)}
         </select>
         <select value={form.format} onChange={update('format')} className="rounded-2xl border border-slate-200 px-4 py-2.5">
-          <option value="json">JSON</option>
-          <option value="csv">CSV</option>
-          <option value="excel">Excel</option>
+          <option value="json">{t('academy.formats.json')}</option>
+          <option value="csv">{t('academy.formats.csv')}</option>
+          <option value="excel">{t('academy.formats.excel')}</option>
         </select>
       </div>
       <input type="file" accept=".json,.csv,.xlsx,.xls" onChange={update('file')} className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm" />

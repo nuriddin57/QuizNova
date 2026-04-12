@@ -10,6 +10,7 @@ import TeacherLoginForm from '../components/TeacherLoginForm'
 import SectionWrapper from '../components/SectionWrapper'
 import { useAuth } from '../context/AuthContext'
 import { getApiBaseUrl } from '../api/axios'
+import { getRoleEmailDomainError, normalizeEmail } from '../utils/roleEmailPolicy'
 
 const Login = () => {
   const { t } = useTranslation()
@@ -21,27 +22,43 @@ const Login = () => {
   const resolveRedirect = (user) => {
     if (user?.role === 'admin') return '/admin-panel'
     if (user?.role === 'teacher') return '/teacher/dashboard'
+    if (user?.role === 'parent') return '/parent/dashboard'
     if (!user?.field_of_study) return '/field-selection'
     return '/student/dashboard'
   }
 
   const onSubmit = async ({ email, password }) => {
+    const normalizedEmail = normalizeEmail(email)
+    const domainError = getRoleEmailDomainError(role, normalizedEmail)
+    if (domainError) {
+      toast.error(domainError)
+      return
+    }
+
     setLoading(true)
     try {
-      const user = await login({ email, password })
+      const user = await login({ email: normalizedEmail, password, role })
       const roleMatches =
         (role === 'student' && user?.role === 'student') ||
-        (role === 'teacher' && (user?.role === 'teacher' || user?.role === 'admin'))
+        (role === 'teacher' && user?.role === 'teacher')
 
       if (!roleMatches) {
         throw new Error('role_mismatch')
       }
 
-      toast.success(role === 'student' ? t('loginPage.studentLoginSuccess') : t('loginPage.teacherLoginSuccess'))
+      const successMessage =
+        role === 'student'
+          ? t('loginPage.studentLoginSuccess')
+          : t('loginPage.teacherLoginSuccess')
+      toast.success(successMessage)
       navigate(resolveRedirect(user), { replace: true })
     } catch (error) {
       if (error.message === 'role_mismatch') {
-        toast.error(role === 'student' ? 'This account is not a student account.' : 'This account is not a teacher account.')
+        const message =
+          role === 'student'
+            ? t('loginPage.studentRoleMismatch')
+            : t('loginPage.teacherRoleMismatch')
+        toast.error(message)
       }
     } finally {
       setLoading(false)
@@ -83,7 +100,7 @@ const Login = () => {
               onClick={handleUniversityLogin}
               className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
             >
-              University Login
+              {t('loginPage.universityLogin')}
             </button>
           </div>
         </Card>

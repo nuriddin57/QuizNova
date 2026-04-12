@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import { useTranslation } from 'react-i18next'
 
 import Card from '../components/Card'
 import SectionWrapper from '../components/SectionWrapper'
@@ -17,6 +18,7 @@ const parseHash = (hash) => {
 }
 
 const UniversityAuthCallback = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { loadMe } = useAuth()
 
@@ -33,7 +35,7 @@ const UniversityAuthCallback = () => {
         }
 
         if (!access || !refresh) {
-          toast.error('University login did not return local tokens.')
+          toast.error(t('universityAuth.missingTokens'))
           navigate('/login', { replace: true })
           return
         }
@@ -52,7 +54,7 @@ const UniversityAuthCallback = () => {
           navigate('/student/dashboard', { replace: true })
         }
       } catch {
-        toast.error('University login failed.')
+        toast.error(t('universityAuth.failed'))
         navigate('/login', { replace: true })
       }
     })()
@@ -60,13 +62,13 @@ const UniversityAuthCallback = () => {
     return () => {
       active = false
     }
-  }, [loadMe, navigate])
+  }, [loadMe, navigate, t])
 
   return (
     <SectionWrapper className="pt-8" disableMotion>
       <Card className="mx-auto max-w-xl rounded-[32px] bg-white/95 text-center">
-        <h1 className="text-3xl font-display font-semibold text-slate-900">Finishing university login</h1>
-        <p className="mt-3 text-sm text-slate-600">Your QuizNova session is being established.</p>
+        <h1 className="text-3xl font-display font-semibold text-slate-900">{t('universityAuth.finishingTitle')}</h1>
+        <p className="mt-3 text-sm text-slate-600">{t('universityAuth.finishingBody')}</p>
       </Card>
     </SectionWrapper>
   )

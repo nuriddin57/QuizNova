@@ -4,14 +4,11 @@ import i18n from '../i18n'
 import { clearTokens, getAccessToken, getRefreshToken, setAccessToken } from '../utils/auth'
 import { toastHelpers } from '../utils/toastHelpers'
 
+const appEnv = import.meta.env.VITE_APP_ENV || 'development'
 const fallbackBaseUrl =
   typeof window !== 'undefined'
-    ? window.location.port === '8001'
-      ? window.location.origin
-      : window.location.port === '8000'
-      ? window.location.origin
-      : `${window.location.protocol}//${window.location.hostname}:8001`
-    : 'http://127.0.0.1:8001'
+    ? `${window.location.protocol}//${window.location.host}`
+    : 'http://127.0.0.1:8000'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || fallbackBaseUrl,
@@ -44,6 +41,19 @@ const normalizeSetCard = (set, index = 0) => {
 }
 
 const normalizeSetCards = (items) => (Array.isArray(items) ? items.map((item, index) => normalizeSetCard(item, index)) : [])
+
+const buildCollectionDetailPaths = (identifier) => {
+  const normalizedIdentifier = encodeURIComponent(String(identifier ?? '').trim())
+  return [
+    `/api/sets/${normalizedIdentifier}/`,
+    `/api/quizzes/${normalizedIdentifier}/`,
+  ]
+}
+
+const isRetriableRequestError = (error) => {
+  const status = error?.response?.status
+  return !status || status >= 500
+}
 
 api.interceptors.request.use((config) => {
   config.headers = config.headers || {}
@@ -135,12 +145,10 @@ api.interceptors.response.use(
 export const getHealth = async () => {
   const candidates = [
     api.defaults.baseURL,
-    typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.hostname}:8001` : null,
-    typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.hostname}:8000` : null,
-    'http://127.0.0.1:8001',
-    'http://127.0.0.1:8000',
-    'http://localhost:8001',
-    'http://localhost:8000',
+    typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.host}` : null,
+    appEnv === 'development' && typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.hostname}:8000` : null,
+    appEnv === 'development' ? 'http://127.0.0.1:8000' : null,
+    appEnv === 'development' ? 'http://localhost:8000' : null,
   ].filter(Boolean)
 
   const uniqueCandidates = [...new Set(candidates)]
@@ -193,24 +201,36 @@ export const getStats = async () => {
 }
 
 export const getSets = async (params = {}) => {
+  const requestConfig = {
+    _silent: true,
+    params: {
+      search: params.search || undefined,
+      category: params.category || undefined,
+      sort: params.sort || undefined,
+      page: params.page || undefined,
+    },
+  }
   try {
-    const { data } = await api.get('/api/sets/', {
-      _silent: true,
-      params: {
-        search: params.search || undefined,
-        category: params.category || undefined,
-        sort: params.sort || undefined,
-        page: params.page || undefined,
-      },
-    })
+    const { data } = await api.get('/api/sets/', requestConfig)
     const results = Array.isArray(data) ? data : data?.results || []
     return {
       ...(data && typeof data === 'object' && !Array.isArray(data) ? data : {}),
       fallback: false,
       results: normalizeSetCards(results),
     }
-  } catch (error) {
-    return { fallback: true, results: discoverSets }
+  } catch (firstError) {
+    try {
+      await getHealth()
+      const { data } = await api.get('/api/sets/', requestConfig)
+      const results = Array.isArray(data) ? data : data?.results || []
+      return {
+        ...(data && typeof data === 'object' && !Array.isArray(data) ? data : {}),
+        fallback: false,
+        results: normalizeSetCards(results),
+      }
+    } catch (retryError) {
+      return { fallback: false, results: [] }
+    }
   }
 }
 
@@ -257,15 +277,35 @@ export const getMyQuizzes = async () => {
 }
 
 export const getQuiz = async (id, options = {}) => {
-  const requestConfig = options?.silent ? { _silent: true } : undefined
-  try {
-    const { data } = await api.get(`/api/quizzes/${id}/`, requestConfig)
-    return data
-  } catch (quizError) {
-    // Some backends expose set detail under /api/sets/:id.
-    const { data } = await api.get(`/api/sets/${id}/`, requestConfig)
-    return data
+  const requestConfig = options?.silent ? { _silent: true } : {}
+  const detailPaths = buildCollectionDetailPaths(id)
+  let lastError = null
+
+  for (const path of detailPaths) {
+    try {
+      const { data } = await api.get(path, requestConfig)
+      return data
+    } catch (error) {
+      lastError = error
+    }
   }
+
+  if (!isRetriableRequestError(lastError)) {
+    throw lastError
+  }
+
+  await getHealth()
+
+  for (const path of detailPaths) {
+    try {
+      const { data } = await api.get(path, requestConfig)
+      return data
+    } catch (error) {
+      lastError = error
+    }
+  }
+
+  throw lastError
 }
 
 export const getQuizLeaderboard = async (quizId, config = {}) => {

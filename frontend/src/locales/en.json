@@ -259,6 +259,8 @@
     "curatedRows": "Curated rows",
     "swipeToExplore": "Swipe to explore",
     "collection": "Collection",
+    "setsCount_one": "{{count}} set",
+    "setsCount_other": "{{count}} sets",
     "setsSuffix": "sets",
     "noSetsTitle": "No sets match your filters",
     "noSetsDesc": "Try a different subject or clear your search.",
@@ -323,7 +325,8 @@
     "hostingShareCode": "Hosting {{title}}... share the lobby code!",
     "openSet": "Open set",
     "defaultSubject": "General",
-    "defaultCreator": "Community"
+    "defaultCreator": "Community",
+    "defaultTitle": "Untitled set"
   },
   "setDetail": {
     "loadingSet": "Loading set...",
@@ -845,7 +848,7 @@
     "student": "Student",
     "quiz": "Quiz",
     "score": "Score",
-    "correctWrong": "Correct/Wrong",
+    "correctWrong": "Correct/Total",
     "percentage": "Percentage",
     "status": "Status",
     "pending": "Pending",
@@ -912,6 +915,7 @@
     "title": "Set Your Academic Profile",
     "description": "Quiz visibility and exam assignments are filtered by your field, semester code, semester number, and section.",
     "selectField": "Select your field",
+    "studentIdPlaceholder": "Enter student ID",
     "completeProfile": "Please complete your academic profile",
     "updated": "Academic profile updated",
     "semesterCodePlaceholder": "Semester code (e.g. 2501)",
@@ -936,6 +940,11 @@
     "topicForSaving": "Topic for saving",
     "optionalQuizTarget": "Optional quiz target",
     "selectQuiz": "Select quiz",
+    "newQuizTitle": "New quiz title",
+    "newQuizTitlePlaceholder": "Sorting Algorithms Quiz",
+    "newQuizTitleRequired": "Enter a title for the new quiz",
+    "saveAsNewQuiz": "Save as New Quiz",
+    "savedAsNewQuiz": "Generated questions saved as a new quiz",
     "saveToQuiz": "Save to Quiz",
     "saveToBank": "Save to Bank",
     "noGeneratedQuestions": "No generated questions yet."

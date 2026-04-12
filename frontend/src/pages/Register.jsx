@@ -8,6 +8,7 @@ import InputField from '../components/InputField'
 import PrimaryButton from '../components/PrimaryButton'
 import SecondaryButton from '../components/SecondaryButton'
 import { useAuth } from '../context/AuthContext'
+import { getRoleEmailDomainError, normalizeEmail } from '../utils/roleEmailPolicy'
 
 const initialForm = {
   full_name: '',
@@ -27,6 +28,11 @@ const initialForm = {
     employee_id: '',
     subject_area: '',
   },
+  parent_profile: {
+    relationship: '',
+    notes: '',
+    linked_students: '',
+  },
 }
 
 const Register = () => {
@@ -38,23 +44,30 @@ const Register = () => {
   const [loading, setLoading] = useState(false)
 
   const isStudent = form.role === 'student'
+  const isParent = form.role === 'parent'
 
   const profileFields = useMemo(
     () => (isStudent
       ? [
-          { key: 'university', label: 'University' },
-          { key: 'faculty', label: 'Faculty' },
-          { key: 'semester', label: 'Semester', type: 'number' },
-          { key: 'group', label: 'Group' },
-          { key: 'student_id', label: 'Student ID' },
+          { key: 'university', label: t('registerPage.profileFields.university') },
+          { key: 'faculty', label: t('registerPage.profileFields.faculty') },
+          { key: 'semester', label: t('registerPage.profileFields.semester'), type: 'number' },
+          { key: 'group', label: t('registerPage.profileFields.group') },
+          { key: 'student_id', label: t('registerPage.profileFields.studentId') },
+        ]
+      : isParent
+      ? [
+          { key: 'relationship', label: t('registerPage.profileFields.relationship') },
+          { key: 'linked_students', label: t('registerPage.profileFields.linkedStudents') },
+          { key: 'notes', label: t('registerPage.profileFields.notes') },
         ]
       : [
-          { key: 'university', label: 'University' },
-          { key: 'department', label: 'Department' },
-          { key: 'employee_id', label: 'Employee ID' },
-          { key: 'subject_area', label: 'Subject area' },
+          { key: 'university', label: t('registerPage.profileFields.university') },
+          { key: 'department', label: t('registerPage.profileFields.department') },
+          { key: 'employee_id', label: t('registerPage.profileFields.employeeId') },
+          { key: 'subject_area', label: t('registerPage.profileFields.subjectArea') },
         ]),
-    [isStudent]
+    [isParent, isStudent, t]
   )
 
   const updateField = (field) => (event) => {
@@ -64,8 +77,8 @@ const Register = () => {
   const updateProfileField = (field) => (event) => {
     setForm((prev) => ({
       ...prev,
-      [isStudent ? 'student_profile' : 'teacher_profile']: {
-        ...prev[isStudent ? 'student_profile' : 'teacher_profile'],
+      [isStudent ? 'student_profile' : isParent ? 'parent_profile' : 'teacher_profile']: {
+        ...prev[isStudent ? 'student_profile' : isParent ? 'parent_profile' : 'teacher_profile'],
         [field]: event.target.value,
       },
     }))
@@ -73,14 +86,16 @@ const Register = () => {
 
   const validate = () => {
     const nextErrors = {}
-    if (!form.full_name.trim()) nextErrors.full_name = 'Full name is required'
+    if (!form.full_name.trim()) nextErrors.full_name = t('registerPage.fullNameRequired')
     if (!form.email.trim()) nextErrors.email = t('auth.emailRequired')
-    if (form.password.length < 8) nextErrors.password = 'At least 8 characters'
+    if (form.password.length < 8) nextErrors.password = t('registerPage.passwordMin')
+    const domainError = getRoleEmailDomainError(form.role, form.email)
+    if (domainError) nextErrors.email = domainError
 
-    const profile = isStudent ? form.student_profile : form.teacher_profile
+    const profile = isStudent ? form.student_profile : isParent ? form.parent_profile : form.teacher_profile
     profileFields.forEach(({ key, label }) => {
       if (!String(profile[key] || '').trim()) {
-        nextErrors[key] = `${label} is required`
+        nextErrors[key] = t('registerPage.fieldRequired', { field: label })
       }
     })
 
@@ -95,13 +110,20 @@ const Register = () => {
     setLoading(true)
     try {
       const payload = {
-        email: form.email,
+        email: normalizeEmail(form.email),
         password: form.password,
         full_name: form.full_name,
         role: form.role,
-        [isStudent ? 'student_profile' : 'teacher_profile']: isStudent ? {
+        [isStudent ? 'student_profile' : isParent ? 'parent_profile' : 'teacher_profile']: isStudent ? {
           ...form.student_profile,
           semester: Number(form.student_profile.semester),
+        } : isParent ? {
+          relationship: form.parent_profile.relationship,
+          notes: form.parent_profile.notes,
+          linked_students: String(form.parent_profile.linked_students || '')
+            .split(',')
+            .map((value) => Number(value.trim()))
+            .filter(Boolean),
         } : form.teacher_profile,
       }
 
@@ -112,6 +134,8 @@ const Register = () => {
         navigate('/admin-panel', { replace: true })
       } else if (user?.role === 'teacher') {
         navigate('/teacher/dashboard', { replace: true })
+      } else if (user?.role === 'parent') {
+        navigate('/parent/dashboard', { replace: true })
       } else {
         navigate('/student/dashboard', { replace: true })
       }
@@ -143,10 +167,10 @@ const Register = () => {
         <form onSubmit={handleSubmit} className="rounded-[32px] border border-slate-200/80 bg-white/95 p-8 shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
           <div className="grid gap-4">
             <InputField
-              label="Full name"
+              label={t('registerPage.fullName')}
               value={form.full_name}
               onChange={updateField('full_name')}
-              placeholder="John Doe"
+              placeholder={t('registerPage.fullNamePlaceholder')}
               error={errors.full_name}
             />
             <InputField
@@ -175,18 +199,21 @@ const Register = () => {
               >
                 <option value="student">{t('auth.student')}</option>
                 <option value="teacher">{t('auth.teacher')}</option>
+                <option value="parent">{t('auth.parent')}</option>
               </select>
             </label>
 
             <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
-              <p className="text-sm font-semibold text-slate-900">{isStudent ? 'Student profile' : 'Teacher profile'}</p>
+              <p className="text-sm font-semibold text-slate-900">
+                {isStudent ? t('registerPage.studentProfile') : isParent ? t('registerPage.parentProfile') : t('registerPage.teacherProfile')}
+              </p>
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 {profileFields.map(({ key, label, type = 'text' }) => (
                   <InputField
                     key={key}
                     label={label}
                     type={type}
-                    value={(isStudent ? form.student_profile : form.teacher_profile)[key]}
+                    value={(isStudent ? form.student_profile : isParent ? form.parent_profile : form.teacher_profile)[key]}
                     onChange={updateProfileField(key)}
                     error={errors[key]}
                   />

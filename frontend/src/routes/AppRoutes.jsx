@@ -28,6 +28,9 @@ import QuestionBankPage from '../pages/QuestionBankPage'
 import BulkImportQuestionsPage from '../pages/BulkImportQuestionsPage'
 import TopicDetailPage from '../pages/TopicDetailPage'
 import UniversityAuthCallback from '../pages/UniversityAuthCallback'
+import WeeklyChallengeDetail from '../pages/WeeklyChallengeDetail'
+import ParentInfo from '../pages/ParentInfo'
+import ParentDashboard from '../pages/ParentDashboard'
 
 const RequireAuth = ({ children }) => {
   const { isAuthed, loading } = useAuth()
@@ -52,6 +55,14 @@ const RequireTeacher = ({ children }) => {
   return children
 }
 
+const RequireParent = ({ children }) => {
+  const { role, loading, isAuthed } = useAuth()
+  if (loading) return null
+  if (!isAuthed) return <Navigate to="/login" replace />
+  if (role !== 'parent') return <Navigate to="/dashboard" replace />
+  return children
+}
+
 const RequireAdmin = ({ children }) => {
   const { role, loading, isAuthed } = useAuth()
   if (loading) return null
@@ -66,6 +77,7 @@ const DashboardRedirect = () => {
   if (!isAuthed) return <Navigate to="/login" replace />
   if (role === 'admin') return <Navigate to="/admin/users" replace />
   if (isTeacherRole(role)) return <Navigate to="/teacher/dashboard" replace />
+  if (role === 'parent') return <Navigate to="/parent/dashboard" replace />
   return <Navigate to="/student/dashboard" replace />
 }
 
@@ -92,6 +104,14 @@ const AppRoutes = () => (
         <RequireStudent>
           <StudentDashboard />
         </RequireStudent>
+      )}
+    />
+    <Route
+      path="/parent/dashboard"
+      element={(
+        <RequireParent>
+          <ParentDashboard />
+        </RequireParent>
       )}
     />
     <Route
@@ -172,7 +192,7 @@ const AppRoutes = () => (
     <Route path="/subjects/:subjectId" element={<RequireAuth><SubjectDetailPage /></RequireAuth>} />
     <Route path="/topics/:topicId" element={<RequireAuth><TopicDetailPage /></RequireAuth>} />
     <Route path="/modules/:moduleId" element={<RequireAuth><ModuleDetailPage /></RequireAuth>} />
-    <Route path="/sets/:id" element={<RequireAuth><SetDetail /></RequireAuth>} />
+    <Route path="/sets/:setId" element={<RequireAuth><SetDetail /></RequireAuth>} />
     <Route path="/admin-panel" element={<RequireTeacher><MySets /></RequireTeacher>} />
     <Route path="/my-sets" element={<RequireTeacher><MySets /></RequireTeacher>} />
     <Route path="/admin/users" element={<RequireAdmin><AdminUsersPage /></RequireAdmin>} />
@@ -183,6 +203,8 @@ const AppRoutes = () => (
     <Route path="/play" element={<RequireAuth><GamePlay /></RequireAuth>} />
     <Route path="/game/:id" element={<RequireAuth><GamePlay /></RequireAuth>} />
     <Route path="/privacy" element={<LegalInfo />} />
+    <Route path="/parents" element={<ParentInfo />} />
+    <Route path="/challenges/:code" element={<WeeklyChallengeDetail />} />
     <Route path="/terms" element={<LegalInfo />} />
     <Route path="/support" element={<LegalInfo />} />
     <Route path="*" element={<Navigate to="/" replace />} />

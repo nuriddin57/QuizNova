@@ -15,6 +15,11 @@ export const getStudentResults = async (params = {}) => {
   return data?.results || []
 }
 
+export const getMyResults = async (params = {}) => {
+  const { data } = await api.get('/api/results/my-results/', { params })
+  return data?.results || []
+}
+
 export const getTeacherResults = async (params = {}) => {
   const { data } = await api.get('/api/results/teacher/', { params })
   return data?.results || []
@@ -23,4 +28,14 @@ export const getTeacherResults = async (params = {}) => {
 export const getStudentSubjectPerformance = async () => {
   const { data } = await api.get('/api/results/subject-performance/')
   return data?.subjects || []
+}
+
+export const getParentLinkedStudents = async () => {
+  const { data } = await api.get('/api/results/parent/children/')
+  return data?.students || []
+}
+
+export const getParentProgress = async (params = {}) => {
+  const { data } = await api.get('/api/results/parent/progress/', { params })
+  return data || { children: [], results: [] }
 }

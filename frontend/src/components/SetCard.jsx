@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import SecondaryButton from './SecondaryButton'
 import Badge from './Badge'
 import { cn } from '../utils/cn'
+import { getLocalizedField } from '../utils/localization'
 
 const SetCard = ({
   id,
@@ -25,13 +26,31 @@ const SetCard = ({
   onOpen,
   onHost = () => {},
   onSave = () => {},
+  ...localizedFields
 }) => {
-  const { t } = useTranslation()
-  const badgeLabel = subjectKey ? t(subjectKey) : subject || category || t('setCard.defaultSubject')
-  const creatorLabel = creatorKey ? t(creatorKey) : creator || owner_username || t('setCard.defaultCreator')
-  const titleLabel = titleKey ? t(titleKey) : title
+  const { t, i18n } = useTranslation()
+  const lang = i18n.resolvedLanguage || i18n.language || 'en'
+  const localizedSource = { ...localizedFields, title, subject, category, creator, owner_username }
+
+  const badgeLabel = subjectKey
+    ? t(subjectKey, { defaultValue: getLocalizedField(localizedSource, 'subject', lang) || getLocalizedField(localizedSource, 'category', lang) || t('setCard.defaultSubject') })
+    : getLocalizedField(localizedSource, 'subject', lang) ||
+      getLocalizedField(localizedSource, 'category', lang) ||
+      t('setCard.defaultSubject')
+
+  const creatorLabel = creatorKey
+    ? t(creatorKey, { defaultValue: getLocalizedField(localizedSource, 'creator', lang) || getLocalizedField(localizedSource, 'owner_username', lang) || t('setCard.defaultCreator') })
+    : getLocalizedField(localizedSource, 'creator', lang) ||
+      getLocalizedField(localizedSource, 'owner_username', lang) ||
+      t('setCard.defaultCreator')
+
+  const titleLabel = titleKey
+    ? t(titleKey, { defaultValue: getLocalizedField(localizedSource, 'title', lang) || t('setCard.defaultTitle') })
+    : getLocalizedField(localizedSource, 'title', lang) ||
+      t('setCard.defaultTitle')
+
   const questionTotal = questions ?? question_count ?? 0
-  const detailPath = detailTo || (id ? `/sets/${id}` : null)
+  const detailPath = detailTo || (id ? `/sets/${encodeURIComponent(String(id))}` : null)
 
   return (
     <motion.article whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="frost-card overflow-hidden rounded-[20px]">

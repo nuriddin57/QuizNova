@@ -20,7 +20,7 @@ const TeacherLoginForm = ({ loading = false, onSubmit }) => {
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="john.doe@shardauniversity.uz"
+          placeholder={t('loginPage.teacherEmailPlaceholder')}
           className="mt-1 w-full rounded-2xl border border-slate-200 px-4 py-2.5"
         />
       </label>

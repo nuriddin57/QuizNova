@@ -42,8 +42,8 @@ export const AuthProvider = ({ children }) => {
     return loadMe()
   }, [loadMe])
 
-  const loginUser = useCallback(async ({ email, password }) => {
-    const data = await login({ email, password })
+  const loginUser = useCallback(async ({ email, password, role }) => {
+    const data = await login({ email, password, role })
     return applyAuthResponse(data)
   }, [applyAuthResponse])
 

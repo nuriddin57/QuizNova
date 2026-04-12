@@ -1,9 +1,13 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-import en from './locales/en.json'
-import ru from './locales/ru.json'
-import uz from './locales/uz.json'
+import enBase from './locales/en.json'
+import localeOverrides from './locales/overrides'
+import ruBase from './locales/ru.json'
+import uzBase from './locales/uz.json'
+import enTranslation from './locales/en/translation.json'
+import ruTranslation from './locales/ru/translation.json'
+import uzTranslation from './locales/uz/translation.json'
 
 export const SUPPORTED_LANGUAGES = ['uz', 'ru', 'en']
 export const LANGUAGE_STORAGE_KEY = 'quiznova:language'
@@ -14,6 +18,23 @@ const normalizeLanguage = (value = '') => {
   const match = SUPPORTED_LANGUAGES.find((language) => normalized === language || normalized.startsWith(`${language}-`))
   return match || ''
 }
+
+const isObject = (value) => value && typeof value === 'object' && !Array.isArray(value)
+
+const mergeTranslations = (base, extended) => {
+  if (!isObject(base)) return extended
+  if (!isObject(extended)) return base
+
+  const merged = { ...base }
+  for (const [key, value] of Object.entries(extended)) {
+    merged[key] = isObject(value) && isObject(base[key]) ? mergeTranslations(base[key], value) : value
+  }
+  return merged
+}
+
+const en = mergeTranslations(mergeTranslations(enBase, enTranslation), localeOverrides.en)
+const ru = mergeTranslations(mergeTranslations(ruBase, ruTranslation), localeOverrides.ru)
+const uz = mergeTranslations(mergeTranslations(uzBase, uzTranslation), localeOverrides.uz)
 
 const detectInitialLanguage = () => {
   if (typeof window === 'undefined') return 'uz'

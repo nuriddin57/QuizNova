@@ -259,6 +259,8 @@
     "curatedRows": "Tanlangan qatorlar",
     "swipeToExplore": "Korish uchun suring",
     "collection": "Kolleksiya",
+    "setsCount_one": "{{count}} ta to'plam",
+    "setsCount_other": "{{count}} ta to'plam",
     "setsSuffix": "ta toplam",
     "noSetsTitle": "Filtrlarga mos toplam topilmadi",
     "noSetsDesc": "Boshqa fan tanlang yoki qidiruvni tozalang.",
@@ -323,7 +325,8 @@
     "hostingShareCode": "{{title}} host qilinmoqda... kodni ulashing!",
     "openSet": "Toplamni ochish",
     "defaultSubject": "Umumiy",
-    "defaultCreator": "Hamjamiyat"
+    "defaultCreator": "Hamjamiyat",
+    "defaultTitle": "Nomsiz to'plam"
   },
   "setDetail": {
     "loadingSet": "Toplam yuklanmoqda...",
@@ -442,14 +445,14 @@
   },
   "data": {
     "creators": {
-      "codeClub": "Code Club",
-      "community": "Community",
-      "counselTeam": "Counsel Team",
-      "labCrew": "Lab Crew",
-      "languageLab": "Language Lab",
-      "mrKhan": "Mr Khan",
-      "msAri": "Ms Ari",
-      "quizNova": "Quiz Nova"
+      "codeClub": "Kod klubi",
+      "community": "Hamjamiyat",
+      "counselTeam": "Psixologlar jamoasi",
+      "labCrew": "Laboratoriya jamoasi",
+      "languageLab": "Til laboratoriyasi",
+      "mrKhan": "Janob Khan",
+      "msAri": "Xonim Ari",
+      "quizNova": "QuizNova"
     },
     "dashboard": {
       "announcements": {
@@ -553,27 +556,27 @@
     },
     "discover": {
       "categories": {
-        "extras": "Extras",
-        "humanities": "Humanities",
-        "stem": "Stem"
+        "extras": "Qo'shimcha",
+        "humanities": "Gumanitar fanlar",
+        "stem": "STEM"
       },
       "collections": {
-        "earthWeek": "Earth Week",
-        "selMoments": "Sel Moments",
-        "stemShowdown": "Stem Showdown"
+        "earthWeek": "Yer haftaligi",
+        "selMoments": "SEL lahzalari",
+        "stemShowdown": "STEM bellashuvi"
       },
       "items": {
-        "artMusic": "Art Music",
-        "civics": "Civics",
-        "ela": "Ela",
-        "engineering": "Engineering",
-        "geography": "Geography",
-        "languages": "Languages",
-        "robotics": "Robotics"
+        "artMusic": "San'at va musiqa",
+        "civics": "Fuqarolik asoslari",
+        "ela": "Ona tili va adabiyot",
+        "engineering": "Muhandislik",
+        "geography": "Geografiya",
+        "languages": "Tillar",
+        "robotics": "Robototexnika"
       }
     },
     "filters": {
-      "all": "All"
+      "all": "Barchasi"
     },
     "landing": {
       "faq": {
@@ -720,26 +723,26 @@
       }
     },
     "sets": {
-      "artRhythm": "Art Rhythm",
-      "codingLoops": "Coding Loops",
-      "earthSystems": "Earth Systems",
-      "fractions": "Fractions",
-      "languageBoost": "Language Boost",
-      "mathBasics": "Math Basics",
-      "rocketRushPack": "Rocket Rush Pack",
-      "scienceBasics": "Science Basics",
-      "selMindful": "Sel Mindful",
-      "spaceExplorers": "Space Explorers",
-      "triviaMix": "Trivia Mix",
-      "worldHistory": "World History"
+      "artRhythm": "San'at ritmi",
+      "codingLoops": "Dasturlash sikllari",
+      "earthSystems": "Yer tizimlari",
+      "fractions": "Kasrlar",
+      "languageBoost": "Til ko'nikmalarini oshirish",
+      "mathBasics": "Matematika asoslari",
+      "rocketRushPack": "Raketa tezligi to'plami",
+      "scienceBasics": "Tabiiy fanlar asoslari",
+      "selMindful": "SEL ongli yondashuv",
+      "spaceExplorers": "Koinot tadqiqotchilari",
+      "triviaMix": "Aralash trivia",
+      "worldHistory": "Jahon tarixi"
     },
     "subjects": {
-      "art": "Art",
-      "coding": "Coding",
-      "history": "History",
-      "math": "Math",
-      "science": "Science",
-      "sel": "Sel",
+      "art": "San'at",
+      "coding": "Dasturlash",
+      "history": "Tarix",
+      "math": "Matematika",
+      "science": "Tabiiy fanlar",
+      "sel": "SEL",
       "trivia": "Trivia"
     }
   },
@@ -845,7 +848,7 @@
     "student": "Talaba",
     "quiz": "Quiz",
     "score": "Ball",
-    "correctWrong": "To'g'ri/Noto'g'ri",
+    "correctWrong": "To'g'ri/Jami",
     "percentage": "Foiz",
     "status": "Holat",
     "pending": "Kutilmoqda",
@@ -912,6 +915,7 @@
     "title": "Akademik profilingizni sozlang",
     "description": "Quiz korinishi va imtihon biriktirishlari yonalish, semester code, semester raqami va section boyicha filtrlab korsatiladi.",
     "selectField": "Yonalishingizni tanlang",
+    "studentIdPlaceholder": "Talaba ID raqamini kiriting",
     "completeProfile": "Akademik profilingizni toliq kiriting",
     "updated": "Akademik profil yangilandi",
     "semesterCodePlaceholder": "Semester code (masalan, 2501)",
@@ -936,6 +940,11 @@
     "topicForSaving": "Saqlash uchun mavzu",
     "optionalQuizTarget": "Ixtiyoriy quiz",
     "selectQuiz": "Quiz tanlang",
+    "newQuizTitle": "Yangi quiz sarlavhasi",
+    "newQuizTitlePlaceholder": "Sorting Algorithms Quiz",
+    "newQuizTitleRequired": "Yangi quiz uchun sarlavha kiriting",
+    "saveAsNewQuiz": "Yangi quiz sifatida saqlash",
+    "savedAsNewQuiz": "Yaratilgan savollar yangi quiz sifatida saqlandi",
     "saveToQuiz": "Quizga saqlash",
     "saveToBank": "Bankka saqlash",
     "noGeneratedQuestions": "Hali yaratilgan savollar yoq."

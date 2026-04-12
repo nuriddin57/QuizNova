@@ -3,6 +3,7 @@ from django.urls import include, path, re_path
 
 from .views import FrontendAppView, health
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/health/', health, name='health'),

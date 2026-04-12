@@ -1,5 +1,10 @@
 {
   "common": {
+    "easy": "Oson",
+    "medium": "Ortacha",
+    "hard": "Qiyin",
+    "true": "Togri",
+    "false": "Notogri",
     "language": "Til",
     "theme": "Mavzu",
     "light": "Yorug",
@@ -15,6 +20,7 @@
     "players": "oyinchi"
   },
   "nav": {
+    "universityAccess": "Universitet kirishi",
     "brand": "QuizNova",
     "discover": "Toplamlar",
     "dashboard": "Panel",
@@ -65,6 +71,7 @@
     "role": "Rol",
     "teacher": "Oqituvchi",
     "student": "Oquvchi",
+    "parent": "Ota-ona",
     "agreeTerms": "Xizmat shartlariga roziman.",
     "creating": "Yaratilmoqda...",
     "createAccount": "Akkaunt yaratish",
@@ -77,6 +84,40 @@
     "usernamePlaceholder": "Foydalanuvchi nomini kiriting",
     "passwordPlaceholder": "Parolni kiriting",
     "emailPlaceholder": "you@example.com"
+  },
+  "loginPage": {
+    "loginAsStudent": "Talaba sifatida kirish",
+    "loginAsTeacher": "Oqituvchi sifatida kirish",
+    "teacherEmail": "Oqituvchi emaili",
+    "teacherEmailPlaceholder": "john.doe@shardauniversity.uz",
+    "studentEmailPlaceholder": "student@ug.shardauniversity.uz",
+    "parentEmailPlaceholder": "parent@example.com",
+    "universityLogin": "Universitet orqali kirish",
+    "loginAsParent": "Ota-ona sifatida kirish",
+    "parentLoginSuccess": "Ota-ona kirishi muvaffaqiyatli",
+    "studentRoleMismatch": "Bu akkaunt student akkaunti emas.",
+    "teacherRoleMismatch": "Bu akkaunt teacher akkaunti emas.",
+    "parentRoleMismatch": "Bu akkaunt ota-ona akkaunti emas."
+  },
+  "parentDashboard": {
+    "badge": "Ota-ona paneli",
+    "familyOverview": "Oilaviy oquv overview",
+    "viewResults": "Natijalarni korish",
+    "parentGuide": "Ota-ona yoriqnomasi",
+    "noLinkedStudentsTitle": "Hozircha ulangan student yoq",
+    "noLinkedStudentsBody": "Admindan ota-ona akkauntingizni bir yoki bir nechta student profiliga ulab berishini sorang.",
+    "totalAttempts": "Jami urinishlar",
+    "averageScore": "Ortacha ball",
+    "bestScore": "Eng yaxshi ball",
+    "passRate": "Otish foizi",
+    "linkedStudents": "Ulangan studentlar",
+    "linkedStudentsBody": "Akkauntingizga ulangan studentlarni kuzating va ularning songgi natijalarini filter qiling.",
+    "allChildren": "Barcha bolalar",
+    "weeklyChallenge": "Haftalik challenge",
+    "challengeDeadline": "Muddat: {{deadline}}",
+    "noChallenge": "Hozircha faol haftalik challenge yoq.",
+    "recentResults": "Songgi natijalar",
+    "recentResultsBody": "Ulangan studentlar uchun songgi quiz urinishlari, ballar va pass/fail holatini koring."
   },
   "lobby": {
     "hostTitle": "Jonli oyin host qilish",
@@ -214,7 +255,90 @@
     "youtube": "YouTube",
     "privacy": "Maxfiylik",
     "terms": "Shartlar",
-    "support": "Qo'llab-quvvatlash"
+    "support": "Qo'llab-quvvatlash",
+    "deadline": "Muddat",
+    "deadlineLabel": "Muddat: {{deadline}}",
+    "challengeCodeHelp": "Bu kodni sinf bilan ulashing va haftalik challenge ishtirokini bitta joyda kuzating.",
+    "challengeUnavailableTitle": "Haftalik challenge hozircha mavjud emas",
+    "challengeUnavailableBody": "Ayni paytda joriy challengeni yuklab bo'lmadi. Siz baribir quizlarni ko'rishingiz, tizimga kirishingiz va keyinroq qayta urinishingiz mumkin.",
+    "noChallengeTitle": "Yangi haftalik challenge tez orada chiqadi",
+    "noChallengeBody": "Jamoamiz yangi savollar, aniq mukofot va yangi leaderboard sikli bilan keyingi challengeni tayyorlamoqda.",
+    "explorePlatform": "QuizNova ni ko'rish",
+    "openDashboard": "Dashboardni ochish",
+    "testimonialsIntro": "O'qituvchilar, talabalar va ota-onalar QuizNova'dan o'qishni ko'rinadigan, o'lchanadigan va motivatsion jarayonga aylantirish uchun foydalanadi.",
+    "socialProofSummary": "Faol foydalanuvchilardan {{count}} ta tasdiqlangan fikr",
+    "testimonialsUnavailableTitle": "Fikrlarni hozir yuklab bo'lmadi",
+    "testimonialsUnavailableBody": "Ijtimoiy isbot kartalarini yuklashda muammo bo'ldi. Platformadan foydalanishni davom ettirishingiz mumkin.",
+    "noTestimonialsTitle": "Yangi muvaffaqiyat hikoyalari yig'ilmoqda",
+    "noTestimonialsBody": "Yangi sinf va oilaviy fikrlar QuizNova jamoasi tasdiqlagach shu yerda ko'rinadi.",
+    "testimonialRoles": {
+      "teacher": "O'qituvchi",
+      "student": "Talaba",
+      "parent": "Ota-ona",
+      "school_admin": "Maktab administratori"
+    },
+    "audience": {
+      "sectionTitle": "Sinf uchun ham, orqasidagi oilalar uchun ham qurilgan",
+      "sectionBody": "QuizNova jonli ishtirok, tartibli mashq va progress ko'rinishini bitta oqimda jamlaydi. O'qituvchi tezroq qaror qiladi, ota-ona esa yaxshiroq xabardor bo'ladi.",
+      "teacher": {
+        "eyebrow": "O'qituvchilar uchun",
+        "title": "Kamroq tayyorgarlik bilan yaxshiroq darslar",
+        "description": "Quizlarni tez rejalang, jonli sessiyalarni ishga tushiring va har bir urinishni darsda foydali bo'ladigan feedbackga aylantiring.",
+        "primarySignup": "O'qituvchi akkaunti ochish",
+        "primaryDashboard": "Teacher dashboardni ochish",
+        "secondaryLearnMore": "Teaching toolsni ko'rish",
+        "benefits": {
+          "quizzesTitle": "Quizlarni tez yaratish",
+          "quizzesBody": "Noldan tuzing, question bank import qiling yoki faningiz uchun strukturali quizni bir necha daqiqada yarating.",
+          "liveTitle": "Jonli o'yinlarni ishonch bilan boshqaring",
+          "liveBody": "Real vaqt sessiyalarini boshlang, join code ulashing va aniq host panel orqali sinfni boshqaring.",
+          "progressTitle": "Talaba progressini kuzating",
+          "progressBody": "Har bir topshiriq yoki o'yindan keyin completion, accuracy va mavzu bo'yicha sust joylarni ko'ring.",
+          "leaderboardTitle": "Leaderboard va hisobotlardan foydalaning",
+          "leaderboardBody": "Workflow'dan chiqmasdan ranking, oxirgi urinishlar va performance summary'ni ko'rib chiqing."
+        }
+      },
+      "parent": {
+        "eyebrow": "Ota-onalar uchun",
+        "title": "Taxminsiz progressni tushuning",
+        "description": "Uyda yordam berish osonroq va aniqroq bo'lishi uchun o'quv faolligi, challenge ishtiroki va mavzu bo'yicha kuchli tomonlarni kuzating.",
+        "primaryInfo": "Ota-ona overview",
+        "secondaryTrack": "Faollikni kuzatish",
+        "benefits": {
+          "progressTitle": "Progressni aniq kuzating",
+          "progressBody": "Faqat yakka test natijasiga emas, ballar va completion trendiga qarab xulosa chiqaring.",
+          "challengeTitle": "Haftalik challenge ishtirokini ko'ring",
+          "challengeBody": "Farzandingiz challengega qo'shilganmi, qanchalik muntazam qatnashmoqda va nimalarni qo'lga kiritayotganini biling.",
+          "strengthsTitle": "Kuchli va sust tomonlarni biling",
+          "strengthsBody": "Qaysi fanlar yaxshilanayotganini va qaysi mavzularga qo'shimcha mashq kerakligini tushuning.",
+          "activityTitle": "O'quv faolligini kuzating",
+          "activityBody": "Oxirgi urinishlar, o'quv ritmi va sinfdagi ishtirokni sodda ko'rinishda ko'ring."
+        }
+      }
+    },
+    "challengeMissingTitle": "Challenge topilmadi",
+    "challengeMissingBody": "Bu challenge muddati tugagan, arxivlangan yoki link noto'g'ri bo'lishi mumkin.",
+    "backToHome": "Bosh sahifaga qaytish",
+    "goToDiscover": "Quizlarni ko'rish",
+    "signInToJoin": "Qo'shilish uchun kiring",
+    "parentPage": {
+      "eyebrow": "Ota-onalar uchun",
+      "title": "Uyda o'qishni kuzatishning aniqroq usuli",
+      "description": "QuizNova oilalarga progress, ishtirok va o'quv ritmini amaliy tarzda ko'rsatadi, shunda yordam haqidagi suhbatlar aniq va xotirjam bo'ladi.",
+      "primaryCta": "QuizNova ga kirish",
+      "secondaryCta": "Yordam bilan bog'lanish",
+      "cards": {
+        "progressTitle": "Hafta sayin kuzatiladigan progress",
+        "progressBody": "Farzandingiz quizlarni qanchalik tez-tez yakunlayotgani, ballar qanday o'zgarayotgani va muntazamlik oshayotganini ko'ring.",
+        "challengeTitle": "Haftalik challenge bitta oynada",
+        "challengeBody": "Farzandingiz oxirgi challengega qo'shilganmi, koddan foydalanganmi va deadlinegacha faol bo'lganmi shuni tekshiring.",
+        "insightTitle": "Kuchli va sust tomonlar sodda ko'rinishda",
+        "insightBody": "Ishonch qaysi mavzularda oshayotganini va qayerda qo'shimcha takror kerakligini tushuning.",
+        "activityTitle": "Shovqinsiz oxirgi o'quv faolligi",
+        "activityBody": "Murakkab dashboardlarsiz oxirgi sessiyalar va urinishlarni ko'rib chiqing."
+      }
+    },
+    "x": "X"
   },
   "discoverPage": {
     "title": "Toplamlarni topish",
@@ -228,6 +352,8 @@
     "curatedRows": "Tanlangan qatorlar",
     "swipeToExplore": "Korish uchun suring",
     "collection": "Kolleksiya",
+    "setsCount_one": "{{count}} ta to'plam",
+    "setsCount_other": "{{count}} ta to'plam",
     "setsSuffix": "ta toplam",
     "noSetsTitle": "Filtrlarga mos toplam topilmadi",
     "noSetsDesc": "Boshqa fan tanlang yoki qidiruvni tozalang.",
@@ -292,7 +418,8 @@
     "hostingShareCode": "{{title}} host qilinmoqda... kodni ulashing!",
     "openSet": "Toplamni ochish",
     "defaultSubject": "Umumiy",
-    "defaultCreator": "Hamjamiyat"
+    "defaultCreator": "Hamjamiyat",
+    "defaultTitle": "Nomsiz to'plam"
   },
   "setDetail": {
     "loadingSet": "Toplam yuklanmoqda...",
@@ -404,14 +531,14 @@
   },
   "data": {
     "creators": {
-      "codeClub": "Code Club",
-      "community": "Community",
-      "counselTeam": "Counsel Team",
-      "labCrew": "Lab Crew",
-      "languageLab": "Language Lab",
-      "mrKhan": "Mr Khan",
-      "msAri": "Ms Ari",
-      "quizNova": "Quiz Nova"
+      "codeClub": "Kod klubi",
+      "community": "Hamjamiyat",
+      "counselTeam": "Psixologlar jamoasi",
+      "labCrew": "Laboratoriya jamoasi",
+      "languageLab": "Til laboratoriyasi",
+      "mrKhan": "Janob Khan",
+      "msAri": "Xonim Ari",
+      "quizNova": "QuizNova"
     },
     "dashboard": {
       "announcements": {
@@ -515,27 +642,27 @@
     },
     "discover": {
       "categories": {
-        "extras": "Extras",
-        "humanities": "Humanities",
-        "stem": "Stem"
+        "extras": "Qo'shimcha",
+        "humanities": "Gumanitar fanlar",
+        "stem": "STEM"
       },
       "collections": {
-        "earthWeek": "Earth Week",
-        "selMoments": "Sel Moments",
-        "stemShowdown": "Stem Showdown"
+        "earthWeek": "Yer haftaligi",
+        "selMoments": "SEL lahzalari",
+        "stemShowdown": "STEM bellashuvi"
       },
       "items": {
-        "artMusic": "Art Music",
-        "civics": "Civics",
-        "ela": "Ela",
-        "engineering": "Engineering",
-        "geography": "Geography",
-        "languages": "Languages",
-        "robotics": "Robotics"
+        "artMusic": "San'at va musiqa",
+        "civics": "Fuqarolik asoslari",
+        "ela": "Ona tili va adabiyot",
+        "engineering": "Muhandislik",
+        "geography": "Geografiya",
+        "languages": "Tillar",
+        "robotics": "Robototexnika"
       }
     },
     "filters": {
-      "all": "All"
+      "all": "Barchasi"
     },
     "landing": {
       "faq": {
@@ -682,26 +809,26 @@
       }
     },
     "sets": {
-      "artRhythm": "Art Rhythm",
-      "codingLoops": "Coding Loops",
-      "earthSystems": "Earth Systems",
-      "fractions": "Fractions",
-      "languageBoost": "Language Boost",
-      "mathBasics": "Math Basics",
-      "rocketRushPack": "Rocket Rush Pack",
-      "scienceBasics": "Science Basics",
-      "selMindful": "Sel Mindful",
-      "spaceExplorers": "Space Explorers",
-      "triviaMix": "Trivia Mix",
-      "worldHistory": "World History"
+      "artRhythm": "San'at ritmi",
+      "codingLoops": "Dasturlash sikllari",
+      "earthSystems": "Yer tizimlari",
+      "fractions": "Kasrlar",
+      "languageBoost": "Til ko'nikmalarini oshirish",
+      "mathBasics": "Matematika asoslari",
+      "rocketRushPack": "Raketa tezligi to'plami",
+      "scienceBasics": "Tabiiy fanlar asoslari",
+      "selMindful": "SEL ongli yondashuv",
+      "spaceExplorers": "Koinot tadqiqotchilari",
+      "triviaMix": "Aralash trivia",
+      "worldHistory": "Jahon tarixi"
     },
     "subjects": {
-      "art": "Art",
-      "coding": "Coding",
-      "history": "History",
-      "math": "Math",
-      "science": "Science",
-      "sel": "Sel",
+      "art": "San'at",
+      "coding": "Dasturlash",
+      "history": "Tarix",
+      "math": "Matematika",
+      "science": "Tabiiy fanlar",
+      "sel": "SEL",
       "trivia": "Trivia"
     }
   },
@@ -743,6 +870,17 @@
     "correctAnswer": "To'g'ri javob",
     "marks": "Ball",
     "explanation": "Izoh",
+    "analyzeQuestion": "Savolni tahlil qilish",
+    "analysisLoading": "Tahlil qilinmoqda...",
+    "analysisTitle": "Savol tahlili",
+    "analysisScore": "Sifat bali",
+    "analysisStrengths": "Kuchli tomonlar",
+    "analysisIssues": "Muammolar",
+    "analysisSuggestions": "Tavsiyalar",
+    "analysisNoStrengths": "Aniq kuchli tomon topilmadi.",
+    "analysisNoIssues": "Jiddiy muammo topilmadi.",
+    "analysisNoSuggestions": "Qo'shimcha tavsiya yo'q.",
+    "analysisQuestionRequired": "Avval savol matnini kiriting.",
     "saving": "Saqlanmoqda...",
     "saveQuestion": "Savolni saqlash",
     "previewOnly": "Faqat preview",
@@ -807,7 +945,7 @@
     "student": "Talaba",
     "quiz": "Quiz",
     "score": "Ball",
-    "correctWrong": "To'g'ri/Noto'g'ri",
+    "correctWrong": "To'g'ri/Jami",
     "percentage": "Foiz",
     "status": "Holat",
     "pending": "Kutilmoqda",
@@ -846,6 +984,85 @@
     "quizUpdated": "Viktorina yangilandi.",
     "quizCreated": "Viktorina yaratildi.",
     "editQuiz": "Viktorinani tahrirlash",
-    "backToTeacherDashboard": "O'qituvchi paneliga qaytish"
+    "backToTeacherDashboard": "O'qituvchi paneliga qaytish",
+    "formats": {
+      "json": "JSON",
+      "csv": "CSV",
+      "excel": "Excel"
+    }
+  },
+  "pagination": {
+    "prev": "Oldingi",
+    "next": "Keyingi",
+    "pageStatus": "Sahifa {{page}} / {{total}}"
+  },
+  "universityAuth": {
+    "missingTokens": "Universitet kirishi lokal tokenlarni qaytarmadi.",
+    "failed": "Universitet orqali kirishda xatolik.",
+    "finishingTitle": "Universitet kirishini yakunlash",
+    "finishingBody": "QuizNova sessiyasi yaratilmoqda."
+  },
+  "quizTake": {
+    "examSubmitted": "Imtihon yuborildi",
+    "examResult": "Imtihon natijasi",
+    "score": "Ball",
+    "correct": "Togri",
+    "wrong": "Notogri",
+    "percentage": "Foiz",
+    "status": "Holat",
+    "pass": "Otdi",
+    "fail": "Otolmadi",
+    "viewHistory": "Tarixni korish",
+    "backToDashboard": "Dashboardga qaytish",
+    "loadingExam": "Imtihon yuklanmoqda...",
+    "subject": "Fan",
+    "difficulty": "Qiyinlik",
+    "duration": "Davomiylik",
+    "minutes": "daqiqa",
+    "answeredCount": "{{total}} tadan {{answered}} tasi javob berildi",
+    "submitting": "Yuborilmoqda...",
+    "submitExam": "Imtihonni yuborish",
+    "notAvailable": "Imtihon mavjud emas yoki sizning yonalishingizga biriktirilmagan."
+  },
+  "adminUsers": {
+    "title": "Admin foydalanuvchilar boshqaruvi",
+    "subtitle": "JWT asosidagi foydalanuvchilar royxatidagi talabalar, oqituvchilar va adminlarni koring.",
+    "columns": {
+      "name": "Ism",
+      "email": "Email",
+      "role": "Rol",
+      "status": "Holat"
+    },
+    "noUsers": "Foydalanuvchilar topilmadi.",
+    "unknownUser": "Nomalum foydalanuvchi",
+    "roles": {
+      "student": "Talaba",
+      "teacher": "Oqituvchi",
+      "parent": "Ota-ona",
+      "admin": "Admin"
+    }
+  },
+  "registerPage": {
+    "fullName": "Toliq ism",
+    "fullNamePlaceholder": "John Doe",
+    "fullNameRequired": "Toliq ism majburiy",
+    "passwordMin": "Kamida 8 ta belgi",
+    "fieldRequired": "{{field}} maydoni majburiy",
+    "studentProfile": "Talaba profili",
+    "teacherProfile": "Oqituvchi profili",
+    "parentProfile": "Ota-ona profili",
+    "profileFields": {
+      "university": "Universitet",
+      "faculty": "Fakultet",
+      "semester": "Semestr",
+      "group": "Guruh",
+      "studentId": "Talaba ID",
+      "relationship": "Qarindoshlik",
+      "linkedStudents": "Boglangan talaba IDlari (vergul bilan)",
+      "notes": "Izoh",
+      "department": "Kafedra",
+      "employeeId": "Xodim ID",
+      "subjectArea": "Fan yonalishi"
+    }
   }
 }
