@@ -33,7 +33,7 @@
     "apiOnline": "API online",
     "apiIssue": "API issue",
     "apiOffline": "API offline",
-    "apiOfflineHelp": "Cannot reach backend API (check http://127.0.0.1:8001)",
+    "apiOfflineHelp": "Cannot reach backend API. Check your backend deployment or VITE_API_URL setting.",
     "loggedOut": "Logged out successfully",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",

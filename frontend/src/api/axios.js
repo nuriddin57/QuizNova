@@ -5,13 +5,14 @@ import { clearTokens, getAccessToken, getRefreshToken, setAccessToken } from '..
 import { toastHelpers } from '../utils/toastHelpers'
 
 const appEnv = import.meta.env.VITE_APP_ENV || 'development'
+const configuredApiUrl = import.meta.env.VITE_API_URL?.trim()
 const fallbackBaseUrl =
   typeof window !== 'undefined'
     ? `${window.location.protocol}//${window.location.host}`
     : 'http://127.0.0.1:8000'
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || fallbackBaseUrl,
+  baseURL: configuredApiUrl || fallbackBaseUrl,
   headers: { 'Content-Type': 'application/json', 'Accept-Language': i18n.language || 'en' },
 })
 
@@ -368,15 +369,14 @@ export const getGameState = async (id) => {
 export const buildRoomWsUrl = (code, options = {}) => {
   const protocol = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss' : 'ws'
   const host = (() => {
-    if (import.meta.env.VITE_API_URL) return new URL(import.meta.env.VITE_API_URL).host
+    if (configuredApiUrl) return new URL(configuredApiUrl).host
     try {
       if (api.defaults.baseURL) return new URL(api.defaults.baseURL).host
     } catch {
       // ignore and fall back below
     }
-    if (typeof window !== 'undefined' && window.location.port === '5173') return '127.0.0.1:8001'
     if (typeof window !== 'undefined') return window.location.host
-    return '127.0.0.1:8001'
+    return 'quiznova-2-imdd.onrender.com'
   })()
   const params = new URLSearchParams()
   const token = options.token || getAccessToken()

@@ -46,7 +46,7 @@
     "apiOnline": "API onlayn",
     "apiIssue": "API muammo",
     "apiOffline": "API oflayn",
-    "apiOfflineHelp": "Backend API ga ulanib bolmadi (http://127.0.0.1:8001 ni tekshiring)",
+    "apiOfflineHelp": "Backend API ga ulanib bo'lmadi. Backend deploy yoki VITE_API_URL sozlamasini tekshiring.",
     "loggedOut": "Akkauntdan chiqildi",
     "openMenu": "Menyuni ochish",
     "closeMenu": "Menyuni yopish"

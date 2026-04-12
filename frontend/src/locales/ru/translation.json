@@ -33,7 +33,7 @@
     "apiOnline": "API онлайн",
     "apiIssue": "Проблема API",
     "apiOffline": "API офлайн",
-    "apiOfflineHelp": "Нет доступа к backend API (проверьте http://127.0.0.1:8001)",
+    "apiOfflineHelp": "Нет доступа к backend API. Проверьте деплой backend или настройку VITE_API_URL.",
     "loggedOut": "Вы вышли из аккаунта",
     "openMenu": "Открыть меню",
     "closeMenu": "Закрыть меню",

@@ -64,7 +64,7 @@ const Navbar = () => {
         if (!mounted) return
         setApiStatus({ label: t('nav.apiOffline'), tone: 'offline' })
         if (lastToneRef.current !== 'offline') {
-          const baseUrl = getApiBaseUrl() || 'http://127.0.0.1:8001'
+          const baseUrl = getApiBaseUrl() || import.meta.env.VITE_API_URL || 'https://quiznova-2-imdd.onrender.com'
           toastHelpers.error(`${t('nav.apiOfflineHelp')} (${baseUrl})`, { id: 'api-offline' })
         }
         lastToneRef.current = 'offline'
