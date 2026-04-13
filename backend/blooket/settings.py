@@ -1,3 +1,4 @@
+
 import os
 from datetime import timedelta
 from pathlib import Path
@@ -20,7 +21,17 @@ ENVIRONMENT = os.getenv('ENVIRONMENT', 'development').strip().lower()
 if ENVIRONMENT == 'production' and SECRET_KEY == 'changeme-local':
     raise RuntimeError('SECRET_KEY must be set in production.')
 
-ALLOWED_HOSTS = csv_to_list('ALLOWED_HOSTS', '127.0.0.1,localhost')
+ALLOWED_HOSTS = csv_to_list('ALLOWED_HOSTS', '127.0.0.1,localhost,.onrender.com')
+
+CORS_ALLOWED_ORIGINS = csv_to_list(
+    'CORS_ALLOWED_ORIGINS',
+    'http://127.0.0.1:5173,http://localhost:5173,https://quiz-nova-woad.vercel.app'
+)
+
+CSRF_TRUSTED_ORIGINS = csv_to_list(
+    'CSRF_TRUSTED_ORIGINS',
+    'https://quiz-nova-woad.vercel.app'
+)
 
 INSTALLED_APPS = [
     'jazzmin',
